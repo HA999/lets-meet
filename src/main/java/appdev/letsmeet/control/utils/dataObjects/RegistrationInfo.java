@@ -25,6 +25,8 @@ public class RegistrationInfo implements JsonDataObject{
     @Override
     public void fromJson(String json) {
         
+        System.out.println(json);
+        
         Gson gson = new Gson();
         obj = gson.fromJson(json, obj.getClass());
     }

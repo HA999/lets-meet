@@ -12,7 +12,7 @@ import javax.ws.rs.ApplicationPath;
  *
  * @author Owner
  */
-@ApplicationPath("/")
+@ApplicationPath("v1")
 public class RestApplication extends PackagesResourceConfig {
     
     public RestApplication() {
