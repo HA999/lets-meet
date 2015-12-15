@@ -6,8 +6,8 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.dataObjects.RegistrationInfo;
+import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 
 /**
  *
@@ -35,12 +35,9 @@ public class RegistrationController {
     @Context private ServletContext servletContext;
     
     @GET
-    public Response signupPage() throws ServletException, IOException, URISyntaxException {
+    public Viewable signupPage() throws ServletException, IOException, URISyntaxException {
         
-//        String contextPath = servletContext.getContextPath();
-//        contextPath = contextPath.concat("signup.html");
-//        response.sendRedirect(contextPath);
-        return Response.temporaryRedirect(new URI("/signup.html")).build();
+        return new Viewable("/signup.html");
     }
     
     @POST
