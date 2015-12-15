@@ -5,7 +5,8 @@
  */
 package appdev.letsmeet.control.rest.application;
 
-import appdev.letsmeet.control.utils.dataObjects.RegistrationInfo;
+
+import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,17 +45,16 @@ public class RegistrationController {
     @Path("registration")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String storeUserInfo() throws ServletException, IOException {
+    public RegistrationBean storeUserInfo(RegistrationBean bean) throws ServletException, IOException {
         
-        RegistrationInfo info = new RegistrationInfo(request.getParameter("info"));
-        
-        return info.toJson();
+        return bean;
     }
     
     @GET
     @Path("hello/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello(@PathParam("name") String name) throws ServletException, IOException{
+        
         StringBuilder stringBuilder = new StringBuilder("Hello ");
         stringBuilder.append(name).append("!");
 
