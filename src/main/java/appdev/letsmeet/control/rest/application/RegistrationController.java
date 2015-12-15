@@ -36,7 +36,8 @@ public class RegistrationController {
     @Context private ServletContext servletContext;
     
     @GET
-    public Viewable signupPage() throws ServletException, IOException, URISyntaxException {
+    public Viewable signupPage() throws ServletException, IOException, 
+            URISyntaxException {
         
         return new Viewable("/signup.html");
     }
@@ -45,7 +46,8 @@ public class RegistrationController {
     @Path("registration")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public RegistrationBean storeUserInfo(RegistrationBean bean) throws ServletException, IOException {
+    public RegistrationBean storeUserInfo(RegistrationBean bean) 
+            throws ServletException, IOException {
         
         return bean;
     }
@@ -53,7 +55,8 @@ public class RegistrationController {
     @GET
     @Path("hello/{name}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String sayHello(@PathParam("name") String name) throws ServletException, IOException{
+    public String sayHello(@PathParam("name") String name) 
+            throws ServletException, IOException{
         
         StringBuilder stringBuilder = new StringBuilder("Hello ");
         stringBuilder.append(name).append("!");
