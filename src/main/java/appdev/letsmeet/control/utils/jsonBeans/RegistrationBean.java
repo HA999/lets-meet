@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author HA999
  */
-public class RegistrationBean implements Serializable {
+
+public class RegistrationBean implements Serializable{
     
     public String userName;
     public String firstName;

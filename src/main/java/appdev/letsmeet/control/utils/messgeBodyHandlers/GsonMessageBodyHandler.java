@@ -5,7 +5,6 @@
  */
 package appdev.letsmeet.control.utils.messgeBodyHandlers;
 
-import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -31,8 +30,8 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class RegistraitionMessageBodyHandler implements 
-        MessageBodyWriter<Object>, MessageBodyReader<RegistrationBean> {
+public class GsonMessageBodyHandler implements 
+        MessageBodyWriter<Object>, MessageBodyReader<Object> {
     
     private static final String UTF_8 = "UTF-8";
     private Gson gson;
@@ -40,7 +39,7 @@ public class RegistraitionMessageBodyHandler implements
     private Gson getGson() {
         if (gson == null) {
             final GsonBuilder gsonBuilder = new GsonBuilder();
-            gson = gsonBuilder.create();
+            gson = gsonBuilder.serializeNulls().create();
         }
         return gson;
     }
@@ -64,9 +63,7 @@ public class RegistraitionMessageBodyHandler implements
             OutputStream entityStream) throws IOException, 
             WebApplicationException {
         
-        OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8);
-        
-        try{
+        try(OutputStreamWriter writer = new OutputStreamWriter(entityStream, UTF_8)) {
             Type jsonType;
             if (type.equals(genericType)) {
                 jsonType = type;
@@ -74,10 +71,7 @@ public class RegistraitionMessageBodyHandler implements
             else{
                 jsonType = genericType;
             }
-            getGson().toJson(RegistrationBean.class, jsonType, writer);
-        }
-        finally{
-            writer.close();
+            getGson().toJson(t, jsonType, writer);
         }
         
     }
@@ -89,15 +83,13 @@ public class RegistraitionMessageBodyHandler implements
     }
 
     @Override
-    public RegistrationBean readFrom(Class<RegistrationBean> type, 
+    public Object readFrom(Class<Object> type, 
             Type genericType, Annotation[] annotations, MediaType mediaType, 
             MultivaluedMap<String, String> httpHeaders, 
             InputStream entityStream) throws IOException, 
             WebApplicationException {
         
-        InputStreamReader reader = new InputStreamReader(entityStream, UTF_8);
-        
-        try{
+        try(InputStreamReader reader = new InputStreamReader(entityStream, UTF_8)) {
             Type jsonType;
             if (type.equals(genericType)) {
                 jsonType = type;
@@ -106,9 +98,6 @@ public class RegistraitionMessageBodyHandler implements
                 jsonType = genericType;
             }
             return getGson().fromJson(reader, jsonType);
-        }
-        finally{
-            reader.close();
         }
     }
 }

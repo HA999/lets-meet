@@ -51,7 +51,7 @@ public class RegistrationController {
         
         return bean;
     }
-    
+        
     @GET
     @Path("hello/{name}")
     @Produces(MediaType.TEXT_PLAIN)
