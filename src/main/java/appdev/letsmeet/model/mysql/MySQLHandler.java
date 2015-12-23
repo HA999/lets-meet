@@ -8,7 +8,6 @@ package appdev.letsmeet.model.mysql;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,22 +63,12 @@ public class MySQLHandler {
     }
     
     
-    public void addUser(RegistrationBean rBean) throws SQLException {
+    public void addUser(RegistrationBean rBean) {
         
-        
-        
-        Connection conn = null;
-        PreparedStatement pstmt;
-        try {
-            conn = getConnection();
-            conn.setAutoCommit(false);
-            pstmt = conn.prepareStatement("");
-            
-            
-            conn.commit();
-            pstmt.close();
-        }finally {
-            if (conn != null) conn.close();
+        try {       
+            usersTable.addUser(getConnection(), rBean);
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

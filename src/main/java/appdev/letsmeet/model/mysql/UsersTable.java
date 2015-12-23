@@ -5,7 +5,9 @@
  */
 package appdev.letsmeet.model.mysql;
 
+import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -46,7 +48,27 @@ public class UsersTable {
         }
     }
     
-    public void addUser() {
+    public void addUser(Connection conn, RegistrationBean bean) throws SQLException {
         
+        PreparedStatement pstmt;
+        if(validateInput(bean)) {
+            try {
+                conn.setAutoCommit(false);
+                pstmt = conn.prepareStatement("");
+
+
+                conn.commit();
+                pstmt.close();
+            }finally {
+                if (conn != null) conn.close();
+            }
+        }
+        else{
+            //Throw Exception!!!
+        }
+    }
+
+    private Boolean validateInput(RegistrationBean bean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
