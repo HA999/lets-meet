@@ -21,7 +21,7 @@ public class ActivityTypeSignUpTable extends MySQLTable{
         "SUB_CAT_ID int NOT NULL, " +
         "USER_ID int NOT NULL, " +
         "COUNTRY_CODE char(3), " +
-        "CITY_CODE char(20), "/////KEYS!!!!!!!!!!!
+        "CITY_CODE char(20)"/////KEYS!!!!!!!!!!!
             + ")";
     
     public ActivityTypeSignUpTable(Connection conn) {

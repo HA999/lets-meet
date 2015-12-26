@@ -28,7 +28,7 @@ public class ActivityTable extends MySQLTable{
         "ABOUT longtext, " +
         "PHOTO blob, "
             +"PRIMARY KEY (ACT_ID), "
-            +"FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)"
+            +"FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID), "
             +"FOREIGN KEY (SUB_CAT_ID) REFERENCES Sub_Category(SUB_CAT_ID))";
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";

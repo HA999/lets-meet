@@ -18,10 +18,10 @@ public class SubCategoryTable extends MySQLTable {
         "CREATE TABLE IF NOT EXISTS " +
         "Sub_Category" +
         "(SUB_CAT_ID int NOT NULL AUTO_INCREMENT, " +
-        "CAT_ID int NOT NULL" +
+        "CAT_ID int NOT NULL, " +
         "NAME varchar(40) NOT NULL, " 
-            + "PRIMARY KEY (SUB_CAT_ID)" 
-            + "FOREIGN KEY (CAT_ID) REFERENCES Category (CAT_ID))";
+            + "PRIMARY KEY (SUB_CAT_ID), " 
+            + "FOREIGN KEY (CAT_ID) REFERENCES Category(CAT_ID))";
     
     private final String indexString = "CREATE UNIQUE INDEX sub_category_index ON "
             + "Sub_Category (SUB_CAT_ID)";

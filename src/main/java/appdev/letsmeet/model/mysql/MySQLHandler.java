@@ -37,9 +37,7 @@ public class MySQLHandler {
     private SubCategoryTable subCategoryTable = null;
     private ActivityTypeSignUpTable activityTypeSignUpTable = null;
     
-    private MySQLHandler() {
-        System.out.println("MySQLHandler instance created.");
-    };
+    private MySQLHandler() {};
     
     public static MySQLHandler getInstance() {
         
