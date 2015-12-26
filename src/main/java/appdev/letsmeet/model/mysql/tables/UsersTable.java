@@ -3,28 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appdev.letsmeet.model.mysql;
+package appdev.letsmeet.model.mysql.tables;
 
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Calendar;
 
 /**
  *
  * @author HA999
  */
-public class UsersTable {
+public class UsersTable extends MySQLTable{
     
-    public UsersTable(String dbName, Connection con) throws SQLException {
-        createTable(dbName, con);
-    }
-    
-    private void createTable(String dbName, Connection con) throws SQLException {
-        String createString =
+    private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
-        "users" +
+        "Users" +
         "(USER_ID int NOT NULL AUTO_INCREMENT, " +
         "USERNAME varchar(40) NOT NULL UNIQUE, " +
         "EMAIL varchar(255) NOT NULL UNIQUE, " +
@@ -38,25 +33,25 @@ public class UsersTable {
         "DATE_OF_BIRTH date, " +
         "PHONE varchar(40), " +
         "ABOUT longtext, " +
-        "PHOTO blob, " +
-        "PRIMARY KEY (USER_ID))";
-
-        PreparedStatement stmt = con.prepareStatement(createString);
-        try  {
-            stmt.executeUpdate(createString);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+        "PHOTO blob, " 
+            + "PRIMARY KEY (USER_ID))";
+    
+    private final String indexString = "CREATE UNIQUE INDEX user_index ON "
+            + "Users (USER_ID)";
+    
+    public UsersTable(Connection conn) {
+        createTable(conn, createString);
+        defineIndexes(conn, indexString);
     }
     
-    public void addUser(Connection conn, RegistrationBean bean) throws SQLException {
-        
+    
+    @Override
+    public void insert(Connection conn, Serializable bean) {
+        RegistrationBean rBean = (RegistrationBean) bean;
         PreparedStatement pstmt;
         
-        Calendar calendar = Calendar.getInstance();
-        java.sql.Date createTime = new java.sql.Date(calendar.getTime().getTime());
-        if(validateInput(bean)) {
             try {
+                validateInput(rBean);
                 pstmt = conn.prepareStatement("INSERT INTO users "
                         + "(USERNAME, "
                         + "EMAIL, "
@@ -68,30 +63,29 @@ public class UsersTable {
                         + "GENDER, "
                         + "DATE_OF_BIRTH,"
                         + "PHONE) VALUES("
-                        + "'" + bean.userName + "', "
-                        + "'" + bean.email + "', "
-                        + "'" + bean.password + "', "
-                        + "'" + bean.firstName + "', "
-                        + "'" + bean.lastName + "', "
-                        + "'" + bean.country + "', "
-                        + "'" + bean.city + "', "
-                        + "'" + bean.gender + "', "
-                        + "'" + bean.dateOfBirth + "', "
-                        + "'" + bean.phone + "')");
+                        + "'" + rBean.userName + "', "
+                        + "'" + rBean.email + "', "
+                        + "'" + rBean.password + "', "
+                        + "'" + rBean.firstName + "', "
+                        + "'" + rBean.lastName + "', "
+                        + "'" + rBean.country + "', "
+                        + "'" + rBean.city + "', "
+                        + "'" + rBean.gender + "', "
+                        + "'" + rBean.dateOfBirth + "', "
+                        + "'" + rBean.phone + "')");
 
                 pstmt.executeUpdate();
             }catch (SQLException ex) {
                 System.out.println(ex);
-            }finally {
-                if (conn != null) conn.close();
             }
+//            }finally {
+//                if (conn != null) conn.close();
+//            }
         }
-        else{
-            //Throw Exception!!!
-        }
+    
+
+    private void validateInput(RegistrationBean bean) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private Boolean validateInput(RegistrationBean bean) {
-        return true;
-    }
 }

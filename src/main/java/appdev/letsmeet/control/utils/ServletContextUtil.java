@@ -19,7 +19,7 @@ public class ServletContextUtil implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-       MySQLHandler.getInstance().createUsersTable();
+       MySQLHandler.getInstance().createTables();
     }
 
     @Override
