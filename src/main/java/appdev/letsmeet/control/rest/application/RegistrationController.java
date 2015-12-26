@@ -8,9 +8,11 @@ package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.LetsMeet;
+import appdev.letsmeet.model.mysql.MySQLHandler;
 import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,8 @@ public class RegistrationController {
     @Context private HttpServletRequest request;
     @Context private ServletContext servletContext;
     
+    
+    
     @GET
     public Viewable signupPage() throws ServletException, IOException, 
             URISyntaxException {
@@ -47,7 +51,7 @@ public class RegistrationController {
     @Path("registration")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String storeUserInfo(RegistrationBean bean) 
+    public RegistrationBean storeUserInfo(RegistrationBean bean) 
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
@@ -56,7 +60,7 @@ public class RegistrationController {
         session.setAttribute("model", model);
         
         model.addUser(bean);
-        return bean.toString();
+        return bean;
     }
         
 //    @GET

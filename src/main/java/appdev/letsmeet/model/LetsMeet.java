@@ -14,7 +14,7 @@ import appdev.letsmeet.model.mysql.MySQLHandler;
  */
 public class LetsMeet {
     
-    private final MySQLHandler mysqlHandler = new MySQLHandler();
+    private final MySQLHandler mysqlHandler = MySQLHandler.getInstance();
     
     public void addUser(RegistrationBean rbean) {
         mysqlHandler.addUser(rbean);
