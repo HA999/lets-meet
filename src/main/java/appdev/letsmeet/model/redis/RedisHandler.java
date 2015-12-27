@@ -5,8 +5,11 @@
  */
 package appdev.letsmeet.model.redis;
 
+import java.util.List;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Pipeline;
 
 /**
  *
@@ -32,4 +35,16 @@ public class RedisHandler {
         }
         return redisHandlerInstance;
     }
+    
+    public Boolean addSet(String key, String value) {
+        Jedis j = pool.getResource();
+        return (j.sadd(key, value) > 0) ;
+    }
+    
+    public void listLPush(String key, List<String> list) {
+        Pipeline p = pool.getResource().pipelined();
+        list.forEach(l -> p.lpush(key, l));
+        p.sync();
+    }
+    
 }

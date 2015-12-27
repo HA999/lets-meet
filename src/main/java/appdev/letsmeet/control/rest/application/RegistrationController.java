@@ -60,6 +60,7 @@ public class RegistrationController {
         session.setAttribute("model", model);
         
         model.addUser(bean);
+//        session.setAttribute("userID", model.getUserId());
         return bean;
     }
         
