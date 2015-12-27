@@ -29,7 +29,7 @@ import javax.sql.DataSource;
 public class MySQLHandler {
     
 //    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
-    private static MySQLHandler instance;
+    private static MySQLHandler mysqlHandlerInstance;
     private UsersTable usersTable = null;
     private ActivityTable activityTable = null;
     private JoinRequestsTable joinRequests = null;
@@ -41,14 +41,14 @@ public class MySQLHandler {
     
     public static MySQLHandler getInstance() {
         
-        if (instance == null) {
+        if (mysqlHandlerInstance == null) {
             synchronized(MySQLHandler.class) {
-                if (instance == null) {
-                    instance = new MySQLHandler();
+                if (mysqlHandlerInstance == null) {
+                    mysqlHandlerInstance = new MySQLHandler();
                 }
             }
         }
-        return instance;
+        return mysqlHandlerInstance;
     }
     
     
