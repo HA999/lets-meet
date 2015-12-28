@@ -32,7 +32,27 @@ public class JoinRequestsTable extends MySQLTable{
 
     @Override
     public void insert(Connection conn, Serializable bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        JoinRequestBean jrBean = (JoinRequestBean) bean;
+//        PreparedStatement pstmt;
+//        
+//        try{
+//            validateInput(jrBean);
+//            pstmt = conn.prepareStatement("INSERT INTO JoinRequests "
+//                    + "CREATOR_ID, "
+//                    + "ACT_ID, "
+//                    + "USER_ID, "
+//                    + "ACCEPTED) VALUES("
+//                    + "'" + jrBean.creatorID + "'"
+//                    + "'" + jrBean.activityID + "'"
+//                    + "'" + jrBean.userId + "'"
+//                    + "'" + jrBean.accepted + "')");
+//            pstmt.executeUpdate();
+//        }catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        }finally {
+//            if (conn != null) conn.close();
+//        }
     }
     
 }

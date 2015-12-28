@@ -33,7 +33,23 @@ public class SubCategoryTable extends MySQLTable {
     
     @Override
     public void insert(Connection conn, Serializable bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        SubCategoryBean scBean = (SubCategoryBean) bean;
+//        PreparedStatement pstmt;
+//        
+//        try{
+//            validateInput(scBean);
+//            pstmt = conn.prepareStatement("INSERT INTO JoinRequests "
+//                    + "CAT_ID, "
+//                    + "NAME) VALUES("
+//                    + "'" + scBean.categoryID + "'"
+//                    + "'" + scBean.name + "')");
+//            pstmt.executeUpdate();
+//        }catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        }finally {
+//            if (conn != null) conn.close();
+//        }
     }
     
 }

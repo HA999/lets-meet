@@ -7,6 +7,8 @@ package appdev.letsmeet.model.mysql.tables;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -38,10 +40,39 @@ public class ActivityTable extends MySQLTable{
         defineIndexes(conn, indexString);
     }
     
-
     @Override
     public void insert(Connection conn, Serializable bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//        ActivityBean aBean = (ActivityBean) bean;
+//        PreparedStatement pstmt;
+//        
+//            try {
+//                validateInput(aBean);
+//                pstmt = conn.prepareStatement("INSERT INTO Activities "
+//                        + "(NAME, "
+//                        + "USER_ID, "
+//                        + "SUB_CAT_ID, "
+//                        + "DATE_TIME, "
+//                        + "COUNTRY_CODE, "
+//                        + "CITY_CODE, "
+//                        + "ABOUT, "
+//                        + "PHOTO) VALUES("
+//                        + "'" + aBean.name + "', "
+//                        + "'" + aBean.userID + "', "
+//                        + "'" + aBean.subCatId + "', "
+//                        + "'" + aBean.dareTime + "', "
+//                        + "'" + aBean.country + "', "
+//                        + "'" + aBean.city + "', "
+//                        + "'" + aBean.about + "', "
+//                        + "'" + aBean.photo + "')");
+//
+//                pstmt.executeUpdate();
+//            }catch (SQLException ex) {
+//                System.out.println(ex);
+//            }
+//            }finally {
+//                if (conn != null) conn.close();
+//            }
+        }
+    
     
 }

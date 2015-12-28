@@ -44,7 +44,6 @@ public class UsersTable extends MySQLTable{
         defineIndexes(conn, indexString);
     }
     
-    
     @Override
     public void insert(Connection conn, Serializable bean) {
         RegistrationBean rBean = (RegistrationBean) bean;
