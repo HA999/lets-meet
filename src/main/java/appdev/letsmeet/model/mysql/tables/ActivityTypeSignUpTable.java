@@ -31,7 +31,30 @@ public class ActivityTypeSignUpTable extends MySQLTable{
     
     @Override
     public void insert(Connection conn, Serializable bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        ActivityTypeSignUpBean atsBean = (ActivityTypeSignUpBean) bean;
+//        PreparedStatement pstmt;
+//        
+//            try {
+//                validateInput(atsBean);
+//                pstmt = conn.prepareStatement("INSERT INTO Activity_Signup "
+//                        + "(CAT_ID, "
+//                        + "SUB_CAT_ID, "
+//                        + "USER_ID, "
+//                        + "COUNTRY_CODE, "
+//                        + "CITY_CODE) VALUES("
+//                        + "'" + atsBean.catId + "', "
+//                        + "'" + atsBean.subCatId + "', "
+//                        + "'" + atsBean.userId + "', "
+//                        + "'" + atsBean.country + "', "
+//                        + "'" + atsBean.city + "')");
+//
+//                pstmt.executeUpdate();
+//            }catch (SQLException ex) {
+//                System.out.println(ex);
+//            }
+//            }finally {
+//                if (conn != null) conn.close();
+//            }
     }
     
 }
