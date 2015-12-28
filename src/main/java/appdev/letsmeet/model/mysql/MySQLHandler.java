@@ -28,7 +28,7 @@ import javax.sql.DataSource;
  */
 public class MySQLHandler {
     
-//    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
+    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();//Redundant?!?!?
     private static MySQLHandler mysqlHandlerInstance;
     private UsersTable usersTable = null;
     private ActivityTable activityTable = null;
@@ -53,25 +53,35 @@ public class MySQLHandler {
     
     
     public Connection getConnection() {
-        Connection con = null;
+        Connection conn = null;
         try {
-            
-//            dataSource = (MysqlConnectionPoolDataSource) new InitialContext().lookup(MySQLProperties.dBName);
-//            dataSource.setServerName(MySQLProperties.serverName);
-//            dataSource.setDatabaseName(MySQLProperties.dBName);
-//            dataSource.setUser(MySQLProperties.username);
-//            dataSource.setPassword(MySQLProperties.password);
-//            dataSource.setPort(MySQLProperties.port);
             Class.forName(MySQLProperties.driver);
-            con = DriverManager.getConnection(MySQLProperties.url, MySQLProperties.username, MySQLProperties.password);
+            conn = DriverManager.getConnection(MySQLProperties.url, MySQLProperties.username, MySQLProperties.password);
             
         } catch (SQLException ex) {
             System.out.println(ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return con;
+        return conn;
     }
+    
+//    public Connection getConnection() {
+//        Connection con = null;
+//        try {
+//            dataSource = (MysqlConnectionPoolDataSource) new InitialContext().lookup(MySQLProperties.dBName);
+//            dataSource.setServerName(MySQLProperties.serverName);
+//            dataSource.setDatabaseName(MySQLProperties.dBName);
+//            dataSource.setUser(MySQLProperties.username);
+//            dataSource.setPassword(MySQLProperties.password);
+//            dataSource.setPort(MySQLProperties.port);
+//            
+//            con = dataSource.getConnection();
+//        } catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        return con;
+//    }
     
     
     public void createTables() {
