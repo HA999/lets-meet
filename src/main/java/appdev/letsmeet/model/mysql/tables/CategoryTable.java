@@ -7,6 +7,8 @@ package appdev.letsmeet.model.mysql.tables;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -27,11 +29,37 @@ public class CategoryTable extends MySQLTable{
     public CategoryTable(Connection conn) {
         createTable(conn, createString);
         defineIndexes(conn, indexString);
+        insertCategories(conn);
     }
     
     @Override
     public void insert(Connection conn, Serializable bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String name = (String) bean;
+        PreparedStatement pstmt;
+                
+        try{
+            pstmt = conn.prepareStatement("INSERT INTO Category "
+                    + "NAME) VALUES("
+                    + "'" + name + "')");
+            pstmt.executeUpdate();
+            }catch (SQLException ex) {
+                System.out.println(ex);
+            }
+//                }finally {
+//                    if (conn != null) conn.close();
+//                }
     }
     
+    private void insertCategories(Connection conn){
+        for (Category cat : Category.values()) {
+            insert(conn, cat.toString());
+        }
+    }
+    
+    public enum Category{
+        SPORT,
+        COMPUTERS,
+        PETS,
+        BOOKS
+    }
 }
