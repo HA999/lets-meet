@@ -38,16 +38,12 @@ public class CategoryTable extends MySQLTable{
         PreparedStatement pstmt;
                 
         try{
-            pstmt = conn.prepareStatement("INSERT INTO Category "
-                    + "NAME) VALUES("
-                    + "'" + name + "')");
+            pstmt = conn.prepareStatement("INSERT INTO Category(NAME)"
+                    + " VALUES('" + name + "')");
             pstmt.executeUpdate();
             }catch (SQLException ex) {
                 System.out.println(ex);
             }
-//                }finally {
-//                    if (conn != null) conn.close();
-//                }
     }
     
     private void insertCategories(Connection conn){
@@ -56,10 +52,15 @@ public class CategoryTable extends MySQLTable{
         }
     }
     
-    public enum Category{
-        SPORT,
-        COMPUTERS,
+    public enum Category {
+        SPORTS,
+        DEVELOPMENT,
         PETS,
-        BOOKS
+        BOOKS,
+        MOVIES,
+        TV,
+        ART,
+        THEATER,
+        RECREATION,
     }
 }
