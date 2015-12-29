@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -47,12 +49,21 @@ public class CategoryTable extends MySQLTable{
     }
     
     private void insertCategories(Connection conn){
-        for (Category cat : Category.values()) {
+        for (Categories cat : Categories.values()) {
             insert(conn, cat.toString());
         }
     }
     
-    public enum Category {
+    public List<String> getCategoryList() {
+        List<String> list = new ArrayList<>();
+        for (Categories cat : Categories.values()) {
+            list.add(cat.toString());
+        }
+        
+        return list;
+    }
+    
+    public enum Categories {
         SPORTS,
         DEVELOPMENT,
         PETS,

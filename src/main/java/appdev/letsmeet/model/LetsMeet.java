@@ -8,6 +8,7 @@ package appdev.letsmeet.model;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.MySQLHandler;
 import appdev.letsmeet.model.redis.RedisHandler;
+import java.util.List;
 
 /**
  *
@@ -24,5 +25,9 @@ public class LetsMeet {
 
     public String getUserName(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<String> getCategoryList() {
+        return mysqlHandler.getCategoryList();
     }
 }

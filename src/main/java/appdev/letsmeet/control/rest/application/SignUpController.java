@@ -8,11 +8,9 @@ package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.LetsMeet;
-import appdev.letsmeet.model.mysql.MySQLHandler;
 import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,7 @@ import javax.ws.rs.core.MediaType;
  * @author Owner
  */
 @Path("signup")
-public class RegistrationController {
+public class SignUpController {
     
     @Context private HttpServletResponse response;
     @Context private HttpServletRequest request;
