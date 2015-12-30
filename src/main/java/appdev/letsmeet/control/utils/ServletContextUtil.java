@@ -6,6 +6,7 @@
 package appdev.letsmeet.control.utils;
 
 import appdev.letsmeet.model.mysql.MySQLHandler;
+import appdev.letsmeet.model.redis.RedisHandler;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -17,9 +18,12 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ServletContextUtil implements ServletContextListener{
 
+    private final MySQLHandler mysql = MySQLHandler.getInstance();
+    private final RedisHandler redis = RedisHandler.getInstance();
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-       MySQLHandler.getInstance().createTables();
+        mysql.createTables();
+        redis.createCategoryList(mysql.getCategoryList());
     }
 
     @Override
