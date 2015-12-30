@@ -11,5 +11,5 @@ package appdev.letsmeet.model.redis;
  */
 public class RedisProperties {
     
-    
+    public static final String categoryList = "CATEGORIES";
 }

@@ -16,7 +16,7 @@ public class JoinRequestsTable extends MySQLTable{
 
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
-        "JoinRequests" +
+        "Join_Requests" +
         "(CREATOR_ID int NOT NULL, " +
         "ACT_ID INT NOT NULL, " +
         "USER_ID int NOT NULL, " +

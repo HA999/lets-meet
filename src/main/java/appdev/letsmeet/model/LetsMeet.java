@@ -28,6 +28,7 @@ public class LetsMeet {
     }
 
     public List<String> getCategoryList() {
-        return mysqlHandler.getCategoryList();
+//        return mysqlHandler.getCategoryList();
+        return redisHandler.getCategoryList();
     }
 }

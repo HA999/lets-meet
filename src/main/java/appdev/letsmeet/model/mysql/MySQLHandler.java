@@ -10,14 +10,12 @@ import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
 import appdev.letsmeet.model.mysql.tables.ActivityTypeSignUpTable;
 import appdev.letsmeet.model.mysql.tables.CategoryTable;
-import appdev.letsmeet.model.mysql.tables.CategoryTable.Categories;
 import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
 import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +26,8 @@ import java.util.logging.Logger;
  */
 public class MySQLHandler {
     
-    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();//Redundant?!?!?
     private static MySQLHandler mysqlHandlerInstance;
+    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();//Redundant?!?!?
     private UsersTable usersTable = null;
     private ActivityTable activityTable = null;
     private JoinRequestsTable joinRequests = null;

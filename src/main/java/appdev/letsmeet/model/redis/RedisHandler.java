@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.SortingParams;
 
 /**
  *
@@ -46,5 +47,27 @@ public class RedisHandler {
         list.forEach(l -> p.lpush(key, l));
         p.sync();
     }
+
+    public void deleteKey(String key) {
+        pool.getResource().del(key);
+    }
     
+    private void sortList(String list, SortingParams sortParams) {
+        pool.getResource().sort(list, sortParams);
+    }
+    
+    public List<String> getCategoryList() {
+        return pool.getResource().lrange(RedisProperties.categoryList, 0, -1);
+    }
+
+    public void createCategoryList(List<String> cat) {
+        deleteCategoryList();
+        listLPush(RedisProperties.categoryList, cat);
+        sortList(RedisProperties.categoryList, new SortingParams().alpha());
+    }
+    
+    public void deleteCategoryList() {
+        deleteKey(RedisProperties.categoryList);
+    }
+
 }
