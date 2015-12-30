@@ -82,10 +82,10 @@ public class MySQLHandler {
 //    }
     
     
-    public void createTables() {
+    public void createTables(String realPath) {
         Connection conn = getConnection();
         usersTable = new UsersTable(conn);
-        categoryTable = new CategoryTable(conn);
+        categoryTable = new CategoryTable(conn, realPath);
         subCategoryTable = new SubCategoryTable(conn);
         activityTable = new ActivityTable(conn);
         joinRequests = new JoinRequestsTable(conn);

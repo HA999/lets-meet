@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<!--    <category-list>
+        <category>DEVELOPMENT</category>
+        <category>PETS</category>
+        <category>BOOKS</category>
+        <category>MOVIES</category>
+        <category>TV</category>
+        <category>ART</category>
+        <category>THEATER</category>
+        <category>RECREATION</category>
+        <category>FOOD</category>
+    </category-list>-->
+
+<categories>
+    <category>
+        <name>SPORTS</name>
+        <sub-categories>
+            <sub-category>TENNIS</sub-category>
+            <sub-category>SOCCER</sub-category>
+            <sub-category>BASKETBALL</sub-category>
+            <sub-category>FOOTBALL</sub-category>
+            <sub-category>HOCKEY</sub-category>
+            <sub-category>EXTREAM</sub-category>
+            <sub-category>RUNNING</sub-category>
+            <sub-category>WALKING</sub-category>
+            <sub-category>JOGGING</sub-category>
+            <sub-category>HIKING</sub-category>
+            <sub-category>SWIMMING</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>DEVELOPMENT</name>
+        <sub-categories>
+            <sub-category>JAVA</sub-category>
+            <sub-category>C#</sub-category>
+            <sub-category>C++</sub-category>
+            <sub-category>C</sub-category>
+            <sub-category>PYTHON</sub-category>
+            <sub-category>RUBY</sub-category>
+            <sub-category>CSS</sub-category>
+            <sub-category>HTML</sub-category>
+            <sub-category>JAVASCRIPT</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>PETS</name>
+        <sub-categories>
+            <sub-category>DOGS</sub-category>
+            <sub-category>CATS</sub-category>
+            <sub-category>REPTILES</sub-category>
+            <sub-category>DOG WALKING</sub-category>
+            <sub-category>GROOMING</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>BOOKS</name>
+        <sub-categories>
+            <sub-category>BOOK CLUB</sub-category>
+            <sub-category>STORY READING</sub-category>
+            <sub-category>BIOGRPHY</sub-category>
+            <sub-category>THRILLER</sub-category>
+            <sub-category>EDUCATIONAL</sub-category>
+            <sub-category>KIDS</sub-category>
+            <sub-category>COOKING</sub-category>
+            <sub-category>HARRY POTTER</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>MOVIES</name>
+        <sub-categories>
+            <sub-category>MOVIE CLUB</sub-category>
+            <sub-category>CINEMA</sub-category>
+            <sub-category>WATCH TOGETHER</sub-category>
+            <sub-category>OLDIES</sub-category>
+            <sub-category>MARATHONS</sub-category>
+            <sub-category>SERIES</sub-category>
+            <sub-category>STAR WARS</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>TV</name>
+        <sub-categories>
+            <sub-category>SERIES CLUB</sub-category>
+            <sub-category>WATCH TOGETHER</sub-category>
+            <sub-category>SERIES</sub-category>
+            <sub-category>SEASONS</sub-category>
+            <sub-category>DISCUSSION</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>ART</name>
+        <sub-categories>
+            <sub-category>MUSEUM</sub-category>
+            <sub-category>PAINTING</sub-category>
+            <sub-category>AUCTION</sub-category>
+            <sub-category>SALE</sub-category>
+            <sub-category>LESSONS</sub-category>
+            <sub-category>SCULPTURE</sub-category>
+            <sub-category>DANCING</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>THEATER</name>
+        <sub-categories>
+            <sub-category>DRAMA CLUB</sub-category>
+            <sub-category>LESSONS</sub-category>
+            <sub-category>VIEWINGS</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>RECREATION</name>
+        <sub-categories>
+            <sub-category>VIDEO GAMES</sub-category>
+            <sub-category>SKATING</sub-category>
+            <sub-category>TABLE TOP</sub-category>
+            <sub-category>GAMING CLUB</sub-category>
+            <sub-category>DEBATE</sub-category>
+            <sub-category>LEARNING</sub-category>
+            <sub-category>GAMES FOR KIDS</sub-category>
+        </sub-categories>
+    </category>
+    <category>
+        <name>FOOD</name>
+        <sub-categories>
+            <sub-category>TASTINGS</sub-category>
+            <sub-category>LESSONS</sub-category>
+            <sub-category>EATING OUT</sub-category>
+            <sub-category>COOKING</sub-category>
+            <sub-category>COOKING SHOWS</sub-category>
+            <sub-category>PROFETIONAL TRAINING</sub-category>
+        </sub-categories>
+    </category>
+</categories>

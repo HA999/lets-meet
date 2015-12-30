@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.mysql.tables;
 
+import appdev.letsmeet.model.mysql.categories.CategoriesHandler;
 import java.io.Serializable;
 import java.sql.Connection;
 
@@ -14,12 +15,14 @@ import java.sql.Connection;
  */
 public class SubCategoryTable extends MySQLTable {
     
+    CategoriesHandler categoriesHandler = null;
+    
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
         "Sub_Category" +
         "(SUB_CAT_ID int NOT NULL AUTO_INCREMENT, " +
         "CAT_ID int NOT NULL, " +
-        "NAME varchar(40) NOT NULL, " 
+        "NAME varchar(40) NOT NULL UNIQUE, " 
             + "PRIMARY KEY (SUB_CAT_ID), " 
             + "FOREIGN KEY (CAT_ID) REFERENCES Category(CAT_ID))";
     
@@ -27,6 +30,7 @@ public class SubCategoryTable extends MySQLTable {
             + "Sub_Category (SUB_CAT_ID)";
     
     public SubCategoryTable(Connection conn) {
+        categoriesHandler = CategoriesHandler.getInstance();
         createTable(conn, createString);
         defineIndexes(conn, indexString);
     }
@@ -51,5 +55,4 @@ public class SubCategoryTable extends MySQLTable {
 //            if (conn != null) conn.close();
 //        }
     }
-    
 }
