@@ -9,9 +9,8 @@ import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
 import appdev.letsmeet.model.mysql.tables.ActivityTypeSignUpTable;
-import appdev.letsmeet.model.mysql.tables.CategoryTable;
+import appdev.letsmeet.model.mysql.tables.Categories.*;
 import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
-import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,8 +30,7 @@ public class MySQLHandler {
     private UsersTable usersTable = null;
     private ActivityTable activityTable = null;
     private JoinRequestsTable joinRequests = null;
-    private CategoryTable categoryTable = null;  
-    private SubCategoryTable subCategoryTable = null;
+    private CategoryHandler categoryHandler = null;
     private ActivityTypeSignUpTable activityTypeSignUpTable = null;
     
     private MySQLHandler() {};
@@ -54,8 +52,8 @@ public class MySQLHandler {
         Connection conn = null;
         try {
             Class.forName(MySQLProperties.driver);
-            conn = DriverManager.getConnection(MySQLProperties.url, MySQLProperties.username, MySQLProperties.password);
-            
+            conn = DriverManager.getConnection(MySQLProperties.url, 
+                    MySQLProperties.username, MySQLProperties.password);
         } catch (SQLException ex) {
             System.out.println(ex);
         } catch (ClassNotFoundException ex) {
@@ -63,6 +61,39 @@ public class MySQLHandler {
         }
         return conn;
     }
+    
+    public void closeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    public void createTables(String realPath) {
+        Connection conn = getConnection();
+        usersTable = new UsersTable(conn);
+        categoryHandler = CategoryHandler.getInstance(realPath);
+        activityTable = new ActivityTable(conn);
+        joinRequests = new JoinRequestsTable(conn);
+        activityTypeSignUpTable = new ActivityTypeSignUpTable(conn);
+        closeConnection(conn);
+    }
+    
+    public void addUser(RegistrationBean rBean) {
+        Connection conn = getConnection();
+        usersTable.insert(conn , rBean);
+        closeConnection(conn);
+    }
+
+    public List<String> getCategoryList() {
+        return categoryHandler.getCategories();
+    }
+    
     
 //    public Connection getConnection() {
 //        Connection con = null;
@@ -80,36 +111,4 @@ public class MySQLHandler {
 //        }
 //        return con;
 //    }
-    
-    
-    public void createTables(String realPath) {
-        Connection conn = getConnection();
-        usersTable = new UsersTable(conn);
-        categoryTable = new CategoryTable(conn, realPath);
-        subCategoryTable = new SubCategoryTable(conn);
-        activityTable = new ActivityTable(conn);
-        joinRequests = new JoinRequestsTable(conn);
-        activityTypeSignUpTable = new ActivityTypeSignUpTable(conn);
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void addUser(RegistrationBean rBean) {
-        
-        usersTable.insert(getConnection(), rBean);
-//        try {       
-//        } catch (SQLException ex) {
-//            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
-    public List<String> getCategoryList() {
-        return categoryTable.getCategoryList();
-    }
-    
 }

@@ -77,9 +77,6 @@ public class UsersTable extends MySQLTable{
             }catch (SQLException ex) {
                 System.out.println(ex);
             }
-//            }finally {
-//                if (conn != null) conn.close();
-//            }
         }
     
 

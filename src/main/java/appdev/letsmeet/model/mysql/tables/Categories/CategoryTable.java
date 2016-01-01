@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appdev.letsmeet.model.mysql.tables;
+package appdev.letsmeet.model.mysql.tables.Categories;
 
-import appdev.letsmeet.model.mysql.categories.CategoriesHandler;
+import appdev.letsmeet.model.mysql.tables.MySQLTable;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +18,6 @@ import java.util.List;
  */
 public class CategoryTable extends MySQLTable{
     
-    CategoriesHandler categoriesHandler = null;
-    
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
         "Category" +
@@ -28,13 +26,12 @@ public class CategoryTable extends MySQLTable{
             "PRIMARY KEY (CAT_ID))";
 
     private final String indexString = "CREATE UNIQUE INDEX category_index ON "
-            + "Category (CAT_ID)";
+            + "Category (NAME)";
     
-    public CategoryTable(Connection conn, String realPath) {
-        categoriesHandler = CategoriesHandler.getInstance(realPath);
+    public CategoryTable(Connection conn, List<String> categories) {
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-        insertCategories(conn);
+        insertCategories(conn, categories);
     }
     
     @Override
@@ -51,13 +48,7 @@ public class CategoryTable extends MySQLTable{
             }
     }
     
-    private void insertCategories(Connection conn){
-        categoriesHandler.getCategories().forEach(c -> insert(conn, c));
+    private void insertCategories(Connection conn, List<String> categories){
+        categories.forEach(c -> insert(conn, c));
     }
-    
-    public List<String> getCategoryList() {
-        return categoriesHandler.getCategories();
-    }
-    
-    
 }

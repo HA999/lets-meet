@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appdev.letsmeet.model.mysql.categories;
+package appdev.letsmeet.model.mysql.tables.Categories;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,40 +22,38 @@ import org.jdom.input.SAXBuilder;
  *
  * @author HA999
  */
-public class CategoriesHandler {
+public class CategoryHandler {
     
-    private static CategoriesHandler instance;
+    private static CategoryHandler instance;
     private static final String categoriesFileName = "\\categories.xml";
     private static Document categoriesFile = null;
     private static String categoryFilePath = null;
+    private CategoryTable categoryTable = null;
+    private SubCategoryTable subCategoryTable = null;
     private List<String> categories = new ArrayList<>();
     private HashMap<String, List<String>> subCategories = new HashMap<>();
 
-    public static CategoriesHandler getInstance(String categoryFilePath) {
+    public static CategoryHandler getInstance(String categoryFilePath) {
         if (instance == null) {
-            synchronized(CategoriesHandler.class) {
+            synchronized(CategoryHandler.class) {
                 if (instance == null) {
-                    CategoriesHandler.categoryFilePath = categoryFilePath;
-                    instance = new CategoriesHandler();
+                    CategoryHandler.categoryFilePath = categoryFilePath;
+                    instance = new CategoryHandler();
                 }
             }
         }
         return instance;
     }
     
-    public static CategoriesHandler getInstance() {
-        return instance;
-    }
-    
-    public CategoriesHandler() {
+    public CategoryHandler() {
         if (categoriesFile == null) {
             try {
                 categoriesFile =  new SAXBuilder().build(new 
                 File(categoryFilePath + categoriesFileName));
                 initCategoryList();
-                initSubCategoryHasjMap();
+                initSubCategoryHashMap();
             } catch (JDOMException | IOException ex) {
-                Logger.getLogger(CategoriesHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CategoryHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -70,13 +68,14 @@ public class CategoriesHandler {
         }
     }
 
-    private void initSubCategoryHasjMap() {
+    private void initSubCategoryHashMap() {
         List<String> currList = new ArrayList<>();
         Iterator i = categoriesFile.getRootElement().getChildren("category")
                 .iterator();
         while(i.hasNext()) {
             Element cat = (Element) i.next();
-            Iterator j = cat.getChild("sub-categories").getChildren("sub-category").iterator();
+            Iterator j = cat.getChild("sub-categories").
+                    getChildren("sub-category").iterator();
             while(j.hasNext()) {
                 Element subCat = (Element) j.next();
                 currList.add(subCat.getText());
@@ -92,5 +91,4 @@ public class CategoriesHandler {
     public  HashMap<String, List<String>> getSubCategories() {
         return subCategories;
     }
-    
 }

@@ -18,10 +18,10 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ServletContextUtil implements ServletContextListener{
 
-    private final MySQLHandler mysql = MySQLHandler.getInstance();
-    private final RedisHandler redis = RedisHandler.getInstance();
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        MySQLHandler mysql = MySQLHandler.getInstance();
+        RedisHandler redis = RedisHandler.getInstance();
         mysql.createTables(sce.getServletContext().getRealPath("/"));
         redis.createCategoryList(mysql.getCategoryList());
     }

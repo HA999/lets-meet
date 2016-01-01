@@ -5,18 +5,10 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-
-<!--    <category-list>
-        <category>DEVELOPMENT</category>
-        <category>PETS</category>
-        <category>BOOKS</category>
-        <category>MOVIES</category>
-        <category>TV</category>
-        <category>ART</category>
-        <category>THEATER</category>
-        <category>RECREATION</category>
-        <category>FOOD</category>
-    </category-list>-->
+<!--DESCRIPTION:
+    This file is used for initializing the categories and sub-categories 
+    databases in the "LETS-MEET" application. 
+-->
 
 <categories>
     <category>
