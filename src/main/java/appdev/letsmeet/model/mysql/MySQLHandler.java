@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.mysql;
 
+import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
@@ -14,6 +15,8 @@ import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -94,6 +97,28 @@ public class MySQLHandler {
 
     public List<String> getCategoryList() {
         return null;
+    }
+    
+    public LoginUserBean authenticateUser(String username, String password){
+        LoginUserBean user = new LoginUserBean();
+        PreparedStatement authenticateUserStatement;
+        Connection conn = getConnection();
+        
+        try {
+            authenticateUserStatement = conn.prepareStatement("SELECT * FROM Users WHERE USERNAME = ? AND PASSWORD = ?");
+            authenticateUserStatement.setString(1, username);
+            authenticateUserStatement.setString(2, password);
+            ResultSet resultSet = authenticateUserStatement.executeQuery();
+            if (resultSet.next()) {
+                user.password = resultSet.getString("PASSWORD");
+                user.username = resultSet.getString("USERNAME");
+                user.user_Id = resultSet.getInt("USER_ID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return user;
     }
     
     

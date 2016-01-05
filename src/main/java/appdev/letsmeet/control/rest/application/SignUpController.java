@@ -6,6 +6,8 @@
 package appdev.letsmeet.control.rest.application;
 
 
+import appdev.letsmeet.control.utils.PasswordService;
+import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.LetsMeet;
 import com.sun.jersey.api.view.Viewable;
@@ -23,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -35,8 +38,8 @@ public class SignUpController {
     @Context private HttpServletResponse response;
     @Context private HttpServletRequest request;
     @Context private ServletContext servletContext;
-    
-    
+    private HttpSession session;
+    private LetsMeet model = LetsMeet.getInstance();
     
     @GET
     public Viewable signupPage() throws ServletException, IOException, 
@@ -49,28 +52,19 @@ public class SignUpController {
     @Path("registration")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public RegistrationBean storeUserInfo(RegistrationBean bean) 
+    public Response storeUserInfo(RegistrationBean bean) 
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
+        bean.password = PasswordService.encrypt(bean.password);
+        //need to validate user input????
+        LoginUserBean user = model.addUser(bean);
         
-        LetsMeet model = new LetsMeet();
-        session.setAttribute("model", model);
-        
-        model.addUser(bean);
-//        session.setAttribute("userID", model.getUserId());
-        return bean;
+        if(user != null){
+            session.invalidate();
+            session = request.getSession(true);
+            session.setAttribute("user", user);
+        }
+        //insert into the logged in users table in REDIS
+        return Response.accepted().build();
     }
-        
-//    @GET
-//    @Path("hello/{name}")
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String sayHello(@PathParam("name") String name) 
-//            throws ServletException, IOException{
-//        
-//        StringBuilder stringBuilder = new StringBuilder("Hello ");
-//        stringBuilder.append(name).append("!");
-//
-//        return stringBuilder.toString();
-//    }
 }
