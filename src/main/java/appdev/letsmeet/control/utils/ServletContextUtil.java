@@ -22,8 +22,7 @@ public class ServletContextUtil implements ServletContextListener{
     public void contextInitialized(ServletContextEvent sce) {
         MySQLHandler mysql = MySQLHandler.getInstance();
         RedisHandler redis = RedisHandler.getInstance();
-        mysql.createTables(sce.getServletContext().getRealPath("/"));
-        redis.createCategoryList(mysql.getCategoryList());
+        mysql.createTables();
     }
 
     @Override

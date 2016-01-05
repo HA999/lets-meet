@@ -7,7 +7,6 @@ package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.model.LetsMeet;
-import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -34,11 +34,11 @@ public class HomeController {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getCategories() {
+    public Response getCategories() {
         //isKnownUser();
         LetsMeet model = new LetsMeet();
         
-        return model.getCategoryList();
+        return Response.accepted().build();
     }
     
     @POST

@@ -28,9 +28,10 @@ public class MySQLHandler {
     private static MySQLHandler mysqlHandlerInstance;
     private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();//Redundant?!?!?
     private UsersTable usersTable = null;
+    private CategoryTable categoryTable = null;
+    private SubCategoryTable subCategoryTable = null;
     private ActivityTable activityTable = null;
     private JoinRequestsTable joinRequests = null;
-    private CategoryHandler categoryHandler = null;
     private ActivityTypeSignUpTable activityTypeSignUpTable = null;
     
     private MySQLHandler() {};
@@ -74,10 +75,11 @@ public class MySQLHandler {
     
     
     
-    public void createTables(String realPath) {
+    public void createTables() {
         Connection conn = getConnection();
         usersTable = new UsersTable(conn);
-        categoryHandler = CategoryHandler.getInstance(realPath);
+        categoryTable = new CategoryTable(conn);
+        subCategoryTable = new SubCategoryTable(conn);
         activityTable = new ActivityTable(conn);
         joinRequests = new JoinRequestsTable(conn);
         activityTypeSignUpTable = new ActivityTypeSignUpTable(conn);
@@ -91,7 +93,7 @@ public class MySQLHandler {
     }
 
     public List<String> getCategoryList() {
-        return categoryHandler.getCategories();
+        return null;
     }
     
     

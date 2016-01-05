@@ -27,8 +27,8 @@ public class LetsMeet {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<String> getCategoryList() {
-//        return mysqlHandler.getCategoryList();
-        return redisHandler.getCategoryList();
-    }
+//    public List<String> getCategoryList() {
+////        return mysqlHandler.getCategoryList();
+//        return redisHandler.getCategoryList();
+//    }
 }

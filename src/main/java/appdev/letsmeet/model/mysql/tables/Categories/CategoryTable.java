@@ -5,33 +5,35 @@
  */
 package appdev.letsmeet.model.mysql.tables.Categories;
 
-import appdev.letsmeet.model.mysql.tables.MySQLTable;
+import appdev.letsmeet.model.mysql.tables.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
  * @author HA999
  */
-public class CategoryTable extends MySQLTable{
+public class CategoryTable implements MySQLDAO {
+    
+    private final String initFile = "categories.txt";
+    private final String tableName = "categories";
     
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
-        "Category" +
+        tableName +
         "(CAT_ID int NOT NULL AUTO_INCREMENT, " +
         "NAME varchar(40) NOT NULL UNIQUE, " +
             "PRIMARY KEY (CAT_ID))";
 
     private final String indexString = "CREATE UNIQUE INDEX category_index ON "
-            + "Category (NAME)";
+            + tableName + " (NAME)";
     
-    public CategoryTable(Connection conn, List<String> categories) {
+    public CategoryTable(Connection conn) {
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-        insertCategories(conn, categories);
+        insertFromFile(conn, initFile, tableName);
     }
     
     @Override
@@ -40,7 +42,7 @@ public class CategoryTable extends MySQLTable{
         PreparedStatement pstmt;
                 
         try{
-            pstmt = conn.prepareStatement("INSERT INTO Category(NAME)"
+            pstmt = conn.prepareStatement("INSERT INTO " + tableName + " (NAME)"
                     + " VALUES('" + name + "')");
             pstmt.executeUpdate();
             }catch (SQLException ex) {
@@ -48,7 +50,4 @@ public class CategoryTable extends MySQLTable{
             }
     }
     
-    private void insertCategories(Connection conn, List<String> categories){
-        categories.forEach(c -> insert(conn, c));
-    }
 }

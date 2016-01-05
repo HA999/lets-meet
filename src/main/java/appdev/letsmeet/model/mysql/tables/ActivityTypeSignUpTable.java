@@ -12,7 +12,7 @@ import java.sql.Connection;
  *
  * @author HA999
  */
-public class ActivityTypeSignUpTable extends MySQLTable{
+public class ActivityTypeSignUpTable implements MySQLDAO{
 
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +

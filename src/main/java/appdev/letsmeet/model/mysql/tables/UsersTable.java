@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author HA999
  */
-public class UsersTable extends MySQLTable{
+public class UsersTable implements MySQLDAO{
     
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +

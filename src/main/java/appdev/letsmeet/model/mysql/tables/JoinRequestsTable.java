@@ -12,7 +12,7 @@ import java.sql.Connection;
  *
  * @author HA999
  */
-public class JoinRequestsTable extends MySQLTable{
+public class JoinRequestsTable implements MySQLDAO{
 
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +

@@ -6,35 +6,37 @@
 package appdev.letsmeet.model.mysql.tables.Categories;
 
 import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
-import appdev.letsmeet.model.mysql.tables.MySQLTable;
+import appdev.letsmeet.model.mysql.tables.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
  * @author HA999
  */
-public class SubCategoryTable extends MySQLTable {
+public class SubCategoryTable implements MySQLDAO {
        
+    private final String initFile = "sub-categories.txt";
+    private final String tableName = "subcategory";
+    
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
-        "Sub_Category" +
+        tableName +
         "(SUB_CAT_ID int NOT NULL AUTO_INCREMENT, " +
-        "CAT_ID int NOT NULL, " +
-        "NAME varchar(40) NOT NULL UNIQUE, " 
+        "CAT_NAME varchar(40) NOT NULL, " +
+        "NAME varchar(40) NOT NULL, " 
             + "PRIMARY KEY (SUB_CAT_ID), " 
-            + "FOREIGN KEY (CAT_ID) REFERENCES Category(CAT_ID))";
+            + "FOREIGN KEY (CAT_NAME) REFERENCES categories(NAME))";
     
     private final String indexString = "CREATE UNIQUE INDEX sub_category_index ON "
-            + "Sub_Category (SUB_CAT_ID)";
+            + tableName + "(SUB_CAT_ID)";
     
-    public SubCategoryTable(Connection conn, List<SubCategoryBean> beanList) {
+    public SubCategoryTable(Connection conn) {
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-        insertSubCategories(conn, beanList);
+//        insertFromFile(conn, initFile, tableName);
     }
     
     @Override
@@ -44,7 +46,7 @@ public class SubCategoryTable extends MySQLTable {
         
         try{
             pstmt = conn.prepareStatement("INSERT INTO " +
-                    "`lets_meet`.`sub_category`" +
+                    tableName +
                     "(`SUB_CAT_ID`, "+
                     "`CAT_ID`, "+
                     "`NAME`)" +
@@ -57,9 +59,5 @@ public class SubCategoryTable extends MySQLTable {
         }catch (SQLException ex) {
             System.out.println(ex);
         }
-    }
-
-    private void insertSubCategories(Connection conn, List<SubCategoryBean> beanList) {
-        beanList.forEach(b -> insert(conn, b));
-    }
+    }    
 }

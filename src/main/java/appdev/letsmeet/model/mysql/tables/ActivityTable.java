@@ -7,14 +7,12 @@ package appdev.letsmeet.model.mysql.tables;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  *
  * @author HA999
  */
-public class ActivityTable extends MySQLTable{
+public class ActivityTable implements MySQLDAO{
 
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
@@ -31,7 +29,7 @@ public class ActivityTable extends MySQLTable{
         "PHOTO blob, "
             +"PRIMARY KEY (ACT_ID), "
             +"FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID), "
-            +"FOREIGN KEY (SUB_CAT_ID) REFERENCES Sub_Category(SUB_CAT_ID))";
+            +"FOREIGN KEY (SUB_CAT_ID) REFERENCES subcategory(SUB_CAT_ID))";
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";
     
