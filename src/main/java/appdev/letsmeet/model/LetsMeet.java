@@ -36,8 +36,7 @@ public class LetsMeet {
     }
     
     public LoginUserBean addUser(RegistrationBean rbean) {
-        mysqlHandler.addUser(rbean);
-        return mysqlHandler.authenticateUser(rbean.userName, rbean.password);
+        return mysqlHandler.addUser(rbean);
     }
 
     public String getUserName(String id) {

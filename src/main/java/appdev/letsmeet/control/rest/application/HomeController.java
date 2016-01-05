@@ -71,17 +71,16 @@ public class HomeController {
         }
         else{
             String encryptedPassword = PasswordService.encrypt(bean.password);
-            LoginUserBean user = model.authenticateUser(bean.password, encryptedPassword);
+            LoginUserBean user = model.authenticateUser(bean.username, encryptedPassword);
             
             //the user exists
             if(user != null){
                 session.invalidate();
                 session = request.getSession(true);
                 session.setAttribute("user", user);
-                return Response.accepted().build();
+                return Response.ok(user).build();
                 //ridirect to home page of a user?
                 //insert to the logged in users table in REDIS
-
             }
             // user doesn't exist
             else{

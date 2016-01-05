@@ -35,10 +35,8 @@ import javax.ws.rs.core.Response;
 @Path("signup")
 public class SignUpController {
     
-    @Context private HttpServletResponse response;
     @Context private HttpServletRequest request;
-    @Context private ServletContext servletContext;
-    private HttpSession session;
+    
     private LetsMeet model = LetsMeet.getInstance();
     
     @GET
@@ -60,11 +58,12 @@ public class SignUpController {
         LoginUserBean user = model.addUser(bean);
         
         if(user != null){
+            HttpSession session = request.getSession(true);
             session.invalidate();
             session = request.getSession(true);
             session.setAttribute("user", user);
         }
         //insert into the logged in users table in REDIS
-        return Response.accepted().build();
+        return Response.ok(user).build();
     }
 }

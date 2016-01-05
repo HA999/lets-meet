@@ -14,15 +14,15 @@ import java.io.Serializable;
 
 public class RegistrationBean implements Serializable{
     
-    public String userName;
-    public String firstName;
-    public String lastName;
+    public String username;
+    public String firstname;
+    public String lastname;
     public String password;
     public String email;
     public String country;
     public String city;
     public String gender;
-    public String dateOfBirth;
+    public String dateofbirth;
     public String phone;
     public String photo;
     public String about;

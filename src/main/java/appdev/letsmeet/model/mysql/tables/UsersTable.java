@@ -23,7 +23,7 @@ public class UsersTable implements MySQLDAO{
         "(USER_ID int NOT NULL AUTO_INCREMENT, " +
         "USERNAME varchar(40) NOT NULL UNIQUE, " +
         "EMAIL varchar(255) NOT NULL UNIQUE, " +
-        "PASSWORD varchar(40) NOT NULL, " +
+        "PASSWORD varchar(255) NOT NULL, " +
         "CREATE_TIME timestamp, " +
         "FIRST_NAME varchar(40) NOT NULL, " +
         "LAST_NAME varchar(40) NOT NULL, " +
@@ -45,39 +45,35 @@ public class UsersTable implements MySQLDAO{
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) {
+    public void insert(Connection conn, Serializable bean) throws SQLException{
         RegistrationBean rBean = (RegistrationBean) bean;
         PreparedStatement pstmt;
         
-            try {
-                validateInput(rBean);
-                pstmt = conn.prepareStatement("INSERT INTO users "
-                        + "(USERNAME, "
-                        + "EMAIL, "
-                        + "PASSWORD, "
-                        + "FIRST_NAME, "
-                        + "LAST_NAME, "
-                        + "COUNTRY_CODE, "
-                        + "CITY_CODE, "
-                        + "GENDER, "
-                        + "DATE_OF_BIRTH,"
-                        + "PHONE) VALUES("
-                        + "'" + rBean.userName + "', "
-                        + "'" + rBean.email + "', "
-                        + "'" + rBean.password + "', "
-                        + "'" + rBean.firstName + "', "
-                        + "'" + rBean.lastName + "', "
-                        + "'" + rBean.country + "', "
-                        + "'" + rBean.city + "', "
-                        + "'" + rBean.gender + "', "
-                        + "'" + rBean.dateOfBirth + "', "
-                        + "'" + rBean.phone + "')");
+        validateInput(rBean);
+        pstmt = conn.prepareStatement("INSERT INTO users "
+                + "(USERNAME, "
+                + "EMAIL, "
+                + "PASSWORD, "
+                + "FIRST_NAME, "
+                + "LAST_NAME, "
+                + "COUNTRY_CODE, "
+                + "CITY_CODE, "
+                + "GENDER, "
+                + "DATE_OF_BIRTH,"
+                + "PHONE) VALUES("
+                + "'" + rBean.username + "', "
+                + "'" + rBean.email + "', "
+                + "'" + rBean.password + "', "
+                + "'" + rBean.firstname + "', "
+                + "'" + rBean.lastname + "', "
+                + "'" + rBean.country + "', "
+                + "'" + rBean.city + "', "
+                + "'" + rBean.gender + "', "
+                + "'" + rBean.dateofbirth + "', "
+                + "'" + rBean.phone + "')");
 
-                pstmt.executeUpdate();
-            }catch (SQLException ex) {
-                System.out.println(ex);
-            }
-        }
+        pstmt.executeUpdate();
+    }
     
 
     private void validateInput(RegistrationBean bean) {

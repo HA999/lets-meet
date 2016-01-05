@@ -89,10 +89,19 @@ public class MySQLHandler {
         closeConnection(conn);
     }
     
-    public void addUser(RegistrationBean rBean) {
+    public LoginUserBean addUser(RegistrationBean rBean) {
         Connection conn = getConnection();
-        usersTable.insert(conn , rBean);
-        closeConnection(conn);
+        try {
+            //Validate rBean!!!!????
+            usersTable.insert(conn , rBean);
+            return authenticateUser(rBean.username, rBean.password);
+        }catch (SQLException ex) {
+            System.out.println("AHHHAHAHAHAHAHAHAHAHAH!!!!!!!!!");
+            System.out.println(ex);
+            return null;
+        }finally {
+            closeConnection(conn);
+        }
     }
 
     public List<String> getCategoryList() {
@@ -113,6 +122,9 @@ public class MySQLHandler {
                 user.password = resultSet.getString("PASSWORD");
                 user.username = resultSet.getString("USERNAME");
                 user.user_Id = resultSet.getInt("USER_ID");
+            }
+            else {
+                user = null;
             }
         } catch (SQLException ex) {
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);

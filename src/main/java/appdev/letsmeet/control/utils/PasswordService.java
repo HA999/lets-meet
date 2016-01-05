@@ -35,5 +35,6 @@ public final class PasswordService {
             byte raw[] = md.digest();
             String hash = (new BASE64Encoder()).encode(raw);
             return hash;
+//        return pass;
     }
 }
