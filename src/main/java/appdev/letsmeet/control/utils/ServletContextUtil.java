@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.control.utils;
 
+import appdev.letsmeet.model.LetsMeet;
 import appdev.letsmeet.model.mysql.MySQLHandler;
 import appdev.letsmeet.model.redis.RedisHandler;
 import javax.servlet.ServletContextEvent;

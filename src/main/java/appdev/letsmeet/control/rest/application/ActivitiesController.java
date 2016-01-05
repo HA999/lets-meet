@@ -9,11 +9,11 @@ import javax.ws.rs.Path;
 
 /**
  *
- * @author HA999
+ * @author leppa
  */
-
-@Path("signin")
-public class SignInController {
-    
+@Path("activities")
+public class ActivitiesController {
     
 }
+
+
