@@ -55,10 +55,11 @@ public class HomeController {
     public Response logout(){
         
         session = request.getSession();
-        //if(exists in the logged in users in REDIS)
-        //delete from the logged in users table in REDIS
+        LoginUserBean user = (LoginUserBean) session.getAttribute("user");
+        if (user != null && model.isLoggedInUser(user)) {
+            model.removeLoggedInUser(user);
+        }
         session.invalidate();
-        
         try {
             return Response.accepted().location(new URI("/")).build();
         } catch (URISyntaxException ex) {
@@ -95,8 +96,9 @@ public class HomeController {
                 session.invalidate();
                 session = request.getSession(true);
                 session.setAttribute("user", user);
+                model.addLoggedInUser(user);
+                
                 return Response.ok(user).build();
-                //insert to the logged in users table in REDIS
             }
             // user doesn't exist
             else{

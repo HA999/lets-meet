@@ -55,4 +55,16 @@ public class LetsMeet {
 ////        return mysqlHandler.getCategoryList();
 //        return redisHandler.getCategoryList();
 //    }
+
+    public void addLoggedInUser(LoginUserBean user) {
+        redisHandler.addLoggedInUser(user.user_Id);
+    }
+    
+    public Boolean isLoggedInUser(LoginUserBean user) {
+        return redisHandler.isLoggedInUser(user.user_Id);
+    }
+    
+    public void removeLoggedInUser(LoginUserBean user) {
+        redisHandler.removeLoggedInUser(user.user_Id);
+    }
 }

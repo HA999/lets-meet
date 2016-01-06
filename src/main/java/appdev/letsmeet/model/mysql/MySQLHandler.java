@@ -5,12 +5,13 @@
  */
 package appdev.letsmeet.model.mysql;
 
+import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
+import appdev.letsmeet.model.mysql.tables.CategoryTable;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
 import appdev.letsmeet.model.mysql.tables.ActivityTypeSignUpTable;
-import appdev.letsmeet.model.mysql.tables.Categories.*;
 import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;

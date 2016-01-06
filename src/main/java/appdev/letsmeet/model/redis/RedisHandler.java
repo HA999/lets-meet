@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.redis;
 
+import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import java.util.List;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -20,6 +21,7 @@ public class RedisHandler {
     
     private static RedisHandler redisHandlerInstance;
     private static final JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+    private final String loggedInUsers = "loggedInUsers";
     
     private RedisHandler() {
         System.out.println("RedisHandler instance created.");
@@ -68,6 +70,21 @@ public class RedisHandler {
     
     public void deleteCategoryList() {
         deleteKey(RedisProperties.categoryList);
+    }
+
+    public void addLoggedInUser(int userID) {
+        Jedis j = pool.getResource();
+        j.sadd(loggedInUsers, Integer.toString(userID));
+    }
+    
+    public Boolean isLoggedInUser(int userID) {
+        Jedis j = pool.getResource();
+        return j.sismember(loggedInUsers, Integer.toString(userID));
+    }
+    
+    public void removeLoggedInUser(int userID) {
+        Jedis j = pool.getResource();
+        j.srem(loggedInUsers, Integer.toString(userID));
     }
 
 }
