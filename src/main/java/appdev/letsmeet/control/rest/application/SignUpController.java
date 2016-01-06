@@ -12,7 +12,10 @@ import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.LetsMeet;
 import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +39,6 @@ import javax.ws.rs.core.Response;
 public class SignUpController {
     
     @Context private HttpServletRequest request;
-    
     private LetsMeet model = LetsMeet.getInstance();
     
     @GET
@@ -47,7 +49,6 @@ public class SignUpController {
     }
     
     @POST
-    @Path("registration")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response storeUserInfo(RegistrationBean bean) 
@@ -62,8 +63,13 @@ public class SignUpController {
             session.invalidate();
             session = request.getSession(true);
             session.setAttribute("user", user);
+            try {
+                return Response.seeOther(new URI("/" + user.username)).build();
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         //insert into the logged in users table in REDIS
-        return Response.ok(user).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }
