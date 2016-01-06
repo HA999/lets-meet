@@ -11,7 +11,7 @@ import javax.ws.rs.Path;
  *
  * @author leppa
  */
-@Path("activities")
+@Path("{username}/activities")
 public class ActivitiesController {
     
 }
