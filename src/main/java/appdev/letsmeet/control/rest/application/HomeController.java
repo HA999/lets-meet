@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
  * @author HA999
  */
 
-@Path("home")
+@Path("/")
 public class HomeController { 
     private static final int maxLoginAttempts = 3;
     private HttpSession session; 
