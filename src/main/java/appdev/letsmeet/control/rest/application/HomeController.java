@@ -9,11 +9,14 @@ import appdev.letsmeet.control.utils.PasswordService;
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -57,7 +60,7 @@ public class HomeController {
     }
     
     @POST
-    @Path("login")
+    @Path("{username}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginUserBean bean){
@@ -85,8 +88,14 @@ public class HomeController {
             // user doesn't exist
             else{
                 session.setAttribute("loginAttempts", loginAttempts++);
-                return prepareMassegeResponse("Error: Unrecognized Username or Password", 401);                   
-                //ridirect back to home page?
+//                return prepareMassegeResponse("Error: Unrecognized Username or Password", 401);    
+                try {
+                    return Response.seeOther(new URI("/home")).build();
+                    //ridirect back to home page?
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                }
             }
         }
     }
