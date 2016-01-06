@@ -44,16 +44,35 @@ public interface MySQLDAO {
         try {
             pstmt1 = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
             ResultSet rs = pstmt1.executeQuery();
+            
             rs.next();
             String privFilePath = rs.getNString(2);
             String statement = "load data infile '" + privFilePath + fileName + "' into table " + tableName + " ignore 1 lines";
-            statement = statement.replace('\\', '/');
-//            String statement = "load data infile 'C:/ProgramData/MySQL/MySQL Server 5.7/Uploads/categories.csv' into table categories ignore 1 lines";
+            statement = statement.replace('\\', '/');//Linux???
+            
             pstmt2 = conn.prepareStatement(statement);
             pstmt2.executeUpdate();
         }catch (SQLException ex) {
             //TODO!!
             System.out.println(ex);
+        }
+    }
+    
+    default void enableForeignKeyChecks(Connection conn) {
+        try  {
+            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 1");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    default void disableForeignKeyChecks(Connection conn) {
+        try  {
+            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 0");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

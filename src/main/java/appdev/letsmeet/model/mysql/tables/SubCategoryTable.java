@@ -24,8 +24,8 @@ public class SubCategoryTable implements MySQLDAO {
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
         "(SUB_CAT_ID int NOT NULL AUTO_INCREMENT, " +
-        "CAT_NAME varchar(40) NOT NULL, " +
-        "NAME varchar(40) NOT NULL, " 
+        "NAME varchar(40) NOT NULL, " +
+        "CAT_NAME varchar(40) NOT NULL, " 
             + "PRIMARY KEY (SUB_CAT_ID), " 
             + "FOREIGN KEY (CAT_NAME) REFERENCES categories(NAME))";
     
@@ -35,7 +35,9 @@ public class SubCategoryTable implements MySQLDAO {
     public SubCategoryTable(Connection conn) {
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-//        insertFromFile(conn, initFile, tableName);
+        disableForeignKeyChecks(conn);
+        insertFromFile(conn, initFile, tableName);
+        enableForeignKeyChecks(conn);
     }
     
     @Override
@@ -47,12 +49,12 @@ public class SubCategoryTable implements MySQLDAO {
             pstmt = conn.prepareStatement("INSERT INTO " +
                     tableName +
                     "(`SUB_CAT_ID`, "+
-                    "`CAT_ID`, "+
-                    "`NAME`)" +
+                    "`NAME`, "+
+                    "`CAT_NAME`)" +
                     "VALUES" +
                     "(<{SUB_CAT_ID: " + sCBean.subCatID + " }>, "+
-                    "<{CAT_ID: " + sCBean.categoryID + "}>, "+
-                    "<{NAME: " + sCBean.subCatname + "}>)");
+                    "<{NAME: " + sCBean.subCatname + "}>, "+
+                    "<{CAT_NAME: " + sCBean.catName + "}>)");
 
             pstmt.executeUpdate();
         }catch (SQLException ex) {
