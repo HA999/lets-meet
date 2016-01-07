@@ -20,7 +20,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -93,10 +92,10 @@ public class HomeController {
             
             //the user exists
             if(user != null){
-//                session.invalidate();
-//                session = request.getSession(true);
+                session.invalidate();
+                session = request.getSession(true);
                 session.setAttribute("user", user);
-//                model.addLoggedInUser(user);
+                model.addLoggedInUser(user);
                 
                 return Response.ok(user).build();
             }
