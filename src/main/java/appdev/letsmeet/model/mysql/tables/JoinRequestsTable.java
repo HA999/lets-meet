@@ -31,7 +31,7 @@ public class JoinRequestsTable implements MySQLDAO{
     
 
     @Override
-    public void insert(Connection conn, Serializable bean) {
+    public Serializable insert(Connection conn, Serializable bean) {
 //        JoinRequestBean jrBean = (JoinRequestBean) bean;
 //        PreparedStatement pstmt;
 //        
@@ -53,6 +53,6 @@ public class JoinRequestsTable implements MySQLDAO{
 //        }finally {
 //            if (conn != null) conn.close();
 //        }
+        return bean;
     }
-    
 }

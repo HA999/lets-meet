@@ -30,7 +30,7 @@ public class ActivityTypeSignUpTable implements MySQLDAO{
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) {
+    public Serializable insert(Connection conn, Serializable bean) {
 //        ActivityTypeSignUpBean atsBean = (ActivityTypeSignUpBean) bean;
 //        PreparedStatement pstmt;
 //        
@@ -55,6 +55,7 @@ public class ActivityTypeSignUpTable implements MySQLDAO{
 //            }finally {
 //                if (conn != null) conn.close();
 //            }
+        return bean;
     }
     
 }

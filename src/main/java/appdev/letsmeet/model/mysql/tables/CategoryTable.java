@@ -36,7 +36,7 @@ public class CategoryTable implements MySQLDAO {
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) {
+    public Serializable insert(Connection conn, Serializable bean) {
         String name = (String) bean;
         PreparedStatement pstmt;
                 
@@ -47,6 +47,8 @@ public class CategoryTable implements MySQLDAO {
             }catch (SQLException ex) {
                 System.out.println(ex);
             }
+        
+        return name;
     }
     
 }

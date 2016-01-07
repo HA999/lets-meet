@@ -73,19 +73,19 @@ public class RedisHandler {
         deleteKey(RedisProperties.categoryList);
     }
 
-    public void addLoggedInUser(int userID) {
+    public void addLoggedInUser(String userID) {
         Jedis j = pool.getResource();
-        j.sadd(loggedInUsers, Integer.toString(userID));
+        j.sadd(loggedInUsers, userID);
     }
     
-    public Boolean isLoggedInUser(int userID) {
+    public Boolean isLoggedInUser(String userID) {
         Jedis j = pool.getResource();
-        return j.sismember(loggedInUsers, Integer.toString(userID));
+        return j.sismember(loggedInUsers, userID);
     }
     
-    public void removeLoggedInUser(int userID) {
+    public void removeLoggedInUser(String userID) {
         Jedis j = pool.getResource();
-        j.srem(loggedInUsers, Integer.toString(userID));
+        j.srem(loggedInUsers, userID);
     }
 
     public boolean addActivity(ActivityBean updatedBean) {
