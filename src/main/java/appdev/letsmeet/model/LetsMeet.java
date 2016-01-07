@@ -69,14 +69,7 @@ public class LetsMeet {
         redisHandler.removeLoggedInUser(user.user_Id);
     }
 
-    public ActivityBean addNewActivity(ActivityBean bean) {
-        ActivityBean updatedBean = mysqlHandler.addActivity(bean);
-        
-        if(updatedBean != null){
-            if(redisHandler.addActivity(updatedBean)){
-                return updatedBean;
-            }
-        }
-        return null;
+    public List<ActivityBean> getUserActivities(LoginUserBean user) {
+        return mysqlHandler.getUserActivities(user);
     }
 }

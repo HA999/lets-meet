@@ -130,6 +130,8 @@ public class MySQLHandler {
             }
         } catch (SQLException ex) {
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(conn);
         }
         
         return user;
@@ -153,6 +155,17 @@ public class MySQLHandler {
 //        return con;
 //    }
 
+    public List<ActivityBean> getUserActivities(LoginUserBean user) {
+        Integer userID = user.user_Id;
+        Connection conn = getConnection();
+        try {
+            return activityTable.getUserActivities(conn, userID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
     public ActivityBean addActivity(ActivityBean bean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

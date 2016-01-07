@@ -5,8 +5,13 @@
  */
 package appdev.letsmeet.model.mysql.tables;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -14,9 +19,11 @@ import java.sql.Connection;
  */
 public class ActivityTable implements MySQLDAO{
 
+    private final String tableName = "activities";
+    
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
-        "Activities" +
+        tableName +
         "(ACT_ID int NOT NULL AUTO_INCREMENT, " +
         "NAME varchar(40) NOT NULL, " +
         "USER_ID int NOT NULL, " +
@@ -71,6 +78,14 @@ public class ActivityTable implements MySQLDAO{
 //                if (conn != null) conn.close();
 //            }
         }
+
+    public List<ActivityBean> getUserActivities(Connection conn, Integer userID) throws SQLException{
+        PreparedStatement pstmt = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
+        ResultSet rs = pstmt.executeQuery();
+        
+        conn.prepareStatement("SELECT * FROM " + tableName + " WHERE USERNAME = ? AND PASSWORD = ?");
+        return null;
+    }
     
     
 }
