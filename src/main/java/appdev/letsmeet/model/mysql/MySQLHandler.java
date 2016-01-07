@@ -166,6 +166,8 @@ public class MySQLHandler {
         } finally {
             closeConnection(conn);
         }
+    }
+    
     public ActivityBean addActivity(ActivityBean bean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

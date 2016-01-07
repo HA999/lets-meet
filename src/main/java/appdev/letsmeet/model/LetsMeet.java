@@ -72,4 +72,15 @@ public class LetsMeet {
     public List<ActivityBean> getUserActivities(LoginUserBean user) {
         return mysqlHandler.getUserActivities(user);
     }
+    
+    public ActivityBean addNewActivity(ActivityBean bean) {
+        ActivityBean updatedBean = mysqlHandler.addActivity(bean);
+        
+        if(updatedBean != null){
+            if(redisHandler.addActivity(updatedBean)){
+                return updatedBean;
+            }
+        }
+        return null;
+    }
 }

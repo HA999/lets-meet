@@ -8,6 +8,8 @@ package appdev.letsmeet.control.rest.application;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
