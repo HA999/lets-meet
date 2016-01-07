@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ import java.util.List;
 public class ActivityTable implements MySQLDAO{
 
     private final String tableName = "activities";
+    private final String actID_Col = "ACT_ID";
     
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
@@ -80,10 +82,16 @@ public class ActivityTable implements MySQLDAO{
         }
 
     public List<ActivityBean> getUserActivities(Connection conn, Integer userID) throws SQLException{
-        PreparedStatement pstmt = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
+        List<ActivityBean> resultList = new ArrayList<>();
+        ActivityBean currBean = new ActivityBean();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE USER_ID = ?");
+        pstmt.setString(1, userID.toString());
         ResultSet rs = pstmt.executeQuery();
+        while(rs.next()) {
+            currBean.userId = rs.getRow();
+            resultList.add()
+        }
         
-        conn.prepareStatement("SELECT * FROM " + tableName + " WHERE USERNAME = ? AND PASSWORD = ?");
         return null;
     }
     
