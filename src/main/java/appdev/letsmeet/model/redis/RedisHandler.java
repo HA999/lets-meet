@@ -5,10 +5,10 @@
  */
 package appdev.letsmeet.model.redis;
 
-import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
-import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -25,6 +25,7 @@ public class RedisHandler {
     private static final JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
     private final String loggedInUsers = "loggedInUsers";
     private final String activities = "activities";
+    private final long numActivities = 2;
     
     private RedisHandler() {
         System.out.println("RedisHandler instance created.");
@@ -97,12 +98,12 @@ public class RedisHandler {
         j.sadd(city, actId);
         j.sadd(subCatFullName, actId);
         j.lpush(activities, actId);
-        j.ltrim(activities, 0, 19);
+        j.ltrim(activities, 0, numActivities);
     }
     
-    public List<String> getTopNActivities(){
+    public List<String> getTopActivities(){
         Jedis j = pool.getResource();
-        return j.lrange(activities, 0, 19);
+        return j.lrange(activities, 0, numActivities);
     }
     
     public void deleteActivity(SubCategoryBean subCategory, String city, String actId){
@@ -115,7 +116,15 @@ public class RedisHandler {
     }
     
     public List<String> searchActivities(String subCategory, String category, String city){
-        return null;
+        Jedis j = pool.getResource();
+        String subCatFullName = category + "-" + subCategory;
+        Set<String> resSet = j.sinter(city, subCatFullName);
+        if(resSet.isEmpty()){
+            return null;
+        }
+        else{
+            return new ArrayList<>(resSet);
+        }
     }
 
 }
