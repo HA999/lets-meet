@@ -5,13 +5,13 @@
  */
 package appdev.letsmeet.control.utils.jsonBeans;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  *
  * @author leppa
  */
-public class ActivityBean {
+public class ActivityBean implements Serializable{
     public String actId;
     public String name;
     public String userId;

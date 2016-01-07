@@ -169,6 +169,14 @@ public class MySQLHandler {
     }
     
     public ActivityBean addActivity(ActivityBean bean) {
-        return null;
+        Connection conn = getConnection();
+        try{
+            return (ActivityBean) activityTable.insert(conn, bean);
+        }catch (SQLException ex){
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null; //or return the message
+        } finally {
+            closeConnection(conn);
+        }
     }
 }
