@@ -41,7 +41,7 @@ public class SubCategoryTable implements MySQLDAO {
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) {
+    public Serializable insert(Connection conn, Serializable bean) {
         SubCategoryBean sCBean = (SubCategoryBean) bean;
         PreparedStatement pstmt;
         
@@ -60,5 +60,7 @@ public class SubCategoryTable implements MySQLDAO {
         }catch (SQLException ex) {
             System.out.println(ex);
         }
+        
+        return sCBean;
     }    
 }

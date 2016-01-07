@@ -54,27 +54,23 @@ public class ActivitiesController {
     @Path("/new") //path for creating new activity
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewActivity(@PathParam("username") String username, ActivityBean bean){
-        //is there a need to check the username again in redis??
+        LoginUserBean user = this.getUserFromSession();
         
-        ActivityBean updatedBean = model.addNewActivity(bean);
-        if(updatedBean != null){
-            try {
-                //returns the created activity_id if seccessful 
-                return Response.seeOther(new URI("/")).status(201).entity(updatedBean.actId).build();
-            } catch (URISyntaxException ex) {
-                return Response.serverError().build();
+        if(isLoggedInUser(user)){
+            if(user.username.equals(username)){
+                bean.userId = user.user_Id;
+                ActivityBean updatedBean = model.addNewActivity(bean);
+                if(updatedBean != null){
+                    try {
+                        //returns the created activity_id if seccessful 
+                        return Response.seeOther(new URI("/")).status(201).entity(updatedBean.actId).build();
+                    } catch (URISyntaxException ex) {
+                        return Response.serverError().build();
+                    }
+                } 
             }
         }
-        else{
-            return Response.status(400).build();
-        }
-            
-       
-        //create the activity and enter to Activities table in MySQL
-        //add to the suitable table in REDIS
-        //if the activity was created ok, ridirect back to username/activities
-        //if not send error
-        //is there need to insert the activity_Ids to the session of the user so it can be accessible?
+        return Response.status(400).build();
     }
     
     @POST

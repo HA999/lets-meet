@@ -35,7 +35,7 @@ public interface MySQLDAO {
         }
     }
     
-    public void insert(Connection conn, Serializable bean) throws SQLException;
+    public Serializable insert(Connection conn, Serializable bean) throws SQLException;
     
     default public void insertFromFile(Connection conn, String fileName, String tableName) {
         PreparedStatement pstmt1;

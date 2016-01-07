@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
  * @author leppa
  */
 public class ActivityBean {
-    public int actId;
+    public String actId;
     public String name;
-    public int userId;
-    public String subCat;
-    public LocalDateTime createdTime;
-    public LocalDateTime dateTime;
+    public String userId;
+    public String subCatId;
+    public String createdTime;
+    public String dateTime;
     public String country;
     public String city;
     public String about;
-    //public int photo;
+    public String photo;
 }

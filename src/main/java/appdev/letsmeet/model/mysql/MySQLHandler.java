@@ -123,7 +123,7 @@ public class MySQLHandler {
             if (resultSet.next()) {
                 user.password = resultSet.getString("PASSWORD");
                 user.username = resultSet.getString("USERNAME");
-                user.user_Id = resultSet.getInt("USER_ID");
+                user.user_Id = Integer.toString(resultSet.getInt("USER_ID"));
             }
             else {
                 user = null;
@@ -156,7 +156,7 @@ public class MySQLHandler {
 //    }
 
     public List<ActivityBean> getUserActivities(LoginUserBean user) {
-        Integer userID = user.user_Id;
+        String userID = user.user_Id;
         Connection conn = getConnection();
         try {
             return activityTable.getUserActivities(conn, userID);
@@ -169,6 +169,6 @@ public class MySQLHandler {
     }
     
     public ActivityBean addActivity(ActivityBean bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 }

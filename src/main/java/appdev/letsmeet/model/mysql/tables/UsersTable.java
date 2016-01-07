@@ -45,7 +45,7 @@ public class UsersTable implements MySQLDAO{
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) throws SQLException{
+    public Serializable insert(Connection conn, Serializable bean) throws SQLException{
         RegistrationBean rBean = (RegistrationBean) bean;
         PreparedStatement pstmt;
         
@@ -73,6 +73,7 @@ public class UsersTable implements MySQLDAO{
                 + "'" + rBean.phone + "')");
 
         pstmt.executeUpdate();
+        return rBean;
     }
     
 

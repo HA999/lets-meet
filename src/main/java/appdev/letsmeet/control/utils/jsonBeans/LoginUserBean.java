@@ -14,5 +14,5 @@ import java.io.Serializable;
 public class LoginUserBean implements Serializable {
     public String username;
     public String password;
-    public int user_Id;
+    public String user_Id;
 }

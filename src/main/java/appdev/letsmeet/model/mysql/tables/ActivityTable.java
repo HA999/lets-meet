@@ -46,46 +46,38 @@ public class ActivityTable implements MySQLDAO{
     }
     
     @Override
-    public void insert(Connection conn, Serializable bean) {
-//        ActivityBean aBean = (ActivityBean) bean;
-//        PreparedStatement pstmt;
-//        
-//            try {
-//                validateInput(aBean);
-//                pstmt = conn.prepareStatement("INSERT INTO Activities "
-//                        + "(NAME, "
-//                        + "USER_ID, "
-//                        + "SUB_CAT_ID, "
-//                        + "DATE_TIME, "
-//                        + "COUNTRY_CODE, "
-//                        + "CITY_CODE, "
-//                        + "ABOUT, "
-//                        + "PHOTO) VALUES("
-//                        + "'" + aBean.name + "', "
-//                        + "'" + aBean.userID + "', "
-//                        + "'" + aBean.subCatId + "', "
-//                        + "'" + aBean.dareTime + "', "
-//                        + "'" + aBean.country + "', "
-//                        + "'" + aBean.city + "', "
-//                        + "'" + aBean.about + "', "
-//                        + "'" + aBean.photo + "')");
-//
-//                pstmt.executeUpdate();
-//            }catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//            }finally {
-//                if (conn != null) conn.close();
-//            }
-        }
+    public Serializable insert(Connection conn, Serializable bean) throws SQLException {
+        ActivityBean aBean = (ActivityBean) bean;
+        PreparedStatement pstmt;
+        
+        //validateInput(aBean);
+        pstmt = conn.prepareStatement("INSERT INTO Activities "
+                + "(NAME, "
+                + "USER_ID, "
+                + "SUB_CAT_ID, "
+                + "DATE_TIME, "
+                + "COUNTRY_CODE, "
+                + "CITY_CODE, "
+                + "ABOUT, "
+                + "PHOTO) VALUES("
+                + "'" + aBean.name + "', "
+                + "'" + aBean.userId + "', "
+                + "'" + aBean.subCatId + "', "
+                + "'" + aBean.dateTime + "', "
+                + "'" + aBean.country + "', "
+                + "'" + aBean.city + "', "
+                + "'" + aBean.about + "', "
+                + "'" + aBean.photo + "')");
 
-    public List<ActivityBean> getUserActivities(Connection conn, Integer userID) throws SQLException{
+        pstmt.executeUpdate();
+        return bean;
+    }
+
+    public List<ActivityBean> getUserActivities(Connection conn, String userID) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
         ResultSet rs = pstmt.executeQuery();
         
         conn.prepareStatement("SELECT * FROM " + tableName + " WHERE USERNAME = ? AND PASSWORD = ?");
         return null;
     }
-    
-    
 }
