@@ -6,13 +6,18 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
+import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
+import appdev.letsmeet.model.LetsMeet;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,6 +28,8 @@ import javax.ws.rs.core.Response;
 @Path("{username}/activities")
 public class ActivitiesController {
     
+    private final LetsMeet model = LetsMeet.getInstance();
+    @Context private HttpServletRequest request;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,7 +39,13 @@ public class ActivitiesController {
         //get the LoginUserBean from the session and search in MySQL activities table for all
         //the activities of the user by the user_id
         //return all the activities of the logged in user to show in the browser (on page)
-        return null;
+        LoginUserBean user = getUserFromSession();
+        if (isLoggedInUser(user)) {
+            return getUserActivities(user);
+        }
+        else {
+            return null;
+        }
     }
     
     @POST
@@ -69,6 +82,24 @@ public class ActivitiesController {
         return null;
     }
     
+    private Boolean isLoggedInUser(LoginUserBean user) {
+        if (user != null) {
+            return model.isLoggedInUser(user);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    private LoginUserBean getUserFromSession() {
+        HttpSession session = request.getSession();
+        return (LoginUserBean) session.getAttribute("user");
+    }
+    
+    private List<ActivityBean> getUserActivities(LoginUserBean user) {
+        return model.getUserActivities(user);
+    }
+    
 //    @GET
 //    @Path("{actid}/requests")
 //    @Consumes(MediaType.APPLICATION_JSON)
@@ -90,6 +121,7 @@ public class ActivitiesController {
 //        return null;
 //    }
 //    
+
     
 }
 

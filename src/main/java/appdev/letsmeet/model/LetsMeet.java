@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.MySQLHandler;
@@ -66,5 +67,9 @@ public class LetsMeet {
     
     public void removeLoggedInUser(LoginUserBean user) {
         redisHandler.removeLoggedInUser(user.user_Id);
+    }
+
+    public List<ActivityBean> getUserActivities(LoginUserBean user) {
+        return mysqlHandler.getUserActivities(user);
     }
 }

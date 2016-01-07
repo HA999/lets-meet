@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.mysql;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
 import appdev.letsmeet.model.mysql.tables.CategoryTable;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
@@ -129,6 +130,8 @@ public class MySQLHandler {
             }
         } catch (SQLException ex) {
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection(conn);
         }
         
         return user;
@@ -151,4 +154,17 @@ public class MySQLHandler {
 //        }
 //        return con;
 //    }
+
+    public List<ActivityBean> getUserActivities(LoginUserBean user) {
+        Integer userID = user.user_Id;
+        Connection conn = getConnection();
+        try {
+            return activityTable.getUserActivities(conn, userID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
 }
