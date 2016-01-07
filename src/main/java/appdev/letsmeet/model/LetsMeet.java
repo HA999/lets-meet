@@ -74,6 +74,7 @@ public class LetsMeet {
     }
     
     public ActivityBean addNewActivity(ActivityBean bean) {
+        //update the subcategory ID
         ActivityBean updatedBean = mysqlHandler.addActivity(bean);
         
         if(updatedBean != null){
