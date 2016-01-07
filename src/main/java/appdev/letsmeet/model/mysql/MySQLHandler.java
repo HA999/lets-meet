@@ -12,6 +12,7 @@ import appdev.letsmeet.model.mysql.tables.CategoryTable;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
+import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
 import appdev.letsmeet.model.mysql.tables.ActivityTypeSignUpTable;
 import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
@@ -175,7 +176,19 @@ public class MySQLHandler {
             return (ActivityBean) activityTable.insert(conn, bean);
         }catch (SQLException ex){
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
-            return null; //or return the message
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public SubCategoryBean getSubCategoryData(String subCatId) {
+        Connection conn = getConnection();
+        try{
+            return subCategoryTable.getSubCategoryData(conn, subCatId);
+        }catch (SQLException ex){
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } finally {
             closeConnection(conn);
         }

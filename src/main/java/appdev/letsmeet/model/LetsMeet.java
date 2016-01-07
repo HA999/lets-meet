@@ -9,6 +9,7 @@ import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
+import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
 import appdev.letsmeet.model.mysql.MySQLHandler;
 import appdev.letsmeet.model.redis.RedisHandler;
 import java.util.List;
@@ -75,13 +76,11 @@ public class LetsMeet {
     }
     
     public ActivityBean addNewActivity(ActivityBean bean) {
-        //update the subcategory ID
         ActivityBean updatedBean = mysqlHandler.addActivity(bean);
-        
+        SubCategoryBean subCategory = mysqlHandler.getSubCategoryData(bean.subCatId);
         if(updatedBean != null){
-            if(redisHandler.addActivity(updatedBean)){
-                return updatedBean;
-            }
+            redisHandler.addActivity(subCategory, updatedBean.city, updatedBean.actId);
+            return updatedBean;
         }
         return null;
     }
