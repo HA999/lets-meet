@@ -98,12 +98,15 @@ public class ActivityTable implements MySQLDAO{
     }
 
     public List<ActivityBean> getUserActivities(Connection conn, String userID) throws SQLException{
-        List<ActivityBean> resultList = new ArrayList<>();
-        ActivityBean currBean = new ActivityBean();
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + userID_Col + " = ?");
         pstmt.setString(1, userID);
-        pstmt.executeUpdate();
         ResultSet rs = pstmt.executeQuery();
+        return getUserActivitiesListFromResultSet(rs);
+    }
+    
+    private List<ActivityBean> getUserActivitiesListFromResultSet(ResultSet rs) throws SQLException {
+        List<ActivityBean> resultList = new ArrayList<>();
+        ActivityBean currBean = new ActivityBean();
         while(rs.next()) {
             currBean.actId = Integer.toString(rs.getInt(actID_Col));
             currBean.name = rs.getString(name_Col);

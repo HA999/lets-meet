@@ -6,6 +6,7 @@
 package appdev.letsmeet.model;
 
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.mysql.MySQLHandler;
@@ -83,5 +84,13 @@ public class LetsMeet {
             }
         }
         return null;
+    }
+
+    public List<ActivityRequestBean> getRequestsByActivityID(String actID) {
+        return mysqlHandler.getRequestsByActivityID(actID);
+    }
+    
+    public Boolean updateActivityRequest(String actID, String updateBool) {
+        return mysqlHandler.updateActivityRequest(actID, updateBool);
     }
 }

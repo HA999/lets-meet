@@ -5,8 +5,14 @@
  */
 package appdev.letsmeet.model.mysql.tables;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,16 +20,22 @@ import java.sql.Connection;
  */
 public class JoinRequestsTable implements MySQLDAO{
 
+    private final String tableName = "join_requests";
+    private final String creatorID_col = "CREATOR_ID";
+    private final String actID_col = "ACT_ID";
+    private final String requestingUserID_col = "USER_ID";
+    private final String accepted_col = "ACCEPTED";
+    
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
-        "Join_Requests" +
-        "(CREATOR_ID int NOT NULL, " +
-        "ACT_ID INT NOT NULL, " +
-        "USER_ID int NOT NULL, " +
-        "ACCEPTED boolean DEFAULT FALSE, " 
-            +"FOREIGN KEY (CREATOR_ID) REFERENCES Users(USER_ID), "
-            +"FOREIGN KEY (ACT_ID) REFERENCES Activities(ACT_ID), "
-            +"FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID))";
+        tableName +
+        "(" + creatorID_col + " int NOT NULL, " +
+        actID_col + "int NOT NULL, " +
+        requestingUserID_col + " int NOT NULL, " +
+        accepted_col + " boolean DEFAULT FALSE, " 
+            +"FOREIGN KEY ("+ creatorID_col +") REFERENCES Users(USER_ID), "
+            +"FOREIGN KEY ("+ actID_col +") REFERENCES Activities(ACT_ID), "
+            +"FOREIGN KEY ("+ requestingUserID_col +") REFERENCES Users(USER_ID))";
     
     public JoinRequestsTable(Connection conn) {
         createTable(conn, createString);
@@ -54,5 +66,47 @@ public class JoinRequestsTable implements MySQLDAO{
 //            if (conn != null) conn.close();
 //        }
         return bean;
+    }
+
+    public List<ActivityRequestBean> getRequestsByActivityID(Connection conn, String actID) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + actID_col + " = ?");
+        pstmt.setString(1, actID);
+        ResultSet rs = pstmt.executeQuery();
+        return getActivityRequestsListFromResultSet(rs);
+    }
+    
+    public List<ActivityRequestBean> getRequestsByRequestingUserID(Connection conn, String requestingUserID) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + requestingUserID_col + " = ?");
+        pstmt.setString(1, requestingUserID);
+        ResultSet rs = pstmt.executeQuery();
+        return getActivityRequestsListFromResultSet(rs);
+    }
+    
+    public List<ActivityRequestBean> getRequestsByCreatorID(Connection conn, String creatorID) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + creatorID_col + " = ?");
+        pstmt.setString(1, creatorID);
+        ResultSet rs = pstmt.executeQuery();
+        return getActivityRequestsListFromResultSet(rs);
+    }
+    
+    private List<ActivityRequestBean> getActivityRequestsListFromResultSet(ResultSet rs) throws SQLException {
+        List<ActivityRequestBean> resultList = new ArrayList<>();
+        ActivityRequestBean currBean = new ActivityRequestBean();
+        while(rs.next()) {
+            currBean.creatorID = rs.getString(creatorID_col);
+            currBean.actID = rs.getString(actID_col);
+            currBean.requestingUser = rs.getString(requestingUserID_col);
+            currBean.accepted = rs.getString(accepted_col);
+            resultList.add(currBean);
+        }
+        return resultList;
+    }
+
+    public Boolean updateActivityRequest(Connection conn, String actID, String updateBool) throws SQLException{
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE " + tableName +
+                " SET  " + accepted_col + " = ? WHERE " + actID_col + " = ?");
+        pstmt.setString(1, updateBool);
+        pstmt.setString(2, actID);
+        return pstmt.executeUpdate() > 0;
     }
 }

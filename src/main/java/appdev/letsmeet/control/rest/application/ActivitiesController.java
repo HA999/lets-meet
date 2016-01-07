@@ -36,14 +36,9 @@ public class ActivitiesController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ActivityBean> getUserActivities(@PathParam("username") String username){
-        //need to call this GET on load of the activities page
-        //check if the userneme exists in the Redis loggedin users and is in user session
-        //get the LoginUserBean from the session and search in MySQL activities table for all
-        //the activities of the user by the user_id
-        //return all the activities of the logged in user to show in the browser (on page)
         LoginUserBean user = getUserFromSession();
         if (isLoggedInUser(user)) {
-            return getUserActivities(user);
+            return model.getUserActivities(user);
         }
         else {
             return null;
@@ -77,7 +72,7 @@ public class ActivitiesController {
     @Path("{actid}/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ActivityBean updateActivity(@PathParam("actid") int actId, ActivityBean bean){
+    public ActivityBean updateActivity(@PathParam("actid") String actId, ActivityBean bean){
         //update in Redis and SQL the specific activity
         //if successful ridirect back to "{username}/activities" url
         return null;
@@ -85,12 +80,46 @@ public class ActivitiesController {
     
     @POST
     @Path("{actid}/delete")
-    public Response deleteActivity(@PathParam("actid") int actId){
+    public Response deleteActivity(@PathParam("actid") String actId){
         
         //search the actid in SQL and Redis and delete it!
         //Send updated list of activities???
         //if successful ridirect back to "{username}/activities" url
         return null;
+    }
+    
+    @GET
+    @Path("{actid}/requests")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRequestsByActivityID(@PathParam("actid") String actID) {
+        LoginUserBean user = getUserFromSession();
+        if (isLoggedInUser(user)) {
+            return Response.status(Response.Status.OK).entity(model.getRequestsByActivityID(actID)).build();
+        }
+        else {
+            try {
+                return Response.seeOther(new URI("/")).status(201).build();
+            } catch (URISyntaxException ex) {
+                return Response.serverError().build();
+            }
+        }
+    }
+    
+    @POST
+    @Path("{actid}/requests")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateActivityRequest(@PathParam("actid") String actID, String updateBool) {
+        LoginUserBean user = getUserFromSession();
+        if (isLoggedInUser(user)) {
+            if (model.updateActivityRequest(actID, updateBool)) {
+                return Response.accepted().build();
+            }
+            else {
+                return Response.notModified().build();
+            }
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     private Boolean isLoggedInUser(LoginUserBean user) {
@@ -111,19 +140,6 @@ public class ActivitiesController {
             return null;
         }
     }
-    
-    private List<ActivityBean> getUserActivities(LoginUserBean user) {
-        return model.getUserActivities(user);
-    }
-    
-//    @GET
-//    @Path("{actid}/requests")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<activityRequsetBean> getRequests(@PathParam("actid") int actId){
-//        //gets all the activity requests for the specific activity
-//        return null;
-//    }
     
     //Post method that accepsts or delcines the request and deletes it???
 

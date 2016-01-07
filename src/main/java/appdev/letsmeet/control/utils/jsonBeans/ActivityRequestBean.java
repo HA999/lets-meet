@@ -11,9 +11,9 @@ import java.io.Serializable;
  *
  * @author HA999
  */
-public class SubCategoryBean implements Serializable{
-    
-    public String subCatID;
-    public String subCatname;
-    public String catName;
+public class ActivityRequestBean implements Serializable{
+    public String creatorID;
+    public String actID;
+    public String accepted;
+    public String requestingUser;
 }
