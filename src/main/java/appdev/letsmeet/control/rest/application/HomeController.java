@@ -93,10 +93,10 @@ public class HomeController {
             
             //the user exists
             if(user != null){
-                session.invalidate();
-                session = request.getSession(true);
+//                session.invalidate();
+//                session = request.getSession(true);
                 session.setAttribute("user", user);
-                model.addLoggedInUser(user);
+//                model.addLoggedInUser(user);
                 
                 return Response.ok(user).build();
             }

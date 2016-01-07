@@ -103,7 +103,7 @@ public class ActivitiesController {
     }
     
     private LoginUserBean getUserFromSession() {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         if (session != null) {
             return (LoginUserBean) session.getAttribute("user");
         }

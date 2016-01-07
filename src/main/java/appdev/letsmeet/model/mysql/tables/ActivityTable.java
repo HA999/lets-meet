@@ -89,9 +89,6 @@ public class ActivityTable implements MySQLDAO{
         try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
             if (generatedKeys.next()) {
                 aBean.actId = Integer.toString(generatedKeys.getInt(1));
-//                if (generatedKeys.next()) {
-//                    aBean.createdTime = generatedKeys.getString(2);
-//                }
             }
             else {
                 throw new SQLException("Creating activity failed, no ID obtained.");
