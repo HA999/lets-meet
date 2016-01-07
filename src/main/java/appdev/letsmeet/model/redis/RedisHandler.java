@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.redis;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import java.util.List;
 import redis.clients.jedis.Jedis;
@@ -85,6 +86,10 @@ public class RedisHandler {
     public void removeLoggedInUser(int userID) {
         Jedis j = pool.getResource();
         j.srem(loggedInUsers, Integer.toString(userID));
+    }
+
+    public boolean addActivity(ActivityBean updatedBean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.model.mysql;
 
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
 import appdev.letsmeet.model.mysql.tables.CategoryTable;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
@@ -151,4 +152,8 @@ public class MySQLHandler {
 //        }
 //        return con;
 //    }
+
+    public ActivityBean addActivity(ActivityBean bean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
