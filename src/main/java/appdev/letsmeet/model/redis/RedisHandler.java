@@ -5,8 +5,6 @@
  */
 package appdev.letsmeet.model.redis;
 
-import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
-import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
 import java.util.List;
 import redis.clients.jedis.Jedis;

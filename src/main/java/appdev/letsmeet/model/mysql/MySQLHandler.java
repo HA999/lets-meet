@@ -206,10 +206,10 @@ public class MySQLHandler {
         }
     }
 
-    public Boolean updateActivityRequest(String actID, String updateBool) {
+    public Boolean updateActivityRequest(ActivityRequestBean reqBean) {
         Connection conn = getConnection();
         try {
-            return joinRequests.updateActivityRequest(conn, actID, updateBool);
+            return joinRequests.updateActivityRequest(conn, reqBean);
         } catch (SQLException ex){
             System.out.println(ex);
             return null;

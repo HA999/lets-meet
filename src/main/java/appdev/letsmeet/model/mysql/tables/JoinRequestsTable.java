@@ -102,11 +102,13 @@ public class JoinRequestsTable implements MySQLDAO{
         return resultList;
     }
 
-    public Boolean updateActivityRequest(Connection conn, String actID, String updateBool) throws SQLException{
+    public Boolean updateActivityRequest(Connection conn, ActivityRequestBean reqBean) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement("UPDATE " + tableName +
-                " SET  " + accepted_col + " = ? WHERE " + actID_col + " = ?");
-        pstmt.setString(1, updateBool);
-        pstmt.setString(2, actID);
+                " SET  " + accepted_col + " = ? WHERE " + actID_col + " = ? AND " + requestingUserID_col + " = ?");
+        pstmt.setString(1, reqBean.accepted);
+        pstmt.setString(2, reqBean.actID);
+        pstmt.setString(3, reqBean.requestingUser);
+        
         return pstmt.executeUpdate() > 0;
     }
 }

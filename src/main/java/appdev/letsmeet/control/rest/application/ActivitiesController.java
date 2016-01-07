@@ -6,6 +6,7 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
 import java.net.URI;
@@ -109,10 +110,10 @@ public class ActivitiesController {
     @POST
     @Path("{actid}/requests")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateActivityRequest(@PathParam("actid") String actID, String updateBool) {
+    public Response updateActivityRequest(@PathParam("actid") String actID, ActivityRequestBean bean) {
         LoginUserBean user = getUserFromSession();
-        if (isLoggedInUser(user)) {
-            if (model.updateActivityRequest(actID, updateBool)) {
+        if (isLoggedInUser(user) || !actID.equals(bean.actID)) {
+            if (model.updateActivityRequest(bean)) {
                 return Response.accepted().build();
             }
             else {

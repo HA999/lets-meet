@@ -89,7 +89,12 @@ public class LetsMeet {
         return mysqlHandler.getRequestsByActivityID(actID);
     }
     
-    public Boolean updateActivityRequest(String actID, String updateBool) {
-        return mysqlHandler.updateActivityRequest(actID, updateBool);
+    public Boolean updateActivityRequest(ActivityRequestBean reqBean) {
+        if (reqBean != null) {
+            return mysqlHandler.updateActivityRequest(reqBean);
+        }
+        else {
+            return false;
+        }
     }
 }
