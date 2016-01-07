@@ -5,39 +5,57 @@
  */
 package appdev.letsmeet.model.mysql.tables;
 
+import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  *
  * @author HA999
  */
-public class UsersTable implements MySQLDAO{
+public class UsersTable implements MySQLDAO {
+    
+    private final String tableName = "users";
+    private final String userID_col = "USER_ID";
+    private final String userName_col = "USERNAME";
+    private final String email_col = "EMAIL";
+    private final String password_col = "PASSWORD";
+    private final String createTime_col = "CREATE_TIME";
+    private final String firstName_col = "FIRST_NAME";
+    private final String lastName_col = "LAST_NAME";
+    private final String countryCode_col = "COUNTRY_CODE";
+    private final String cityCode_col = "CITY_CODE";
+    private final String gender_col = "GENDER";
+    private final String dateOfBirth_col = "DATE_OF_BIRTH";
+    private final String phone_col = "PHONE";
+    private final String about_col = "ABOUT";
+    private final String photo_col = "PHOTO";
     
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
-        "Users" +
-        "(USER_ID int NOT NULL AUTO_INCREMENT, " +
-        "USERNAME varchar(40) NOT NULL UNIQUE, " +
-        "EMAIL varchar(255) NOT NULL UNIQUE, " +
-        "PASSWORD varchar(255) NOT NULL, " +
-        "CREATE_TIME timestamp, " +
-        "FIRST_NAME varchar(40) NOT NULL, " +
-        "LAST_NAME varchar(40) NOT NULL, " +
-        "COUNTRY_CODE char(3), " +
-        "CITY_CODE char(20), " +
-        "GENDER char(1), " +
-        "DATE_OF_BIRTH date, " +
-        "PHONE varchar(40), " +
-        "ABOUT longtext, " +
-        "PHOTO blob, " 
-            + "PRIMARY KEY (USER_ID))";
+        tableName +
+        "(" + userID_col + " int NOT NULL AUTO_INCREMENT, " +
+        userName_col + " varchar(40) NOT NULL UNIQUE, " +
+        email_col + " varchar(255) NOT NULL UNIQUE, " +
+        password_col + " varchar(255) NOT NULL, " +
+        createTime_col + " timestamp, " +
+        firstName_col + " varchar(40) NOT NULL, " +
+        lastName_col + " varchar(40) NOT NULL, " +
+        countryCode_col + " char(3), " +
+        cityCode_col + " char(20), " +
+        gender_col + " char(1), " +
+        dateOfBirth_col + " date, " +
+        phone_col + " varchar(40), " +
+        about_col + " longtext, " +
+        photo_col + " blob, " 
+            + "PRIMARY KEY (" + userID_col + "))";
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON "
-            + "Users (USER_ID)";
+            + "Users (" + userID_col + ")";
     
     public UsersTable(Connection conn) {
         createTable(conn, createString);
@@ -50,17 +68,18 @@ public class UsersTable implements MySQLDAO{
         PreparedStatement pstmt;
         
         validateInput(rBean);
-        pstmt = conn.prepareStatement("INSERT INTO users "
-                + "(USERNAME, "
-                + "EMAIL, "
-                + "PASSWORD, "
-                + "FIRST_NAME, "
-                + "LAST_NAME, "
-                + "COUNTRY_CODE, "
-                + "CITY_CODE, "
-                + "GENDER, "
-                + "DATE_OF_BIRTH,"
-                + "PHONE) VALUES("
+        pstmt = conn.prepareStatement("INSERT INTO " + tableName 
+                + "(" + userName_col + ", "
+                + email_col + ", "
+                + password_col + ", "
+                + firstName_col + ", "
+                + lastName_col + ", "
+                + countryCode_col + ", "
+                + cityCode_col + ", "
+                + gender_col + ", "
+                + dateOfBirth_col + ","
+                + phone_col + ","
+                + photo_col + ") VALUES("
                 + "'" + rBean.username + "', "
                 + "'" + rBean.email + "', "
                 + "'" + rBean.password + "', "
@@ -70,7 +89,8 @@ public class UsersTable implements MySQLDAO{
                 + "'" + rBean.city + "', "
                 + "'" + rBean.gender + "', "
                 + "'" + rBean.dateofbirth + "', "
-                + "'" + rBean.phone + "')");
+                + "'" + rBean.phone + "', "
+                + "'" + rBean.photo +"')");
 
         pstmt.executeUpdate();
         return rBean;
@@ -79,6 +99,24 @@ public class UsersTable implements MySQLDAO{
 
     private void validateInput(RegistrationBean bean) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public LoginUserBean authenticateUser(Connection conn, String username, String password) throws SQLException {
+        LoginUserBean user = new LoginUserBean();
+        PreparedStatement authenticateUserStatement;
+        authenticateUserStatement = conn.prepareStatement("SELECT * FROM " + tableName +" WHERE " + userName_col + " = ? AND " + password_col + "= ?");
+        authenticateUserStatement.setString(1, username);
+        authenticateUserStatement.setString(2, password);
+        ResultSet resultSet = authenticateUserStatement.executeQuery();
+        if (resultSet.next()) {
+            user.password = resultSet.getString(password_col);
+            user.username = resultSet.getString(userName_col);
+            user.user_Id = Integer.toString(resultSet.getInt(userID_col));
+        }
+        else {
+            user = null;
+        }
+        return user;
     }
 
 }

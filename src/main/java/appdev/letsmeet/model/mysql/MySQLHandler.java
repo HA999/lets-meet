@@ -100,7 +100,6 @@ public class MySQLHandler {
             usersTable.insert(conn , rBean);
             return authenticateUser(rBean.username, rBean.password);
         }catch (SQLException ex) {
-            System.out.println("AHHHAHAHAHAHAHAHAHAHAH!!!!!!!!!");
             System.out.println(ex);
             return null;
         }finally {
@@ -113,30 +112,16 @@ public class MySQLHandler {
     }
     
     public LoginUserBean authenticateUser(String username, String password){
-        LoginUserBean user = new LoginUserBean();
-        PreparedStatement authenticateUserStatement;
         Connection conn = getConnection();
-        
         try {
-            authenticateUserStatement = conn.prepareStatement("SELECT * FROM Users WHERE USERNAME = ? AND PASSWORD = ?");
-            authenticateUserStatement.setString(1, username);
-            authenticateUserStatement.setString(2, password);
-            ResultSet resultSet = authenticateUserStatement.executeQuery();
-            if (resultSet.next()) {
-                user.password = resultSet.getString("PASSWORD");
-                user.username = resultSet.getString("USERNAME");
-                user.user_Id = Integer.toString(resultSet.getInt("USER_ID"));
-            }
-            else {
-                user = null;
-            }
+            return usersTable.authenticateUser(conn, username, password);
+            
         } catch (SQLException ex) {
             Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } finally {
             closeConnection(conn);
         }
-        
-        return user;
     }
     
     
