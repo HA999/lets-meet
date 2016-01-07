@@ -22,23 +22,32 @@ public class ActivityTable implements MySQLDAO{
 
     private final String tableName = "activities";
     private final String actID_Col = "ACT_ID";
+    private final String name_Col = "NAME";
+    private final String userID_Col = "USER_ID";
+    private final String subCatID_Col = "SUB_CAT_ID";
+    private final String createTime_Col = "CREATE_TIME";
+    private final String dateTime_Col = "DATE_TIME";
+    private final String countryCode_Col = "COUNTRY_CODE";
+    private final String cityCode_Col = "CITY_CODE";
+    private final String about_Col = "ABOUT";
+    private final String photo_Col = "PHOTO";
     
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
-        "(ACT_ID int NOT NULL AUTO_INCREMENT, " +
-        "NAME varchar(40) NOT NULL, " +
-        "USER_ID int NOT NULL, " +
-        "SUB_CAT_ID int NOT NULL, " +
-        "CREATE_TIME timestamp, " +
-        "DATE_TIME datetime NOT NULL, " +
-        "COUNTRY_CODE char(3), " +
-        "CITY_CODE char(20), " +
-        "ABOUT longtext, " +
-        "PHOTO blob, "
-            +"PRIMARY KEY (ACT_ID), "
-            +"FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID), "
-            +"FOREIGN KEY (SUB_CAT_ID) REFERENCES subcategory(SUB_CAT_ID))";
+        "( "+ actID_Col + " int NOT NULL AUTO_INCREMENT, " +
+        name_Col + " varchar(40) NOT NULL, " +
+        userID_Col + " int NOT NULL, " +
+        subCatID_Col + " int NOT NULL, " +
+        createTime_Col +" timestamp, " +
+        dateTime_Col + " datetime NOT NULL, " +
+        countryCode_Col + " char(3), " +
+        cityCode_Col + " char(20), " +
+        about_Col +" longtext, " +
+        photo_Col +" blob, "
+            +"PRIMARY KEY (" + actID_Col + "), "
+            +"FOREIGN KEY (" + userID_Col + ") REFERENCES Users(USER_ID), "
+            +"FOREIGN KEY (" + subCatID_Col + ") REFERENCES subcategory(SUB_CAT_ID))";
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";
     
@@ -53,15 +62,15 @@ public class ActivityTable implements MySQLDAO{
         PreparedStatement pstmt;
         
         //validateInput(aBean);
-        pstmt = conn.prepareStatement("INSERT INTO Activities "
-                + "(NAME, "
-                + "USER_ID, "
-                + "SUB_CAT_ID, "
-                + "DATE_TIME, "
-                + "COUNTRY_CODE, "
-                + "CITY_CODE, "
-                + "ABOUT, "
-                + "PHOTO) VALUES("
+        pstmt = conn.prepareStatement("INSERT INTO " + tableName
+                + "(" + name_Col + ", "
+                + userID_Col + ", "
+                + subCatID_Col + ", "
+                + dateTime_Col + ", "
+                + countryCode_Col +", "
+                + cityCode_Col + ", "
+                + about_Col + ", "
+                + photo_Col + ") VALUES("
                 + "'" + aBean.name + "', "
                 + "'" + aBean.userId + "', "
                 + "'" + aBean.subCatId + "', "
@@ -70,24 +79,30 @@ public class ActivityTable implements MySQLDAO{
                 + "'" + aBean.city + "', "
                 + "'" + aBean.about + "', "
                 + "'" + aBean.photo + "')");
-
-    public List<ActivityBean> getUserActivities(Connection conn, Integer userID) throws SQLException{
-        List<ActivityBean> resultList = new ArrayList<>();
-        ActivityBean currBean = new ActivityBean();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE USER_ID = ?");
-        pstmt.setString(1, userID.toString());
         pstmt.executeUpdate();
-        return bean;
+        return bean;        
     }
 
     public List<ActivityBean> getUserActivities(Connection conn, String userID) throws SQLException{
-        PreparedStatement pstmt = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
+        List<ActivityBean> resultList = new ArrayList<>();
+        ActivityBean currBean = new ActivityBean();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + userID_Col + " = ?");
+        pstmt.setString(1, userID);
+        pstmt.executeUpdate();
         ResultSet rs = pstmt.executeQuery();
         while(rs.next()) {
-            currBean.userId = rs.getRow();
-            resultList.add()
+            currBean.actId = Integer.toString(rs.getInt(actID_Col));
+            currBean.name = rs.getString(name_Col);
+            currBean.userId = rs.getString(userID_Col);
+            currBean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
+            currBean.dateTime = rs.getString(dateTime_Col);
+            currBean.country = rs.getString(countryCode_Col);
+            currBean.city = rs.getString(cityCode_Col);
+            currBean.about = rs.getString(about_Col);
+            currBean.photo = rs.getString(photo_Col);
+            resultList.add(currBean);
         }
-        
-        return null;
+        return resultList;
     }
+
 }
