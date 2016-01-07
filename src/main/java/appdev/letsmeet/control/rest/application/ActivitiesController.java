@@ -103,8 +103,13 @@ public class ActivitiesController {
     }
     
     private LoginUserBean getUserFromSession() {
-        HttpSession session = request.getSession();
-        return (LoginUserBean) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (LoginUserBean) session.getAttribute("user");
+        }
+        else {
+            return null;
+        }
     }
     
     private List<ActivityBean> getUserActivities(LoginUserBean user) {
@@ -136,4 +141,13 @@ public class ActivitiesController {
     
 }
 
+//{
+//	"name": "fun",
+//	"subCatId": "2",
+//	"dateTime": "2015-02-11",
+//	"country": "JPN",
+//	"city": "Tokyo",
+//	"about": "bla",
+//	"photo": "blaaa"
+//}
 
