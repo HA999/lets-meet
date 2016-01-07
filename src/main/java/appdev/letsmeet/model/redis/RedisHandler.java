@@ -7,6 +7,7 @@ package appdev.letsmeet.model.redis;
 
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
+import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
 import java.util.List;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -23,6 +24,7 @@ public class RedisHandler {
     private static RedisHandler redisHandlerInstance;
     private static final JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
     private final String loggedInUsers = "loggedInUsers";
+    private final String activities = "activities";
     
     private RedisHandler() {
         System.out.println("RedisHandler instance created.");
@@ -88,8 +90,32 @@ public class RedisHandler {
         j.srem(loggedInUsers, userID);
     }
 
-    public boolean addActivity(ActivityBean updatedBean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addActivity(SubCategoryBean subCategory, String city, String actId) {
+        Jedis j = pool.getResource();
+        String subCatFullName = subCategory.catName + "-" + subCategory.subCatname; 
+        
+        j.sadd(city, actId);
+        j.sadd(subCatFullName, actId);
+        j.lpush(activities, actId);
+        j.ltrim(activities, 0, 19);
+    }
+    
+    public List<String> getTopNActivities(){
+        Jedis j = pool.getResource();
+        return j.lrange(activities, 0, 19);
+    }
+    
+    public void deleteActivity(SubCategoryBean subCategory, String city, String actId){
+        Jedis j = pool.getResource();
+        String subCatFullName = subCategory.catName + "-" + subCategory.subCatname;
+        
+        j.srem(city, actId);
+        j.srem(subCatFullName, actId);
+        j.lrem(activities, 0, actId);
+    }
+    
+    public List<String> searchActivities(String subCategory, String category, String city){
+        return null;
     }
 
 }

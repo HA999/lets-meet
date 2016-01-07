@@ -102,7 +102,6 @@ public class ActivityTable implements MySQLDAO{
         ActivityBean currBean = new ActivityBean();
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + userID_Col + " = ?");
         pstmt.setString(1, userID);
-        pstmt.executeUpdate();
         ResultSet rs = pstmt.executeQuery();
         while(rs.next()) {
             currBean.actId = Integer.toString(rs.getInt(actID_Col));

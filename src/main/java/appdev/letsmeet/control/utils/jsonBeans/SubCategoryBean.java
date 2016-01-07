@@ -15,6 +15,5 @@ public class SubCategoryBean implements Serializable{
     
     public String subCatID;
     public String subCatname;
-    public String categoryID;
     public String catName;
 }
