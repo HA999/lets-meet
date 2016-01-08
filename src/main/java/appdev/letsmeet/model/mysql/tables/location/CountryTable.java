@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class CountryTable implements MySQLDAO {
     
     private final String tableName = "country";
-    private final String initFile = "\\country.txt";
+    private final String initFile = "country.txt";
     private final String createStatement = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
     "  `Code` char(3) NOT NULL DEFAULT '',\n" +
     "  `Name` char(52) NOT NULL DEFAULT '',\n" +
@@ -38,8 +38,9 @@ public class CountryTable implements MySQLDAO {
     ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
     public CountryTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createStatement);
-        insertFromFile(conn, filePath + initFile, tableName);
+        insertFromFile(conn, initFile, tableName);
     }
     
     @Override

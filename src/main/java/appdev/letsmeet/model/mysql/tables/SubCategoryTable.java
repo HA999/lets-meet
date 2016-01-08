@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class SubCategoryTable implements MySQLDAO {
        
-    private final String initFile = "\\sub-categories.txt";
+    private final String initFile = "sub-categories.txt";
     private final String tableName = "subcategory";
     private final String subCatID_Col = "SUB_CAT_ID";
     private final String name_Col = "NAME";
@@ -38,12 +38,11 @@ public class SubCategoryTable implements MySQLDAO {
     private final String indexString = "CREATE UNIQUE INDEX sub_category_index ON "
             + tableName + "(" + subCatID_Col + ")";
     
-    public SubCategoryTable(Connection conn) {
+    public SubCategoryTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-        disableForeignKeyChecks(conn);
         insertFromFile(conn, initFile, tableName);
-        enableForeignKeyChecks(conn);
     }
     
     @Override

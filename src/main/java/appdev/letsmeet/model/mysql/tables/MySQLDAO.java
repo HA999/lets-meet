@@ -5,11 +5,18 @@
  */
 package appdev.letsmeet.model.mysql.tables;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.channels.FileChannel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,12 +44,17 @@ public interface MySQLDAO {
     
     public Serializable insert(Connection conn, Serializable bean) throws SQLException;
     
-    default public void insertFromFile(Connection conn, String filePath, String tableName) {
+    default public void insertFromFile(Connection conn, String fileName, String tableName) {
         PreparedStatement pstmt1;
         PreparedStatement pstmt2;
         
         try {
-            String statement = "load data infile '" + filePath + "' into table " + tableName + " ignore 1 lines";
+            pstmt1 = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
+            ResultSet rs = pstmt1.executeQuery();
+            rs.next();
+            String privFilePath = rs.getNString(2);
+            
+            String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName;
             statement = statement.replace('\\', '/');//Linux???
             
             pstmt2 = conn.prepareStatement(statement);
@@ -53,21 +65,53 @@ public interface MySQLDAO {
         }
     }
     
-    default void enableForeignKeyChecks(Connection conn) {
-        try  {
-            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 1");
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    default public void copyDataFileToMySQLFileDirectory (Connection conn, String filePath, String fileName) {
+        PreparedStatement pstmt;
+        try {
+            pstmt = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            String privFilePath = rs.getNString(2);
+            
+            copyFile(filePath + fileName, privFilePath +fileName);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(MySQLDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    default void disableForeignKeyChecks(Connection conn) {
-        try  {
-            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 0");
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    default void copyFile(String sourcePath, String destPath) throws IOException {
+        File source = new File(sourcePath);
+        File dest = new File(destPath);
+        
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } finally {
+            inputChannel.close();
+            outputChannel.close();
         }
     }
+    
+//    default void enableForeignKeyChecks(Connection conn) {
+//        try  {
+//            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 1");
+//            pstmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    
+//    default void disableForeignKeyChecks(Connection conn) {
+//        try  {
+//            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 0");
+//            pstmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

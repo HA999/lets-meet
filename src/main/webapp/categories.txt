@@ -1,4 +1,3 @@
-CAT_ID	NAME
 1	Sports
 2	Development
 3	Pets

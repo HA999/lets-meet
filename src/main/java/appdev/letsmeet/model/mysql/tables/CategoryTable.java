@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class CategoryTable implements MySQLDAO {
     
-    private final String initFile = "\\categories.txt";
+    private final String initFile = "categories.txt";
     private final String tableName = "categories";
     
     private final String createString = 
@@ -29,7 +29,8 @@ public class CategoryTable implements MySQLDAO {
     private final String indexString = "CREATE UNIQUE INDEX category_index ON "
             + tableName + " (NAME)";
     
-    public CategoryTable(Connection conn) {
+    public CategoryTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
         defineIndexes(conn, indexString);
         insertFromFile(conn, initFile, tableName);

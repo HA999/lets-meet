@@ -29,6 +29,12 @@ public class CityTable implements MySQLDAO {
     "  CONSTRAINT `city_ibfk_1` FOREIGN KEY (`CountryCode`) REFERENCES `country` (`Code`)\n" +
     ") ENGINE=InnoDB AUTO_INCREMENT=4080 DEFAULT CHARSET=latin1;";
     
+    public CityTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
+        createTable(conn, createStatement);
+        insertFromFile(conn, initFile, tableName);
+    }
+    
     @Override
     public Serializable insert(Connection conn, Serializable bean) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

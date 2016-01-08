@@ -1,4 +1,3 @@
-SUB_CAT_ID	CAT_NAME	NAME
 1	Sports	Tennis
 2	Sports	Soccer
 3	Sports	Basketball
