@@ -111,7 +111,14 @@ public class MySQLHandler {
     }
 
     public List<String> getCategoryList() {
-        return null;
+        Connection conn = getConnection();
+        try {
+            return categoryTable.getCategoryList(conn);
+        } catch (SQLException ex) {
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
     }
     
     public LoginUserBean authenticateUser(String username, String password){
@@ -238,6 +245,41 @@ public class MySQLHandler {
             return joinRequests.updateActivityRequest(conn, reqBean);
         } catch (SQLException ex){
             System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public List<String> getCountryList() {
+        Connection conn = getConnection();
+        try {
+            return countryTable.getCountryNames(conn);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public List<String> getCitiesInCountyList(String country) {
+        Connection conn = getConnection();
+        try {
+            return cityTable.getCitiesInCountryList(conn, country);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public List<String> getSubCategoriesInCategoryList(String category) {
+        Connection conn = getConnection();
+        try {
+            return subCategoryTable.getSubCategoriesInCategoryList(conn, category);
+        } catch (SQLException ex) {
             return null;
         } finally {
             closeConnection(conn);

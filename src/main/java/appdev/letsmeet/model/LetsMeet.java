@@ -46,10 +46,6 @@ public class LetsMeet {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<String> getCategoryList() {
-//        return mysqlHandler.getCategoryList();
-        return redisHandler.getCategoryList();
-    }
     
     public LoginUserBean authenticateUser(String username, String password){
         return mysqlHandler.authenticateUser(username, password);
@@ -120,4 +116,22 @@ public class LetsMeet {
             return false;
         }
     }
+    
+    public List<String> getCountryList() {
+        return mysqlHandler.getCountryList();
+    }
+    
+    public List<String> getCitiesInCountryList(String country) {
+        return mysqlHandler.getCitiesInCountyList(country);
+    }
+    
+    public List<String> getCategoryList() {
+        return mysqlHandler.getCategoryList();
+    }
+    
+    public List<String> getSubCategoriesInCategoryList(String category) {
+        return mysqlHandler.getSubCategoriesInCategoryList(category);
+    }
+    
+    
 }

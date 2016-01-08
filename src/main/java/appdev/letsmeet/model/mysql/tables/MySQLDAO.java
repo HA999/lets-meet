@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,25 +26,47 @@ import java.util.logging.Logger;
  */
 public interface MySQLDAO {
     
-    default void createTable(Connection conn , String statement) {
-        try  {
-            PreparedStatement pstmt = conn.prepareStatement(statement);
-            pstmt.executeUpdate(statement);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    default void createTable(Connection conn , String createStatment) {
+        executeUpdateStatment(conn, createStatment);
     }
     
     default void defineIndexes(Connection conn, String index) {
+        executeUpdateStatment(conn, index);
+    }
+    
+    default void executeUpdateStatment(Connection conn, String stmt) {
         try  {
-            PreparedStatement pstmt = conn.prepareStatement(index);
-            pstmt.executeUpdate(index);
+            PreparedStatement pstmt = conn.prepareStatement(stmt);
+            pstmt.executeUpdate(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
+    default ResultSet executeQueryStatment(Connection conn, String stmt) {
+        try  {
+            PreparedStatement pstmt = conn.prepareStatement(stmt);
+            return pstmt.executeQuery(stmt);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+    
     public Serializable insert(Connection conn, Serializable bean) throws SQLException;
+    
+    default List<String> getColumnStringList(Connection conn, String columnName, String tableName) {
+        String statement = "SELECT " + columnName + " FROM " + tableName;
+        List<String> resultList = new ArrayList<>();
+        ResultSet rs = executeQueryStatment(conn, statement);
+        try {
+            while (rs.next()) {
+                resultList.add(rs.getString(columnName));
+            }
+            return resultList;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
     
     default public void insertFromFile(Connection conn, String fileName, String tableName) {
         PreparedStatement pstmt1;

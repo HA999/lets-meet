@@ -12,8 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -37,7 +37,7 @@ public class SubCategoryTable implements MySQLDAO {
             + "FOREIGN KEY (" + catName_Col + ") REFERENCES categories(NAME))";
     
     private final String indexString = "CREATE UNIQUE INDEX sub_category_index ON "
-            + tableName + "(" + subCatID_Col + ")";
+            + tableName + "(" + catName_Col + ")";
     
     public SubCategoryTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
@@ -84,5 +84,17 @@ public class SubCategoryTable implements MySQLDAO {
             subCategory.subCatID = subCatId;
         }
         return subCategory;
+    }
+
+    public List<String> getSubCategoriesInCategoryList(Connection conn, String category) throws SQLException {
+        List<String> resultList = new ArrayList<>();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT " + name_Col + " FROM " + tableName + " WHERE " + catName_Col + " = ?");
+        pstmt.setString(1, category);
+        ResultSet rs = pstmt.executeQuery();
+        
+        while (rs.next()) {
+            resultList.add(rs.getString(name_Col));
+        }
+        return resultList;
     }
 }

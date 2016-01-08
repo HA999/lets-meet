@@ -9,6 +9,7 @@ import appdev.letsmeet.model.mysql.tables.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,7 @@ public class CountryTable implements MySQLDAO {
     
     private final String tableName = "country";
     private final String initFile = "country.txt";
+    private final String name_col = "Name";
     private final String createStatement = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
     "  `Code` char(3) NOT NULL DEFAULT '',\n" +
     "  `Name` char(52) NOT NULL DEFAULT '',\n" +
@@ -38,7 +40,7 @@ public class CountryTable implements MySQLDAO {
     ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
     
     private final String indexString = "CREATE UNIQUE INDEX country_index ON "
-            + tableName + "(Name)";
+            + tableName + "(" + name_col + ")";
 
     public CountryTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
@@ -49,7 +51,11 @@ public class CountryTable implements MySQLDAO {
     
     @Override
     public Serializable insert(Connection conn, Serializable bean) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+    }
+
+    public List<String> getCountryNames(Connection conn) throws SQLException {
+        return getColumnStringList(conn, name_col, tableName);
     }
     
 }

@@ -9,7 +9,10 @@ import appdev.letsmeet.model.mysql.tables.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,16 +22,18 @@ public class CategoryTable implements MySQLDAO {
     
     private final String initFile = "categories.txt";
     private final String tableName = "categories";
+    private final String categoryID_col = "CAT_ID";
+    private final String name_col = "NAME";
     
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
-        "(CAT_ID int NOT NULL AUTO_INCREMENT, " +
-        "NAME varchar(40) NOT NULL UNIQUE, " +
-            "PRIMARY KEY (CAT_ID))";
+        "(" + categoryID_col + " int NOT NULL AUTO_INCREMENT, " +
+        name_col + " varchar(40) NOT NULL UNIQUE, " +
+            "PRIMARY KEY (" + categoryID_col + "))";
 
     private final String indexString = "CREATE UNIQUE INDEX category_index ON "
-            + tableName + " (NAME)";
+            + tableName + " (" + name_col + ")";
     
     public CategoryTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
@@ -43,7 +48,7 @@ public class CategoryTable implements MySQLDAO {
         PreparedStatement pstmt;
                 
         try{
-            pstmt = conn.prepareStatement("INSERT INTO " + tableName + " (NAME)"
+            pstmt = conn.prepareStatement("INSERT INTO " + tableName + " (" + name_col + ")"
                     + " VALUES('" + name + "')");
             pstmt.executeUpdate();
             }catch (SQLException ex) {
@@ -51,6 +56,17 @@ public class CategoryTable implements MySQLDAO {
             }
         
         return name;
+    }
+
+    public List<String> getCategoryList(Connection conn) throws SQLException {
+        List<String> resultList = new ArrayList<>();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT " + name_col + " FROM " + tableName);
+        ResultSet rs = pstmt.executeQuery();
+        
+        while (rs.next()) {
+            resultList.add(rs.getString(name_col));
+        }
+        return resultList;
     }
     
 }
