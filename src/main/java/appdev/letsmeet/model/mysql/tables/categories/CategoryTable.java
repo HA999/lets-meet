@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appdev.letsmeet.model.mysql.tables;
+package appdev.letsmeet.model.mysql.tables.categories;
 
+import appdev.letsmeet.model.mysql.tables.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
