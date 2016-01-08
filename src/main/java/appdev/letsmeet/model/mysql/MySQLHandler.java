@@ -7,8 +7,8 @@ package appdev.letsmeet.model.mysql;
 
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
-import appdev.letsmeet.model.mysql.tables.SubCategoryTable;
-import appdev.letsmeet.model.mysql.tables.CategoryTable;
+import appdev.letsmeet.model.mysql.tables.categories.SubCategoryTable;
+import appdev.letsmeet.model.mysql.tables.categories.CategoryTable;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
@@ -86,14 +86,14 @@ public class MySQLHandler {
     
     public void createTables(String filePath) {
         Connection conn = getConnection();
+        countryTable = new CountryTable(conn, filePath);
+        cityTable = new CityTable(conn, filePath);
         usersTable = new UsersTable(conn);
         categoryTable = new CategoryTable(conn, filePath);
         subCategoryTable = new SubCategoryTable(conn, filePath);
         activityTable = new ActivityTable(conn);
         joinRequests = new JoinRequestsTable(conn);
         activityTypeSignUpTable = new ActivityTypeSignUpTable(conn);
-        countryTable = new CountryTable(conn, filePath);
-        cityTable = new CityTable(conn, filePath);
         closeConnection(conn);
     }
     
