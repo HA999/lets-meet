@@ -104,6 +104,46 @@ public class ActivityTable implements MySQLDAO{
         return getUserActivitiesListFromResultSet(rs);
     }
     
+    public ActivityBean getActivity(Connection conn, String actID) throws SQLException{
+        ActivityBean bean = new ActivityBean();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + actID_Col + " = ?");
+        pstmt.setString(1, actID);
+        ResultSet rs = pstmt.executeQuery();
+        if(rs.next()){
+            bean.actId = Integer.toString(rs.getInt(actID_Col));
+            bean.name = rs.getString(name_Col);
+            bean.userId = rs.getString(userID_Col);
+            bean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
+            bean.dateTime = rs.getString(dateTime_Col);
+            bean.country = rs.getString(countryCode_Col);
+            bean.city = rs.getString(cityCode_Col);
+            bean.about = rs.getString(about_Col);
+            bean.photo = rs.getString(photo_Col);
+        }
+        else{
+            throw new SQLException("Data can not be retrieved");
+        }
+        return bean;
+    }
+    
+    public void updateActivity(Connection conn, ActivityBean toUpdate) throws SQLException{
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE " + tableName +
+                " SET " + name_Col + " = ?, " +
+                dateTime_Col + " = ?, " +
+                countryCode_Col + " = ?, " +
+                cityCode_Col + " = ?, " +
+                about_Col + " = ?, " +
+                "WHERE " + actID_Col + " = ?");
+        pstmt.setString(1, toUpdate.name);
+        pstmt.setString(2, toUpdate.dateTime);
+        pstmt.setString(3, toUpdate.country);
+        pstmt.setString(4, toUpdate.city);
+        pstmt.setString(5, toUpdate.about);
+        pstmt.setString(6, toUpdate.photo);
+        pstmt.setString(7, toUpdate.actId);
+        pstmt.executeUpdate();
+    }
+    
     private List<ActivityBean> getUserActivitiesListFromResultSet(ResultSet rs) throws SQLException {
         List<ActivityBean> resultList = new ArrayList<>();
         ActivityBean currBean = new ActivityBean();
@@ -120,6 +160,12 @@ public class ActivityTable implements MySQLDAO{
             resultList.add(currBean);
         }
         return resultList;
+    }
+
+    public void deleteActivity(Connection conn, String actId) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("DELETE * FROM " + tableName + " WHERE " + actId + " = ?");
+        pstmt.setString(1, actId);
+        pstmt.executeUpdate();
     }
 
 }

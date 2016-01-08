@@ -127,4 +127,12 @@ public class RedisHandler {
         }
     }
 
+    public void updateActivity(String city, String oldCity, String actId) {
+        Jedis j = pool.getResource();
+        if(!city.equals(oldCity)){
+            j.srem(oldCity, actId);
+            j.sadd(city, actId);
+        }
+    }
+
 }

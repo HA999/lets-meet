@@ -84,6 +84,29 @@ public class LetsMeet {
         }
         return null;
     }
+    
+    public Boolean updateActivity(ActivityBean bean) {
+        ActivityBean oldActivityBean= mysqlHandler.getActivityData(bean.actId);
+        Boolean isUpdated = mysqlHandler.updateActivity(bean);
+        
+        if(isUpdated && oldActivityBean != null){
+            redisHandler.updateActivity(bean.city, oldActivityBean.city, bean.actId);
+            return true;
+        }
+        return false;
+    }
+    
+    public Boolean deleteActivity(String actId) {
+        Boolean isDeleted = mysqlHandler.deleteActivity(actId);
+        ActivityBean bean = mysqlHandler.getActivityData(actId);
+        SubCategoryBean subCategory = mysqlHandler.getSubCategoryData(bean.subCatId);
+        
+        if(isDeleted && bean != null && subCategory != null){
+            redisHandler.deleteActivity(subCategory, bean.city, actId);
+            return true;
+        }
+        return false;
+    }
 
     public List<ActivityRequestBean> getRequestsByActivityID(String actID) {
         return mysqlHandler.getRequestsByActivityID(actID);

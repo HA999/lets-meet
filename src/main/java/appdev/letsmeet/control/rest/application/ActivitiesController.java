@@ -73,20 +73,46 @@ public class ActivitiesController {
     @Path("{actid}/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ActivityBean updateActivity(@PathParam("actid") String actId, ActivityBean bean){
-        //update in Redis and SQL the specific activity
-        //if successful ridirect back to "{username}/activities" url
-        return null;
+    public Response updateActivity(@PathParam("actid") String actId,
+            @PathParam("username") String username, ActivityBean bean){
+        LoginUserBean user = this.getUserFromSession();
+        //they can update time, about, name, location - they can not change the category or sub category
+        if(isLoggedInUser(user)){
+            if(user.username.equals(username)){
+                bean.userId = user.user_Id;
+                bean.actId = actId;
+                Boolean isUpdated = model.updateActivity(bean);
+                if(isUpdated){
+                    try {
+                        return Response.seeOther(new URI("/")).status(201).build();
+                    } catch (URISyntaxException ex) {
+                        return Response.serverError().build();
+                    }
+                } 
+            }
+        }
+        return Response.status(400).build();
     }
     
     @POST
     @Path("{actid}/delete")
-    public Response deleteActivity(@PathParam("actid") String actId){
-        
-        //search the actid in SQL and Redis and delete it!
-        //Send updated list of activities???
-        //if successful ridirect back to "{username}/activities" url
-        return null;
+    public Response deleteActivity(@PathParam("actid") String actId,
+            @PathParam("username") String username){
+        LoginUserBean user = this.getUserFromSession();
+        //they can update time, about, name, location - they can not change the category or sub category
+        if(isLoggedInUser(user)){
+            if(user.username.equals(username)){
+                Boolean isDeleted = model.deleteActivity(actId);
+                if(isDeleted){
+                    try {
+                        return Response.seeOther(new URI("/")).status(200).build();
+                    } catch (URISyntaxException ex) {
+                        return Response.serverError().build();
+                    }
+                } 
+            }
+        }
+        return Response.status(400).build();
     }
     
     @GET
