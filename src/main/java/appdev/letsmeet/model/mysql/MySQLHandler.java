@@ -100,7 +100,6 @@ public class MySQLHandler {
     public LoginUserBean addUser(RegistrationBean rBean) {
         Connection conn = getConnection();
         try {
-            //Validate rBean!!!!????
             usersTable.insert(conn , rBean);
             return authenticateUser(rBean.username, rBean.password);
         }catch (SQLException ex) {
@@ -170,6 +169,44 @@ public class MySQLHandler {
             closeConnection(conn);
         }
     }
+    
+       public Boolean updateActivity(ActivityBean bean) {
+           Connection conn = getConnection();
+            try{
+                activityTable.updateActivity(conn, bean);
+                return true;
+            }catch (SQLException ex){
+                Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            } finally {
+                closeConnection(conn);
+            }
+       }
+
+    public ActivityBean getActivityData(String actId) {
+        Connection conn = getConnection();
+        try{
+            return (ActivityBean) activityTable.getActivity(conn, actId);
+        }catch (SQLException ex){
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+    
+    public Boolean deleteActivity(String actId) {
+        Connection conn = getConnection();
+        try{
+            activityTable.deleteActivity(conn, actId);
+            return true;
+        }catch (SQLException ex){
+            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            closeConnection(conn);
+        }
+    }
 
     public SubCategoryBean getSubCategoryData(String subCatId) {
         Connection conn = getConnection();
@@ -206,4 +243,5 @@ public class MySQLHandler {
             closeConnection(conn);
         }
     }
+
 }
