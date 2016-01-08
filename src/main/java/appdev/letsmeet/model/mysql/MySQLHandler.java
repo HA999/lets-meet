@@ -80,7 +80,7 @@ public class MySQLHandler {
     
     
     
-    public void createTables() {
+    public void createTables(String filePath) {
         Connection conn = getConnection();
         usersTable = new UsersTable(conn);
         categoryTable = new CategoryTable(conn);

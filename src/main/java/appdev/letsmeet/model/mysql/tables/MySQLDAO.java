@@ -37,17 +37,12 @@ public interface MySQLDAO {
     
     public Serializable insert(Connection conn, Serializable bean) throws SQLException;
     
-    default public void insertFromFile(Connection conn, String fileName, String tableName) {
+    default public void insertFromFile(Connection conn, String filePath, String tableName) {
         PreparedStatement pstmt1;
         PreparedStatement pstmt2;
         
         try {
-            pstmt1 = conn.prepareStatement("SHOW VARIABLES LIKE 'secure_file_priv'");
-            ResultSet rs = pstmt1.executeQuery();
-            
-            rs.next();
-            String privFilePath = rs.getNString(2);
-            String statement = "load data infile '" + privFilePath + fileName + "' into table " + tableName + " ignore 1 lines";
+            String statement = "load data infile '" + filePath + "' into table " + tableName + " ignore 1 lines";
             statement = statement.replace('\\', '/');//Linux???
             
             pstmt2 = conn.prepareStatement(statement);

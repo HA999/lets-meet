@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class SubCategoryTable implements MySQLDAO {
        
-    private final String initFile = "sub-categories.txt";
+    private final String initFile = "\\sub-categories.txt";
     private final String tableName = "subcategory";
     private final String subCatID_Col = "SUB_CAT_ID";
     private final String name_Col = "NAME";

@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class CategoryTable implements MySQLDAO {
     
-    private final String initFile = "categories.txt";
+    private final String initFile = "\\categories.txt";
     private final String tableName = "categories";
     
     private final String createString = 

@@ -33,7 +33,7 @@ public class ActivityTable implements MySQLDAO{
     private final String about_Col = "ABOUT";
     private final String photo_Col = "PHOTO";
     
-    private final String createString =
+    private final String createStatement =
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
         "( "+ actID_Col + " int NOT NULL AUTO_INCREMENT, " +
@@ -53,7 +53,7 @@ public class ActivityTable implements MySQLDAO{
     private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";
     
     public ActivityTable(Connection conn) {
-        createTable(conn, createString);
+        createTable(conn, createStatement);
         defineIndexes(conn, indexString);
     }
     
