@@ -92,13 +92,14 @@ public class RedisHandler {
     }
 
     public void addActivity(SubCategoryBean subCategory, String city, String actId) {
-        Jedis j = pool.getResource();
+        Pipeline p = pool.getResource().pipelined();
         String subCatFullName = subCategory.catName + "-" + subCategory.subCatname; 
         
-        j.sadd(city, actId);
-        j.sadd(subCatFullName, actId);
-        j.lpush(activities, actId);
-        j.ltrim(activities, 0, numActivities);
+        p.sadd(city, actId);
+        p.sadd(subCatFullName, actId);
+        p.lpush(activities, actId);
+        p.ltrim(activities, 0, numActivities);
+        p.sync();
     }
     
     public List<String> getTopActivities(){
@@ -107,12 +108,13 @@ public class RedisHandler {
     }
     
     public void deleteActivity(SubCategoryBean subCategory, String city, String actId){
-        Jedis j = pool.getResource();
+        Pipeline p = pool.getResource().pipelined();
         String subCatFullName = subCategory.catName + "-" + subCategory.subCatname;
         
-        j.srem(city, actId);
-        j.srem(subCatFullName, actId);
-        j.lrem(activities, 0, actId);
+        p.srem(city, actId);
+        p.srem(subCatFullName, actId);
+        p.lrem(activities, 0, actId);
+        p.sync();
     }
     
     public List<String> searchActivities(String subCategory, String category, String city){
