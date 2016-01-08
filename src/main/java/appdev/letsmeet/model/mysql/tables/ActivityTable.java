@@ -168,4 +168,24 @@ public class ActivityTable implements MySQLDAO{
         pstmt.executeUpdate();
     }
 
+    public List<ActivityBean> getActivities(Connection conn, List<String> activityIDs) throws SQLException {
+        StringBuilder pstmtBuilder = new StringBuilder();
+        String header = "SELECT * FROM " + tableName + " WHERE " + actID_Col + " IN (";
+        int index = 1;
+        
+        pstmtBuilder.append(header);
+        for (int i = 0; i < activityIDs.size(); i++) {
+            pstmtBuilder.append("?,");
+        }
+        pstmtBuilder.deleteCharAt(pstmtBuilder.length() - 1).append(")");
+        
+        PreparedStatement pstmt = conn.prepareStatement(pstmtBuilder.toString());
+        for (String activityID : activityIDs) {
+            pstmt.setString(index, activityID);
+            index++;
+        }
+        ResultSet rs = pstmt.executeQuery();
+        return getUserActivitiesListFromResultSet(rs);
+    }
+
 }

@@ -6,6 +6,7 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.PasswordService;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
@@ -20,6 +21,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -40,13 +42,14 @@ public class HomeController {
     
     @Context private HttpServletRequest request;
     
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getCategories() {
-        //isKnownUser()
-        
-        return model.getCategoryList();
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<String> getCategories() {
+//        //isKnownUser()
+//        
+//        //return model.getCategoryList();
+//        return null;
+//    }
     
     @POST
     @Path("logout")
@@ -121,30 +124,41 @@ public class HomeController {
     }
     
     @GET
+    @Path("search")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String searchActivities(@QueryParam("category") String category,
-            @QueryParam("country") String country,
+    public Response searchActivities(
+            @QueryParam("category") String category,
+            @QueryParam("subcategory") String subcategory,
             @QueryParam("city") String city){
         
-        //for not looged in user???
-        return null;
+        return getActivities(category, subcategory, city);
     }
     
-//    @GET
-//    @Path("{username}")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public void searchActivitiesForloggedInUser(@PathParam(username) String username,
-//            @QueryParam("category") String category,
-//            @QueryParam("country") String country,
-//            @QueryParam("city") String city){
-//        
-//        //this.searchActivities(category, country, city);
-//        
-//    }
+    @GET
+    @Path("{username}/search")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchActivities(
+            @QueryParam("category") String category,
+            @QueryParam("subcategory") String subcategory,
+            @QueryParam("city") String city,
+            @PathParam("username") String username){
+        return getActivities(category, subcategory, city);
+    }
     
-//    private Response prepareMassegeResponse(String message, int code){
-//        return Response.status(code).entity(message).build();
-//    }
+    private Response getActivities(String category, String subcategory, String city){
+        List<ActivityBean> activities =  model.searchActivities(category, subcategory, city);
+        if(activities != null){
+            if(!activities.isEmpty()){
+                return Response.ok(activities).build();
+            }
+            else{
+                return Response.noContent().build();
+            }
+        }
+        else{
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 }

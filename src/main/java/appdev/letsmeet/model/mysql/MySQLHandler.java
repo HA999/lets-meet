@@ -244,4 +244,16 @@ public class MySQLHandler {
         }
     }
 
+    public List<ActivityBean> getActivities(List<String> activityIDs) {
+        Connection conn = getConnection();
+        try {
+            return activityTable.getActivities(conn, activityIDs);
+        } catch (SQLException ex){
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
 }

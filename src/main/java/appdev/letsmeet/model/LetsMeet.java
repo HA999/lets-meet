@@ -45,11 +45,6 @@ public class LetsMeet {
     public String getUserName(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public List<String> getCategoryList() {
-//        return mysqlHandler.getCategoryList();
-        return redisHandler.getCategoryList();
-    }
     
     public LoginUserBean authenticateUser(String username, String password){
         return mysqlHandler.authenticateUser(username, password);
@@ -119,5 +114,10 @@ public class LetsMeet {
         else {
             return false;
         }
+    }
+
+    public List<ActivityBean> searchActivities(String category, String subcategory, String city) {
+        List<String> activityIDs = redisHandler.searchActivities(category, subcategory, city);
+        return mysqlHandler.getActivities(activityIDs);
     }
 }

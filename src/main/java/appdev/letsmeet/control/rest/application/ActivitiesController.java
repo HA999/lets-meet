@@ -5,6 +5,7 @@
  */
 package appdev.letsmeet.control.rest.application;
 
+import appdev.letsmeet.control.utils.SessionUtils;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
@@ -37,22 +38,22 @@ public class ActivitiesController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ActivityBean> getUserActivities(@PathParam("username") String username){
-        LoginUserBean user = getUserFromSession();
-        if (isLoggedInUser(user)) {
-            return model.getUserActivities(user);
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
+        if (SessionUtils.isLoggedInUser(user, model)){
+            if(user.username.equals(username)){
+                return model.getUserActivities(user);
+            }
         }
-        else {
-            return null;
-        }
+        return null;
     }
     
     @POST
     @Path("/new") //path for creating new activity
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewActivity(@PathParam("username") String username, ActivityBean bean){
-        LoginUserBean user = this.getUserFromSession();
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
         
-        if(isLoggedInUser(user)){
+        if (SessionUtils.isLoggedInUser(user, model)){
             if(user.username.equals(username)){
                 bean.userId = user.user_Id;
                 ActivityBean updatedBean = model.addNewActivity(bean);
@@ -75,9 +76,9 @@ public class ActivitiesController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateActivity(@PathParam("actid") String actId,
             @PathParam("username") String username, ActivityBean bean){
-        LoginUserBean user = this.getUserFromSession();
-        //they can update time, about, name, location - they can not change the category or sub category
-        if(isLoggedInUser(user)){
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
+        
+        if (SessionUtils.isLoggedInUser(user, model)){
             if(user.username.equals(username)){
                 bean.userId = user.user_Id;
                 bean.actId = actId;
@@ -98,9 +99,9 @@ public class ActivitiesController {
     @Path("{actid}/delete")
     public Response deleteActivity(@PathParam("actid") String actId,
             @PathParam("username") String username){
-        LoginUserBean user = this.getUserFromSession();
         //they can update time, about, name, location - they can not change the category or sub category
-        if(isLoggedInUser(user)){
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
+        if (SessionUtils.isLoggedInUser(user, model)){
             if(user.username.equals(username)){
                 Boolean isDeleted = model.deleteActivity(actId);
                 if(isDeleted){
@@ -119,17 +120,17 @@ public class ActivitiesController {
     @Path("{actid}/requests")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRequestsByActivityID(@PathParam("actid") String actID) {
-        LoginUserBean user = getUserFromSession();
-        if (isLoggedInUser(user)) {
-            return Response.status(Response.Status.OK).entity(model.getRequestsByActivityID(actID)).build();
-        }
-        else {
-            try {
-                return Response.seeOther(new URI("/")).status(201).build();
-            } catch (URISyntaxException ex) {
-                return Response.serverError().build();
+    public Response getRequestsByActivityID(@PathParam("actid") String actID, @PathParam("username") String username) {
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
+        if (SessionUtils.isLoggedInUser(user, model)){
+            if(user.username.equals(username)){
+                return Response.status(Response.Status.OK).entity(model.getRequestsByActivityID(actID)).build();
             }
+        }
+        try {
+            return Response.seeOther(new URI("/")).status(201).build();
+        } catch (URISyntaxException ex) {
+            return Response.serverError().build();
         }
     }
     
@@ -137,8 +138,8 @@ public class ActivitiesController {
     @Path("{actid}/requests")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateActivityRequest(@PathParam("actid") String actID, ActivityRequestBean bean) {
-        LoginUserBean user = getUserFromSession();
-        if (isLoggedInUser(user) || !actID.equals(bean.actID)) {
+        LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
+        if (SessionUtils.isLoggedInUser(user, model) || !actID.equals(bean.actID)) {
             if (model.updateActivityRequest(bean)) {
                 return Response.accepted().build();
             }
@@ -148,26 +149,7 @@ public class ActivitiesController {
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
-    
-    private Boolean isLoggedInUser(LoginUserBean user) {
-        if (user != null) {
-            return model.isLoggedInUser(user);
-        }
-        else {
-            return false;
-        }
-    }
-    
-    private LoginUserBean getUserFromSession() {
-        HttpSession session = request.getSession(true);
-        if (session != null) {
-            return (LoginUserBean) session.getAttribute("user");
-        }
-        else {
-            return null;
-        }
-    }
-    
+}
     //Post method that accepsts or delcines the request and deletes it???
 
     //the user can delete one of them 
@@ -180,9 +162,6 @@ public class ActivitiesController {
 //        return null;
 //    }
 //    
-
-    
-}
 
 //{
 //	"name": "fun",
