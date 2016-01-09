@@ -6,6 +6,7 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.PasswordService;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
@@ -20,6 +21,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -129,6 +131,40 @@ public class HomeController {
         
         //for not looged in user???
         return null;
+    }
+    
+    @POST
+    @Path("{username}/{actid}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response sendActivityJoinRequest(ActivityRequestBean bean) {
+        LoginUserBean user = getUserFromSession();
+        if (isLoggedInUser(user)) {
+            model.sendActivityJoinRequest(bean);
+            return Response.accepted().build();
+        }
+        else {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        
+    }
+    
+    private Boolean isLoggedInUser(LoginUserBean user) {
+        if (user != null) {
+            return model.isLoggedInUser(user);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    private LoginUserBean getUserFromSession() {
+        HttpSession session = request.getSession(true);
+        if (session != null) {
+            return (LoginUserBean) session.getAttribute("user");
+        }
+        else {
+            return null;
+        }
     }
     
 //    @GET

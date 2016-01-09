@@ -43,28 +43,21 @@ public class JoinRequestsTable implements MySQLDAO{
     
 
     @Override
-    public Serializable insert(Connection conn, Serializable bean) {
-//        JoinRequestBean jrBean = (JoinRequestBean) bean;
-//        PreparedStatement pstmt;
-//        
-//        try{
-//            validateInput(jrBean);
-//            pstmt = conn.prepareStatement("INSERT INTO JoinRequests "
-//                    + "CREATOR_ID, "
-//                    + "ACT_ID, "
-//                    + "USER_ID, "
-//                    + "ACCEPTED) VALUES("
-//                    + "'" + jrBean.creatorID + "'"
-//                    + "'" + jrBean.activityID + "'"
-//                    + "'" + jrBean.userId + "'"
-//                    + "'" + jrBean.accepted + "')");
-//            pstmt.executeUpdate();
-//        }catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        }finally {
-//            if (conn != null) conn.close();
-//        }
+    public Serializable insert(Connection conn, Serializable bean) throws SQLException {
+        ActivityRequestBean arBean = (ActivityRequestBean) bean;
+        PreparedStatement pstmt;
+        
+        validateInput(arBean);
+        pstmt = conn.prepareStatement("INSERT INTO " + tableName
+                + creatorID_col + ", "
+                + actID_col + ", "
+                + requestingUserID_col + ", "
+                + accepted_col + ") VALUES(?,?,?,?)");
+                pstmt.setString(1, arBean.creatorID);
+                pstmt.setString(2,arBean.actID);
+                pstmt.setString(3,arBean.requestingUser);
+                pstmt.setString(4,arBean.accepted);
+        pstmt.executeUpdate();
         return bean;
     }
 
@@ -110,5 +103,13 @@ public class JoinRequestsTable implements MySQLDAO{
         pstmt.setString(3, reqBean.requestingUser);
         
         return pstmt.executeUpdate() > 0;
+    }
+
+    public void addRequest(Connection conn, ActivityRequestBean bean) throws SQLException {
+        insert(conn, bean);
+    }
+
+    private void validateInput(ActivityRequestBean arBean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

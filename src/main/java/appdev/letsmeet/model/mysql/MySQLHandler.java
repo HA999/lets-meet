@@ -286,4 +286,14 @@ public class MySQLHandler {
         }
     }
 
+    public void addActivityRequest(ActivityRequestBean bean) {
+        Connection conn = getConnection();
+        try {
+            joinRequests.addRequest(conn, bean);
+        } catch (SQLException ex) {
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
 }
