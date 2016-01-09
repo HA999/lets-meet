@@ -111,6 +111,18 @@ public class LetsMeet {
             return false;
         }
     }
+    
+    public List<String> getCategories(String category, String subCategory) {
+            if (category.equals("categories") && subCategory == null ) {
+                return getCategoryList();
+            }
+            else if (!category.isEmpty() && subCategory != null) {
+                return getSubCategoriesInCategory(category);
+            }
+            else {
+                return null;
+            }
+    }
 
     public List<ActivityBean> searchActivities(String category, String subcategory, String city) {
         List<String> activityIDs = redisHandler.searchActivities(category, subcategory, city);

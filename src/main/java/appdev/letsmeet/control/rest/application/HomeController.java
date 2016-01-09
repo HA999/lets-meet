@@ -6,7 +6,9 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.PasswordService;
+import appdev.letsmeet.control.utils.SessionUtils;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
@@ -44,10 +46,18 @@ public class HomeController {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getCategories() {
+    public Response getCategories(@QueryParam("category") String category,
+        @QueryParam("sub") String sub) {
         
-        return model.getCategoryList();
+        List<String> categories = model.getCategories(category, sub);
+        if (categories != null) {
+            return Response.ok(categories).build();
+        }
+        else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
+    
     
     @POST
     @Path("logout")
@@ -64,6 +74,21 @@ public class HomeController {
             return Response.accepted().location(new URI("/")).build();
         } catch (URISyntaxException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+    
+    @GET
+    @Path("{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCategoriesLoggedInUser(@QueryParam("category") String category,
+        @QueryParam("sub") String sub) {
+        
+        List<String> categories = model.getCategories(category, sub);
+        if (categories != null) {
+            return Response.ok(categories).build();
+        }
+        else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -114,12 +139,6 @@ public class HomeController {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String locationList(LocationBean bean) {
-        return null;
-    }
     
     @GET
     @Path("search")
@@ -144,12 +163,16 @@ public class HomeController {
             @PathParam("username") String username){
         return getActivities(category, subcategory, city);
     }
+    
     @POST
     @Path("{username}/{actid}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sendActivityJoinRequest(ActivityRequestBean bean) {
+    public Response sendActivityJoinRequest(@PathParam("username") String username,
+            @PathParam("actid") String actID, ActivityRequestBean bean) {
         LoginUserBean user = getUserFromSession();
-        if (isLoggedInUser(user)) {
+        if (isLoggedInUser(user) && bean.actID.equals(actID) && 
+                bean.requestingUser.equals(username) && 
+                user.username.equals(username)) {
             model.sendActivityJoinRequest(bean);
             return Response.accepted().build();
         }

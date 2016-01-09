@@ -7,6 +7,7 @@ package appdev.letsmeet.control.utils;
 
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -33,4 +34,7 @@ public class SessionUtils {
             return null;
         }
     }
+    
+    
+            
 }

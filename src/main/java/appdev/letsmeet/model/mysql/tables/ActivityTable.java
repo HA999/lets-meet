@@ -114,6 +114,7 @@ public class ActivityTable implements MySQLDAO{
             bean.name = rs.getString(name_Col);
             bean.userId = rs.getString(userID_Col);
             bean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
+            bean.createdTime = rs.getString(createTime_Col);
             bean.dateTime = rs.getString(dateTime_Col);
             bean.country = rs.getString(countryCode_Col);
             bean.city = rs.getString(cityCode_Col);

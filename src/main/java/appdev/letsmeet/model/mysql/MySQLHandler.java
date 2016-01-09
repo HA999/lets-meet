@@ -258,6 +258,9 @@ public class MySQLHandler {
         } catch (SQLException ex){
             System.out.println(ex);
             return null;
+        }
+    }
+        
     public List<String> getCountryList() {
         Connection conn = getConnection();
         try {
