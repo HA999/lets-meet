@@ -173,19 +173,31 @@ public class ActivityTable implements MySQLDAO{
         String header = "SELECT * FROM " + tableName + " WHERE " + actID_Col + " IN (";
         int index = 1;
         
-        pstmtBuilder.append(header);
-        for (int i = 0; i < activityIDs.size(); i++) {
-            pstmtBuilder.append("?,");
+        if(activityIDs != null){
+            if(!activityIDs.isEmpty()){
+                pstmtBuilder.append(header);
+                for (int i = 0; i < activityIDs.size(); i++) {
+                    pstmtBuilder.append("?,");
+                }
+                pstmtBuilder.deleteCharAt(pstmtBuilder.length() - 1).append(")");
+
+                PreparedStatement pstmt = conn.prepareStatement(pstmtBuilder.toString());
+                for (String activityID : activityIDs) {
+                    pstmt.setString(index, activityID);
+                    index++;
+                }
+                ResultSet rs = pstmt.executeQuery();
+                return getUserActivitiesListFromResultSet(rs);
+            }
+            else{
+                List<ActivityBean> emptyList = new ArrayList<>();
+                emptyList.clear();
+                return emptyList; 
+            }
         }
-        pstmtBuilder.deleteCharAt(pstmtBuilder.length() - 1).append(")");
-        
-        PreparedStatement pstmt = conn.prepareStatement(pstmtBuilder.toString());
-        for (String activityID : activityIDs) {
-            pstmt.setString(index, activityID);
-            index++;
+        else{
+            return null;
         }
-        ResultSet rs = pstmt.executeQuery();
-        return getUserActivitiesListFromResultSet(rs);
     }
 
 }

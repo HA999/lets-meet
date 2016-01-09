@@ -120,4 +120,8 @@ public class LetsMeet {
         List<String> activityIDs = redisHandler.searchActivities(category, subcategory, city);
         return mysqlHandler.getActivities(activityIDs);
     }
+
+    public List<ActivityBean> getRecentAddedActivities() {
+        return mysqlHandler.getActivities(redisHandler.getTopActivities());
+    }
 }

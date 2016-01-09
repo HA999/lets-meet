@@ -147,6 +147,25 @@ public class HomeController {
         return getActivities(category, subcategory, city);
     }
     
+    @GET
+    //@Path("recent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRecentAddedActivities(){
+        List<ActivityBean> activities =  model.getRecentAddedActivities();
+        if(activities != null){
+            if(!activities.isEmpty()){
+                return Response.ok(activities).build();
+            }
+            else{
+                return Response.noContent().build();
+            }
+        }
+        else{
+            return Response.serverError().build();
+        }
+    }
+    
     private Response getActivities(String category, String subcategory, String city){
         List<ActivityBean> activities =  model.searchActivities(category, subcategory, city);
         if(activities != null){
@@ -158,7 +177,7 @@ public class HomeController {
             }
         }
         else{
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.serverError().build();
         }
     }
 }
