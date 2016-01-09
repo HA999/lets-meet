@@ -5,7 +5,7 @@
  */
 package appdev.letsmeet.model.mysql.tables.location;
 
-import appdev.letsmeet.model.mysql.tables.MySQLDAO;
+import appdev.letsmeet.model.mysql.tables.mysqldao.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package appdev.letsmeet.model.mysql.tables;
+package appdev.letsmeet.model.mysql.tables.mysqldao;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -84,7 +84,6 @@ public interface MySQLDAO {
             pstmt2 = conn.prepareStatement(statement);
             pstmt2.executeUpdate();
         }catch (SQLException ex) {
-            //TODO!!
             System.out.println(ex);
         }
     }
