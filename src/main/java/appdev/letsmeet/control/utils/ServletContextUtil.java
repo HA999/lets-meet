@@ -5,7 +5,6 @@
  */
 package appdev.letsmeet.control.utils;
 
-import appdev.letsmeet.model.LetsMeet;
 import appdev.letsmeet.model.mysql.MySQLHandler;
 import appdev.letsmeet.model.redis.RedisHandler;
 import javax.servlet.ServletContextEvent;
@@ -23,7 +22,7 @@ public class ServletContextUtil implements ServletContextListener{
     public void contextInitialized(ServletContextEvent sce) {
         MySQLHandler mysql = MySQLHandler.getInstance();
         RedisHandler redis = RedisHandler.getInstance();
-        mysql.createTables(sce.getServletContext().getRealPath("/"));
+        mysql.createTables(sce.getServletContext().getRealPath("/WEB-INF/classes/"));
     }
 
     @Override
