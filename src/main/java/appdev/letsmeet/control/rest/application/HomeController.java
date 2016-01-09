@@ -6,7 +6,7 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.PasswordService;
-import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
+import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
@@ -122,16 +122,28 @@ public class HomeController {
     }
     
     @GET
+    @Path("search")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String searchActivities(@QueryParam("category") String category,
-            @QueryParam("country") String country,
+    public Response searchActivities(
+            @QueryParam("category") String category,
+            @QueryParam("subcategory") String subcategory,
             @QueryParam("city") String city){
         
-        //for not looged in user???
-        return null;
+        return getActivities(category, subcategory, city);
     }
     
+    @GET
+    @Path("{username}/search")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchActivities(
+            @QueryParam("category") String category,
+            @QueryParam("subcategory") String subcategory,
+            @QueryParam("city") String city,
+            @PathParam("username") String username){
+        return getActivities(category, subcategory, city);
+    }
     @POST
     @Path("{username}/{actid}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -179,7 +191,37 @@ public class HomeController {
 //        
 //    }
     
-//    private Response prepareMassegeResponse(String message, int code){
-//        return Response.status(code).entity(message).build();
-//    }
+    @GET
+    //@Path("recent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRecentAddedActivities(){
+        List<ActivityBean> activities =  model.getRecentAddedActivities();
+        if(activities != null){
+            if(!activities.isEmpty()){
+                return Response.ok(activities).build();
+            }
+            else{
+                return Response.noContent().build();
+            }
+        }
+        else{
+            return Response.serverError().build();
+        }
+    }
+    
+    private Response getActivities(String category, String subcategory, String city){
+        List<ActivityBean> activities =  model.searchActivities(category, subcategory, city);
+        if(activities != null){
+            if(!activities.isEmpty()){
+                return Response.ok(activities).build();
+            }
+            else{
+                return Response.noContent().build();
+            }
+        }
+        else{
+            return Response.serverError().build();
+        }
+    }
 }

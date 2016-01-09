@@ -57,24 +57,6 @@ public class RedisHandler {
     public void deleteKey(String key) {
         pool.getResource().del(key);
     }
-    
-    private void sortList(String list, SortingParams sortParams) {
-        pool.getResource().sort(list, sortParams);
-    }
-    
-    public List<String> getCategoryList() {
-        return pool.getResource().lrange(RedisProperties.categoryList, 0, -1);
-    }
-
-    public void createCategoryList(List<String> cat) {
-        deleteCategoryList();
-        listLPush(RedisProperties.categoryList, cat);
-        sortList(RedisProperties.categoryList, new SortingParams().alpha());
-    }
-    
-    public void deleteCategoryList() {
-        deleteKey(RedisProperties.categoryList);
-    }
 
     public void addLoggedInUser(String userID) {
         Jedis j = pool.getResource();
@@ -117,7 +99,7 @@ public class RedisHandler {
         p.sync();
     }
     
-    public List<String> searchActivities(String subCategory, String category, String city){
+    public List<String> searchActivities(String category, String subCategory, String city){
         Jedis j = pool.getResource();
         String subCatFullName = category + "-" + subCategory;
         Set<String> resSet = j.sinter(city, subCatFullName);
