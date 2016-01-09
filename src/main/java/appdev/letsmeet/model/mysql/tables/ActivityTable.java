@@ -38,7 +38,7 @@ public class ActivityTable implements MySQLDAO{
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
         "( "+ actID_Col + " int NOT NULL AUTO_INCREMENT, " +
-        name_Col + " varchar(40) NOT NULL, " +
+        name_Col + " varchar(100) NOT NULL, " +
         userID_Col + " int NOT NULL, " +
         subCatID_Col + " int NOT NULL, " +
         createTime_Col +" timestamp, " +
