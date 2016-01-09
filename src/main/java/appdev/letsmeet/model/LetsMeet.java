@@ -50,10 +50,6 @@ public class LetsMeet {
     public LoginUserBean authenticateUser(String username, String password){
         return mysqlHandler.authenticateUser(username, password);
     }
-//    public List<String> getCategoryList() {
-////        return mysqlHandler.getCategoryList();
-//        return redisHandler.getCategoryList();
-//    }
 
     public void addLoggedInUser(LoginUserBean user) {
         redisHandler.addLoggedInUser(user.user_Id);
@@ -121,7 +117,7 @@ public class LetsMeet {
         return mysqlHandler.getCountryList();
     }
     
-    public List<String> getCitiesInCountryList(String country) {
+    public List<String> getCitiesInCountry(String country) {
         return mysqlHandler.getCitiesInCountyList(country);
     }
     
@@ -129,7 +125,7 @@ public class LetsMeet {
         return mysqlHandler.getCategoryList();
     }
     
-    public List<String> getSubCategoriesInCategoryList(String category) {
+    public List<String> getSubCategoriesInCategory(String category) {
         return mysqlHandler.getSubCategoriesInCategoryList(category);
     }
     
