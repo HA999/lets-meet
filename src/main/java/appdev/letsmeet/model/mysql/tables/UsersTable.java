@@ -70,7 +70,7 @@ public class UsersTable implements MySQLDAO {
         RegistrationBean rBean = (RegistrationBean) bean;
         PreparedStatement pstmt;
         
-        validateInput(rBean);
+        changeNullsToEmptyString(rBean);
         pstmt = conn.prepareStatement("INSERT INTO " + tableName 
                 + "(" + userName_col + ", "
                 + email_col + ", "
@@ -100,8 +100,28 @@ public class UsersTable implements MySQLDAO {
     }
     
 
-    private void validateInput(RegistrationBean bean) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void changeNullsToEmptyString(RegistrationBean bean) {
+        if (bean.country == null) {
+            bean.country = "";
+        }
+        if (bean.city == null) {
+            bean.city = "";
+        }
+        if (bean.gender == null) {
+            bean.gender = null;
+        }
+        if (bean.dateofbirth == null) {
+            bean.dateofbirth = "";
+        }
+        if (bean.phone == null) {
+            bean.phone = "";
+        }
+        if (bean.about == null) {
+            bean.about = "";
+        }
+        if (bean.photo == null) {
+            bean.photo = null;
+        }
     }
 
     public LoginUserBean authenticateUser(Connection conn, String username, String password) throws SQLException {

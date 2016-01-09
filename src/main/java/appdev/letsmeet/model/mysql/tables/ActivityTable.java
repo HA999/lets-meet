@@ -28,8 +28,8 @@ public class ActivityTable implements MySQLDAO{
     private final String subCatID_Col = "SUB_CAT_ID";
     private final String createTime_Col = "CREATE_TIME";
     private final String dateTime_Col = "DATE_TIME";
-    private final String countryCode_Col = "COUNTRY_CODE";
-    private final String cityCode_Col = "CITY_CODE";
+    private final String country_Col = "COUNTRY_CODE";
+    private final String city_Col = "CITY_CODE";
     private final String about_Col = "ABOUT";
     private final String photo_Col = "PHOTO";
     
@@ -42,8 +42,8 @@ public class ActivityTable implements MySQLDAO{
         subCatID_Col + " int NOT NULL, " +
         createTime_Col +" timestamp, " +
         dateTime_Col + " datetime NOT NULL, " +
-        countryCode_Col + " char(3), " +
-        cityCode_Col + " char(20), " +
+        country_Col + " char(3) NOT NULL, " +
+        city_Col + " char(20) NOT NULL, " +
         about_Col +" longtext, " +
         photo_Col +" blob, "
             +"PRIMARY KEY (" + actID_Col + "), "
@@ -62,14 +62,14 @@ public class ActivityTable implements MySQLDAO{
         ActivityBean aBean = (ActivityBean) bean;
         PreparedStatement pstmt;
         
-        //validateInput(aBean);
+        changeNullsToEmptyString(aBean);
         pstmt = conn.prepareStatement("INSERT INTO " + tableName
                 + "(" + name_Col + ", "
                 + userID_Col + ", "
                 + subCatID_Col + ", "
                 + dateTime_Col + ", "
-                + countryCode_Col +", "
-                + cityCode_Col + ", "
+                + country_Col +", "
+                + city_Col + ", "
                 + about_Col + ", "
                 + photo_Col + ") VALUES("
                 + "'" + aBean.name + "', "
@@ -96,6 +96,15 @@ public class ActivityTable implements MySQLDAO{
         }
         return aBean;
     }
+    
+    private void changeNullsToEmptyString(ActivityBean bean) {
+        if (bean.about == null) {
+            bean.about = "";
+        }
+        if (bean.photo == null) {
+            bean.photo = "";
+        }
+    }
 
     public List<ActivityBean> getUserActivities(Connection conn, String userID) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + userID_Col + " = ?");
@@ -116,8 +125,8 @@ public class ActivityTable implements MySQLDAO{
             bean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
             bean.createdTime = rs.getString(createTime_Col);
             bean.dateTime = rs.getString(dateTime_Col);
-            bean.country = rs.getString(countryCode_Col);
-            bean.city = rs.getString(cityCode_Col);
+            bean.country = rs.getString(country_Col);
+            bean.city = rs.getString(city_Col);
             bean.about = rs.getString(about_Col);
             bean.photo = rs.getString(photo_Col);
         }
@@ -131,8 +140,8 @@ public class ActivityTable implements MySQLDAO{
         PreparedStatement pstmt = conn.prepareStatement("UPDATE " + tableName +
                 " SET " + name_Col + " = ?, " +
                 dateTime_Col + " = ?, " +
-                countryCode_Col + " = ?, " +
-                cityCode_Col + " = ?, " +
+                country_Col + " = ?, " +
+                city_Col + " = ?, " +
                 about_Col + " = ?, " +
                 "WHERE " + actID_Col + " = ?");
         pstmt.setString(1, toUpdate.name);
@@ -154,8 +163,8 @@ public class ActivityTable implements MySQLDAO{
             currBean.userId = rs.getString(userID_Col);
             currBean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
             currBean.dateTime = rs.getString(dateTime_Col);
-            currBean.country = rs.getString(countryCode_Col);
-            currBean.city = rs.getString(cityCode_Col);
+            currBean.country = rs.getString(country_Col);
+            currBean.city = rs.getString(city_Col);
             currBean.about = rs.getString(about_Col);
             currBean.photo = rs.getString(photo_Col);
             resultList.add(currBean);
@@ -200,5 +209,6 @@ public class ActivityTable implements MySQLDAO{
             return null;
         }
     }
+
 
 }
