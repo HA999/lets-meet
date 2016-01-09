@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class ActivityTable implements MySQLDAO{
 
+    private final String fileName = "activities.csv";
     private final String tableName = "activities";
     private final String actID_Col = "ACT_ID";
     private final String name_Col = "NAME";
@@ -43,8 +44,8 @@ public class ActivityTable implements MySQLDAO{
         subCatID_Col + " int NOT NULL, " +
         createTime_Col +" timestamp, " +
         dateTime_Col + " datetime NOT NULL, " +
-        country_Col + " char(3) NOT NULL, " +
-        city_Col + " char(20) NOT NULL, " +
+        country_Col + " char(52) NOT NULL, " +
+        city_Col + " char(35) NOT NULL, " +
         about_Col +" longtext, " +
         photo_Col +" blob, "
             +"PRIMARY KEY (" + actID_Col + "), "
@@ -56,6 +57,7 @@ public class ActivityTable implements MySQLDAO{
     public ActivityTable(Connection conn) {
         createTable(conn, createStatement);
         defineIndexes(conn, indexString);
+        insertFromFile(conn, fileName, tableName);
     }
     
     @Override

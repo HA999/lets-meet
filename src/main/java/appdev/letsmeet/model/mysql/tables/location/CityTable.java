@@ -20,7 +20,7 @@ import java.util.List;
 public class CityTable implements MySQLDAO {
 
     private final String tableName = "city";
-    private final String initFile = "city.txt";
+    private final String initFile = "city.csv";
     private final String name_col = "Name";
     private final String countryCode_col = "CountryCode";
     private final String countryTableName = "country";

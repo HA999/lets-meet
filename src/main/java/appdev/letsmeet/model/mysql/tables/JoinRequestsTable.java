@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class JoinRequestsTable implements MySQLDAO{
 
+    private final String fileName = "join_requests.csv";
     private final String tableName = "join_requests";
     private final String creatorID_col = "CREATOR_ID";
     private final String actID_col = "ACT_ID";
@@ -40,6 +41,7 @@ public class JoinRequestsTable implements MySQLDAO{
     
     public JoinRequestsTable(Connection conn) {
         createTable(conn, createString);
+        insertFromFile(conn, fileName, tableName);
     }
     
 

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CategoryTable implements MySQLDAO {
     
-    private final String initFile = "categories.txt";
+    private final String initFile = "categories.csv";
     private final String tableName = "categories";
     private final String categoryID_col = "CAT_ID";
     private final String name_col = "NAME";

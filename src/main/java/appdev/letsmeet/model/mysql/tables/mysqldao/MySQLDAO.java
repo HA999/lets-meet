@@ -78,7 +78,7 @@ public interface MySQLDAO {
             rs.next();
             String privFilePath = rs.getNString(2);
             
-            String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName;
+            String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName + " FIELDS TERMINATED BY ','";
             statement = statement.replace('\\', '/');//Linux???
             
             pstmt2 = conn.prepareStatement(statement);

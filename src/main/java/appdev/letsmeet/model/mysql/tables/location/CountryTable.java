@@ -18,7 +18,7 @@ import java.util.List;
 public class CountryTable implements MySQLDAO {
     
     private final String tableName = "country";
-    private final String initFile = "country.txt";
+    private final String initFile = "country.csv";
     private final String name_col = "Name";
     private final String createStatement = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
     "  `Code` char(3) NOT NULL DEFAULT '',\n" +

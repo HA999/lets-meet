@@ -20,6 +20,7 @@ import java.sql.SQLException;
  */
 public class UsersTable implements MySQLDAO {
     
+    private final String fileName = "users.csv";
     private final String tableName = "users";
     private final String userID_col = "USER_ID";
     private final String userName_col = "USERNAME";
