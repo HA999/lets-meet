@@ -14,11 +14,9 @@ import appdev.letsmeet.model.mysql.tables.UsersTable;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.control.utils.jsonBeans.SubCategoryBean;
 import appdev.letsmeet.model.mysql.tables.ActivityTable;
-import appdev.letsmeet.model.mysql.tables.ActivityTypeSignUpTable;
 import appdev.letsmeet.model.mysql.tables.JoinRequestsTable;
 import appdev.letsmeet.model.mysql.tables.location.CityTable;
 import appdev.letsmeet.model.mysql.tables.location.CountryTable;
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,13 +31,11 @@ import java.util.logging.Logger;
 public class MySQLHandler {
     
     private static MySQLHandler mysqlHandlerInstance;
-    private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();//Redundant?!?!?
     private UsersTable usersTable = null;
     private CategoryTable categoryTable = null;
     private SubCategoryTable subCategoryTable = null;
     private ActivityTable activityTable = null;
     private JoinRequestsTable joinRequests = null;
-    private ActivityTypeSignUpTable activityTypeSignUpTable = null;
     private CountryTable countryTable = null;
     private CityTable cityTable = null;
     
@@ -93,7 +89,6 @@ public class MySQLHandler {
         subCategoryTable = new SubCategoryTable(conn, filePath);
         activityTable = new ActivityTable(conn);
         joinRequests = new JoinRequestsTable(conn);
-        activityTypeSignUpTable = new ActivityTypeSignUpTable(conn);
         closeConnection(conn);
     }
     
@@ -134,24 +129,6 @@ public class MySQLHandler {
         }
     }
     
-    
-//    public Connection getConnection() {
-//        Connection con = null;
-//        try {
-//            dataSource = (MysqlConnectionPoolDataSource) new InitialContext().lookup(MySQLProperties.dBName);
-//            dataSource.setServerName(MySQLProperties.serverName);
-//            dataSource.setDatabaseName(MySQLProperties.dBName);
-//            dataSource.setUser(MySQLProperties.username);
-//            dataSource.setPassword(MySQLProperties.password);
-//            dataSource.setPort(MySQLProperties.port);
-//            
-//            con = dataSource.getConnection();
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return con;
-//    }
-
     public List<ActivityBean> getUserActivities(LoginUserBean user) {
         String userID = user.user_Id;
         Connection conn = getConnection();

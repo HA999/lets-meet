@@ -42,10 +42,6 @@ public class LetsMeet {
         return mysqlHandler.addUser(rbean);
     }
 
-    public String getUserName(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public LoginUserBean authenticateUser(String username, String password){
         return mysqlHandler.authenticateUser(username, password);
     }
