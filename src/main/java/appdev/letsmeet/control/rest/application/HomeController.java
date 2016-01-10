@@ -142,7 +142,6 @@ public class HomeController {
     
     @GET
     @Path("search")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchActivities(
             @QueryParam("category") String category,
@@ -154,7 +153,6 @@ public class HomeController {
     
     @GET
     @Path("{username}/search")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchActivities(
             @QueryParam("category") String category,

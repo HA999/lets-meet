@@ -39,7 +39,7 @@ public class CountryTable implements MySQLDAO {
     "  PRIMARY KEY (`Code`)\n" +
     ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
     
-    private final String indexString = "CREATE UNIQUE INDEX country_index ON "
+    private final String indexString = "CREATE INDEX country_index ON "
             + tableName + "(" + name_col + ")";
 
     public CountryTable(Connection conn, String filePath) {

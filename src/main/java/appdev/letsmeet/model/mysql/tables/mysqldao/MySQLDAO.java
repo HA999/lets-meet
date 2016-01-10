@@ -78,13 +78,13 @@ public interface MySQLDAO {
             rs.next();
             String privFilePath = rs.getNString(2);
             
-//            disableForeignKeyChecks(conn);
+            disableForeignKeyChecks(conn);
             String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName;
             statement = statement.replace('\\', '/');//Linux???
             
             pstmt2 = conn.prepareStatement(statement);
             pstmt2.executeUpdate();
-//            enableForeignKeyChecks(conn);
+            enableForeignKeyChecks(conn);
         }catch (SQLException ex) {
             System.out.println(ex);
         }
@@ -100,7 +100,7 @@ public interface MySQLDAO {
             
             copyFile(filePath + fileName, privFilePath +fileName);
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(MySQLDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }
     

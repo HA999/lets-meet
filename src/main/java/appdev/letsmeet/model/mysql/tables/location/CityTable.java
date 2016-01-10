@@ -36,7 +36,7 @@ public class CityTable implements MySQLDAO {
     "  CONSTRAINT `city_ibfk_1` FOREIGN KEY (`CountryCode`) REFERENCES " + countryTableName + " (`" + countryTableCountryCode_col + "`)\n" +
     ") ENGINE=InnoDB AUTO_INCREMENT=4080 DEFAULT CHARSET=latin1;";
     
-    private final String indexString = "CREATE UNIQUE INDEX city_index ON "
+    private final String indexString = "CREATE INDEX city_index ON "
             + tableName + "(" + name_col + ")";
     
     public CityTable(Connection conn, String filePath) {

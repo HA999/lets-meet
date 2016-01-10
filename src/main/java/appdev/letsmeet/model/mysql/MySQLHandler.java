@@ -180,10 +180,11 @@ public class MySQLHandler {
     public Boolean deleteActivity(String actId) {
         Connection conn = getConnection();
         try{
+            joinRequests.deleteRequests(conn, actId);
             activityTable.deleteActivity(conn, actId);
             return true;
         }catch (SQLException ex){
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return false;
         } finally {
             closeConnection(conn);

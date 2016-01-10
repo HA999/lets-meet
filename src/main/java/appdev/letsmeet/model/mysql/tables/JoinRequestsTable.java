@@ -35,9 +35,9 @@ public class JoinRequestsTable implements MySQLDAO{
         actID_col + " int NOT NULL, " +
         requestingUserID_col + " int NOT NULL, " +
         accepted_col + " boolean DEFAULT FALSE, " 
-            +"FOREIGN KEY ("+ creatorID_col +") REFERENCES users(USER_ID), "
-            +"FOREIGN KEY ("+ actID_col +") REFERENCES activities(ACT_ID), "
-            +"FOREIGN KEY ("+ requestingUserID_col +") REFERENCES users(USER_ID))";
+            +"FOREIGN KEY ("+ creatorID_col +") REFERENCES users(USER_ID) ON DELETE CASCADE, "
+            +"FOREIGN KEY ("+ actID_col +") REFERENCES activities(ACT_ID) ON DELETE CASCADE, "
+            +"FOREIGN KEY ("+ requestingUserID_col +") REFERENCES users(USER_ID) ON DELETE CASCADE)";
     
     public JoinRequestsTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initfile);
@@ -115,5 +115,11 @@ public class JoinRequestsTable implements MySQLDAO{
 
     private void validateInput(ActivityRequestBean arBean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void deleteRequests(Connection conn, String actId) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + actID_col + " = ?");
+        pstmt.setString(1, actId);
+        pstmt.executeUpdate();
     }
 }

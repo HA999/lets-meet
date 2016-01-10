@@ -49,15 +49,12 @@ public class ActivityTable implements MySQLDAO{
         about_Col +" longtext, " +
         photo_Col +" blob, "
             +"PRIMARY KEY (" + actID_Col + "), "
-            +"FOREIGN KEY (" + userID_Col + ") REFERENCES Users(USER_ID), "
+            +"FOREIGN KEY (" + userID_Col + ") REFERENCES users(USER_ID), "
             +"FOREIGN KEY (" + subCatID_Col + ") REFERENCES subcategory(SUB_CAT_ID))";
-    
-    private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";
     
     public ActivityTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createStatement);
-        defineIndexes(conn, indexString);
         insertFromFile(conn, initFile, tableName);
     }
     
@@ -177,7 +174,7 @@ public class ActivityTable implements MySQLDAO{
     }
 
     public void deleteActivity(Connection conn, String actId) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("DELETE * FROM " + tableName + " WHERE " + actId + " = ?");
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + actID_Col + " = ?");
         pstmt.setString(1, actId);
         pstmt.executeUpdate();
     }

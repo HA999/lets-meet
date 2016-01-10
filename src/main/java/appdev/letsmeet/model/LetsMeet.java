@@ -84,8 +84,8 @@ public class LetsMeet {
     }
     
     public Boolean deleteActivity(String actId) {
-        Boolean isDeleted = mysqlHandler.deleteActivity(actId);
         ActivityBean bean = mysqlHandler.getActivityData(actId);
+        Boolean isDeleted = mysqlHandler.deleteActivity(actId);
         SubCategoryBean subCategory = mysqlHandler.getSubCategoryData(bean.subCatId);
         
         if(isDeleted && bean != null && subCategory != null){

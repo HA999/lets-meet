@@ -32,7 +32,7 @@ public class CategoryTable implements MySQLDAO {
         name_col + " varchar(40) NOT NULL UNIQUE, " +
             "PRIMARY KEY (" + categoryID_col + "))";
 
-    private final String indexString = "CREATE UNIQUE INDEX category_index ON "
+    private final String indexString = "CREATE INDEX category_index ON "
             + tableName + " (" + name_col + ")";
     
     public CategoryTable(Connection conn, String filePath) {

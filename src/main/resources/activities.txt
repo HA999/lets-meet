@@ -1,5 +1,5 @@
-1	Running in park	1	7		12/04/2016 18:00	Israel	Tel Aviv	"Running in ""Ganey Yehoshua"" park"
-2	Dog Walking	2	24		15/03/2016 20:00	Israel	Jerusalem	Walking our dogs together
-3	Game of Thrones	1	41		22/04/2016 21:00	Israel	Rehovot	First episode!
-4	Cheese cakes	2	65		01/07/2016 15:00	Israel	Tel Aviv	Lets cook!
-5	Arrow	1	41		20/05/2016 14:00	Isreal	Rehovot	Want to watch together?
+1	Running in park	1	7		2016-04-12 18:00:00	Israel	Tel Aviv	"Running in ""Ganey Yehoshua"" park"	
+2	Dog Walking	2	24		2016-03-15 20:00:00	Israel	Jerusalem	Walking our dogs together	
+3	Game of Thrones	1	41		2016-04-22 21:00:00	Israel	Rehovot	First episode!	
+4	Cheese cakes	2	65		2016-07-01 15:00:00	Israel	Tel Aviv	Lets cook!	
+5	Arrow	1	41		2016-05-20 14:00:00	Isreal	Rehovot	Want to watch together?	

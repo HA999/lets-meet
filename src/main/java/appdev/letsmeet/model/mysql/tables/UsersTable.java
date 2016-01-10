@@ -58,14 +58,14 @@ public class UsersTable implements MySQLDAO {
 //            + "FOREIGN KEY (" + country_col + ") REFERENCES country(Name), "
 //            + "FOREIGN KEY (" + city_col + ") REFERENCES city(Name))";
     
-    private final String indexString = "CREATE UNIQUE INDEX user_index ON "
+    private final String indexString = "CREATE INDEX user_index ON "
             + "Users (" + userID_col + ")";
     
     public UsersTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
         defineIndexes(conn, indexString);
-        insertFromFile(conn, filePath, tableName);
+        insertFromFile(conn, initFile, tableName);
     }
     
     @Override

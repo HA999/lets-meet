@@ -31,21 +31,21 @@ public class SubCategoryTable implements MySQLDAO {
         "CREATE TABLE IF NOT EXISTS " +
         tableName + " (" +
         subCatID_Col + " int NOT NULL AUTO_INCREMENT, " +
-        name_Col + " varchar(40) NOT NULL, " +
-        catName_Col + " varchar(40) NOT NULL, " 
+        catName_Col + " varchar(40) NOT NULL, " +
+        name_Col + " varchar(40) NOT NULL, " 
             + "PRIMARY KEY (" + subCatID_Col + "), " 
             + "FOREIGN KEY (" + catName_Col + ") REFERENCES categories(NAME))";
     
-    private final String indexString = "CREATE UNIQUE INDEX sub_category_index ON "
+    private final String indexString = "CREATE INDEX sub_category_index ON "
             + tableName + "(" + catName_Col + ")";
     
     public SubCategoryTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
-        defineIndexes(conn, indexString);
+//        defineIndexes(conn, indexString);
         disableForeignKeyChecks(conn);
         insertFromFile(conn, initFile, tableName);
-        enableForeignKeyChecks(conn);
+//        enableForeignKeyChecks(conn);
     }
     
     @Override
