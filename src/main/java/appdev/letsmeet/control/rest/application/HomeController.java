@@ -68,7 +68,7 @@ public class HomeController {
         
         session = request.getSession();
         LoginUserBean user = (LoginUserBean) session.getAttribute("user");
-        if (user != null && model.isLoggedInUser(user)) {
+        if (isLoggedInUser(user)) {
             model.removeLoggedInUser(user);
         }
         session.invalidate();
