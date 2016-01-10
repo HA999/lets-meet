@@ -39,7 +39,7 @@ public interface MySQLDAO {
             PreparedStatement pstmt = conn.prepareStatement(stmt);
             pstmt.executeUpdate(stmt);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
     
@@ -78,11 +78,13 @@ public interface MySQLDAO {
             rs.next();
             String privFilePath = rs.getNString(2);
             
-            String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName + " FIELDS TERMINATED BY ','";
+//            disableForeignKeyChecks(conn);
+            String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName;
             statement = statement.replace('\\', '/');//Linux???
             
             pstmt2 = conn.prepareStatement(statement);
             pstmt2.executeUpdate();
+//            enableForeignKeyChecks(conn);
         }catch (SQLException ex) {
             System.out.println(ex);
         }
@@ -119,22 +121,22 @@ public interface MySQLDAO {
         }
     }
     
-//    default void enableForeignKeyChecks(Connection conn) {
-//        try  {
-//            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 1");
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    
-//    default void disableForeignKeyChecks(Connection conn) {
-//        try  {
-//            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 0");
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    default void enableForeignKeyChecks(Connection conn) {
+        try  {
+            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 1");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    default void disableForeignKeyChecks(Connection conn) {
+        try  {
+            PreparedStatement pstmt = conn.prepareStatement("SET foreign_key_checks = 0");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

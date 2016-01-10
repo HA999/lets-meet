@@ -20,7 +20,7 @@ import java.sql.SQLException;
  */
 public class UsersTable implements MySQLDAO {
     
-    private final String fileName = "users.csv";
+    private final String initFile = "users.txt";
     private final String tableName = "users";
     private final String userID_col = "USER_ID";
     private final String userName_col = "USERNAME";
@@ -29,8 +29,8 @@ public class UsersTable implements MySQLDAO {
     private final String createTime_col = "CREATE_TIME";
     private final String firstName_col = "FIRST_NAME";
     private final String lastName_col = "LAST_NAME";
-    private final String country_col = "COUNTRY_CODE";
-    private final String city_col = "CITY_CODE";
+    private final String country_col = "COUNTRY";
+    private final String city_col = "CITY";
     private final String gender_col = "GENDER";
     private final String dateOfBirth_col = "DATE_OF_BIRTH";
     private final String phone_col = "PHONE";
@@ -40,31 +40,32 @@ public class UsersTable implements MySQLDAO {
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
-        "(" + userID_col + " int NOT NULL AUTO_INCREMENT, " +
+        " (" + userID_col + " int NOT NULL AUTO_INCREMENT, " +
         userName_col + " varchar(40) NOT NULL UNIQUE, " +
         email_col + " varchar(255) NOT NULL UNIQUE, " +
         password_col + " varchar(255) NOT NULL, " +
         createTime_col + " timestamp, " +
         firstName_col + " varchar(40) NOT NULL, " +
         lastName_col + " varchar(40) NOT NULL, " +
-        country_col + " char(52), " +
-        city_col + " char(35), " +
+        country_col + " char(52) NOT NULL DEFAULT '', " +
+        city_col + " char(35) NOT NULL DEFAULT '', " +
         gender_col + " char(1), " +
         dateOfBirth_col + " date, " +
         phone_col + " varchar(40), " +
         about_col + " longtext, " +
         photo_col + " blob, " 
-            + "PRIMARY KEY (" + userID_col + "), "
-            +"FOREIGN KEY (" + country_col + ") REFERENCES country(NAME), "
-            +"FOREIGN KEY (" + city_col + ") REFERENCES city(NAME), "
-            + ")";
+            + "PRIMARY KEY (" + userID_col + "))";
+//            + "FOREIGN KEY (" + country_col + ") REFERENCES country(Name), "
+//            + "FOREIGN KEY (" + city_col + ") REFERENCES city(Name))";
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON "
             + "Users (" + userID_col + ")";
     
-    public UsersTable(Connection conn) {
+    public UsersTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
         defineIndexes(conn, indexString);
+        insertFromFile(conn, filePath, tableName);
     }
     
     @Override

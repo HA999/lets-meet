@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ActivityTable implements MySQLDAO{
 
-    private final String fileName = "activities.csv";
+    private final String initFile = "activities.txt";
     private final String tableName = "activities";
     private final String actID_Col = "ACT_ID";
     private final String name_Col = "NAME";
@@ -30,8 +30,8 @@ public class ActivityTable implements MySQLDAO{
     private final String subCatID_Col = "SUB_CAT_ID";
     private final String createTime_Col = "CREATE_TIME";
     private final String dateTime_Col = "DATE_TIME";
-    private final String country_Col = "COUNTRY_CODE";
-    private final String city_Col = "CITY_CODE";
+    private final String country_Col = "COUNTRY";
+    private final String city_Col = "CITY";
     private final String about_Col = "ABOUT";
     private final String photo_Col = "PHOTO";
     
@@ -54,10 +54,11 @@ public class ActivityTable implements MySQLDAO{
     
     private final String indexString = "CREATE UNIQUE INDEX user_index ON Users (USER_ID)";
     
-    public ActivityTable(Connection conn) {
+    public ActivityTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createStatement);
         defineIndexes(conn, indexString);
-        insertFromFile(conn, fileName, tableName);
+        insertFromFile(conn, initFile, tableName);
     }
     
     @Override

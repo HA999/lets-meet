@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class SubCategoryTable implements MySQLDAO {
        
-    private final String initFile = "sub-categories.csv";
+    private final String initFile = "sub-categories.txt";
     private final String tableName = "subcategory";
     private final String subCatID_Col = "SUB_CAT_ID";
     private final String name_Col = "NAME";
@@ -29,7 +29,7 @@ public class SubCategoryTable implements MySQLDAO {
     
     private final String createString = 
         "CREATE TABLE IF NOT EXISTS " +
-        tableName + "(" +
+        tableName + " (" +
         subCatID_Col + " int NOT NULL AUTO_INCREMENT, " +
         name_Col + " varchar(40) NOT NULL, " +
         catName_Col + " varchar(40) NOT NULL, " 
@@ -43,7 +43,9 @@ public class SubCategoryTable implements MySQLDAO {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
         defineIndexes(conn, indexString);
+        disableForeignKeyChecks(conn);
         insertFromFile(conn, initFile, tableName);
+        enableForeignKeyChecks(conn);
     }
     
     @Override

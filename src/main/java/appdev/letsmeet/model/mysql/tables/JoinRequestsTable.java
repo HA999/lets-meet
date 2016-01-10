@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class JoinRequestsTable implements MySQLDAO{
 
-    private final String fileName = "join_requests.csv";
+    private final String initfile = "join_requests.txt";
     private final String tableName = "join_requests";
     private final String creatorID_col = "CREATOR_ID";
     private final String actID_col = "ACT_ID";
@@ -31,17 +31,18 @@ public class JoinRequestsTable implements MySQLDAO{
     private final String createString =
         "CREATE TABLE IF NOT EXISTS " +
         tableName +
-        "(" + creatorID_col + " int NOT NULL, " +
-        actID_col + "int NOT NULL, " +
+        " (" + creatorID_col + " int NOT NULL, " +
+        actID_col + " int NOT NULL, " +
         requestingUserID_col + " int NOT NULL, " +
         accepted_col + " boolean DEFAULT FALSE, " 
-            +"FOREIGN KEY ("+ creatorID_col +") REFERENCES Users(USER_ID), "
-            +"FOREIGN KEY ("+ actID_col +") REFERENCES Activities(ACT_ID), "
-            +"FOREIGN KEY ("+ requestingUserID_col +") REFERENCES Users(USER_ID))";
+            +"FOREIGN KEY ("+ creatorID_col +") REFERENCES users(USER_ID), "
+            +"FOREIGN KEY ("+ actID_col +") REFERENCES activities(ACT_ID), "
+            +"FOREIGN KEY ("+ requestingUserID_col +") REFERENCES users(USER_ID))";
     
-    public JoinRequestsTable(Connection conn) {
+    public JoinRequestsTable(Connection conn, String filePath) {
+        copyDataFileToMySQLFileDirectory(conn, filePath, initfile);
         createTable(conn, createString);
-        insertFromFile(conn, fileName, tableName);
+        insertFromFile(conn, initfile, tableName);
     }
     
 

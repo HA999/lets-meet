@@ -84,11 +84,11 @@ public class MySQLHandler {
         Connection conn = getConnection();
         countryTable = new CountryTable(conn, filePath);
         cityTable = new CityTable(conn, filePath);
-        usersTable = new UsersTable(conn);
+        usersTable = new UsersTable(conn, filePath);
         categoryTable = new CategoryTable(conn, filePath);
         subCategoryTable = new SubCategoryTable(conn, filePath);
-        activityTable = new ActivityTable(conn);
-        joinRequests = new JoinRequestsTable(conn);
+        activityTable = new ActivityTable(conn, filePath);
+        joinRequests = new JoinRequestsTable(conn, filePath);
         closeConnection(conn);
     }
     
@@ -100,8 +100,6 @@ public class MySQLHandler {
         }catch (SQLException ex) {
             System.out.println(ex);
             return null;
-        }finally {
-            closeConnection(conn);
         }
     }
 

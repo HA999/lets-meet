@@ -63,9 +63,9 @@ public class SignUpController {
             session.setAttribute("user", user);
             model.addLoggedInUser(user);
             try {
-                return Response.seeOther(new URI("/" + user.username)).build();
+                return Response.seeOther(new URI("/" + user.username + "?category=categories")).build();
             } catch (URISyntaxException ex) {
-                Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
             }
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
