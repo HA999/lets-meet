@@ -163,6 +163,7 @@ public class ActivityTable implements MySQLDAO{
             currBean.name = rs.getString(name_Col);
             currBean.userId = rs.getString(userID_Col);
             currBean.subCatId = Integer.toString(rs.getInt(subCatID_Col));
+            currBean.createdTime = rs.getString(createTime_Col);
             currBean.dateTime = rs.getString(dateTime_Col);
             currBean.country = rs.getString(country_Col);
             currBean.city = rs.getString(city_Col);

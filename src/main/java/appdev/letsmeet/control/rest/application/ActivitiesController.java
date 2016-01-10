@@ -134,7 +134,6 @@ public class ActivitiesController {
     
     @GET
     @Path("{actid}/requests")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRequestsByActivityID(@PathParam("actid") String actID, @PathParam("username") String username) {
         LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
@@ -143,11 +142,7 @@ public class ActivitiesController {
                 return Response.status(Response.Status.OK).entity(model.getRequestsByActivityID(actID)).build();
             }
         }
-        try {
-            return Response.seeOther(new URI("/")).status(201).build();
-        } catch (URISyntaxException ex) {
-            return Response.serverError().build();
-        }
+        return Response.serverError().build();
     }
     
     @POST
