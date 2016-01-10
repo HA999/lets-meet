@@ -46,13 +46,17 @@ public class HomeController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategories(@QueryParam("category") String category,
         @QueryParam("sub") String sub) {
-        
-        List<String> categories = model.getCategories(category, sub);
-        if (categories != null) {
-            return Response.ok(categories).build();
+        if (category != null) {
+            List<String> categories = model.getCategories(category, sub);
+            if (categories != null) {
+                return Response.ok(categories).build();
+            }
+            else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
         }
         else {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.OK).build();
         }
     }
     

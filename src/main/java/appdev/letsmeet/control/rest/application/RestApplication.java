@@ -18,5 +18,4 @@ public class RestApplication extends PackagesResourceConfig {
     public RestApplication() {
         super("appdev.letsmeet.control");
     }
-     
 }
