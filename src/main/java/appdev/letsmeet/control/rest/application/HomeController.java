@@ -62,9 +62,9 @@ public class HomeController {
     
     
     @POST
-    @Path("logout")
+    @Path("{username}/logout")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response logout(){
+    public Response logout(@PathParam("username") String username){
         
         session = request.getSession();
         LoginUserBean user = (LoginUserBean) session.getAttribute("user");
@@ -88,7 +88,11 @@ public class HomeController {
         
         List<String> categories = model.getCategories(category, sub);
         if (categories != null) {
-            return Response.ok(categories).build();
+            try {
+                return Response.seeOther(new URI("/")).build();
+            } catch (URISyntaxException ex) {
+                return Response.serverError().build();
+            }
         }
         else {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -111,7 +115,7 @@ public class HomeController {
             try {
                 return Response.seeOther(new URI("/")).entity(errorMessage).build();
             } catch (URISyntaxException ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                return Response.serverError().build();
             }
         }
         else{
@@ -132,11 +136,10 @@ public class HomeController {
                 try {
                     return Response.seeOther(new URI("/")).entity(errorMessage).build();
                 } catch (URISyntaxException ex) {
-                    Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                    return Response.serverError().build();
                 }
             }
         }
-        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     
