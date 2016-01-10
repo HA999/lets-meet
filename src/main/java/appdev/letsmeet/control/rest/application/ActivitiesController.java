@@ -49,7 +49,6 @@ public class ActivitiesController {
     
     @GET
     @Path("/new")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategories(@QueryParam("category") String category,
         @QueryParam("sub") String sub) {
@@ -66,6 +65,7 @@ public class ActivitiesController {
     @POST
     @Path("/new")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addNewActivity(@PathParam("username") String username, ActivityBean bean){
         LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
         

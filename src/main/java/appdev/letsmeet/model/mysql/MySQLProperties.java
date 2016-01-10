@@ -15,7 +15,7 @@ public class MySQLProperties {
     public static final String dBName = "jdbc/lets_meet";
     public static final int port = 3306;
     public static final String username = "root";
-    public static final String password = "root";
+    public static final String password = "mta1Dev!";
     public static final String driver = "com.mysql.jdbc.Driver";
     public static final String url = "jdbc:mysql://localhost:3306/lets_meet";
 }

@@ -280,4 +280,16 @@ public class MySQLHandler {
         }
     }
 
+    public List<ActivityBean> getActivities() {
+        Connection conn = getConnection();
+        try {
+            return activityTable.getActivities(conn);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
 }

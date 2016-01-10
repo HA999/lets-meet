@@ -111,7 +111,7 @@ public class ActivityTable implements MySQLDAO{
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + userID_Col + " = ?");
         pstmt.setString(1, userID);
         ResultSet rs = pstmt.executeQuery();
-        return getUserActivitiesListFromResultSet(rs);
+        return getActivitiesListFromResultSet(rs);
     }
     
     public ActivityBean getActivity(Connection conn, String actID) throws SQLException{
@@ -155,7 +155,7 @@ public class ActivityTable implements MySQLDAO{
         pstmt.executeUpdate();
     }
     
-    private List<ActivityBean> getUserActivitiesListFromResultSet(ResultSet rs) throws SQLException {
+    private List<ActivityBean> getActivitiesListFromResultSet(ResultSet rs) throws SQLException {
         List<ActivityBean> resultList = new ArrayList<>();
         ActivityBean currBean = new ActivityBean();
         while(rs.next()) {
@@ -199,7 +199,7 @@ public class ActivityTable implements MySQLDAO{
                     index++;
                 }
                 ResultSet rs = pstmt.executeQuery();
-                return getUserActivitiesListFromResultSet(rs);
+                return getActivitiesListFromResultSet(rs);
             }
             else{
                 List<ActivityBean> emptyList = new ArrayList<>();
@@ -210,5 +210,10 @@ public class ActivityTable implements MySQLDAO{
         else{
             return null;
         }
+    }
+
+    public List<ActivityBean> getActivities(Connection conn) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName);
+        return getActivitiesListFromResultSet(pstmt.executeQuery());
     }
 }

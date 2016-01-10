@@ -72,6 +72,16 @@ public class LetsMeet {
         return null;
     }
     
+    public void initActivitiesInRedis() {
+        redisHandler.deleteAllData();
+        List<ActivityBean> activities = mysqlHandler.getActivities();
+        SubCategoryBean subCategory;
+        for (ActivityBean activity : activities) {
+            subCategory = mysqlHandler.getSubCategoryData(activity.subCatId);
+            redisHandler.addActivity(subCategory, activity.city, activity.actId);
+        }
+    }
+    
     public Boolean updateActivity(ActivityBean bean) {
         ActivityBean oldActivityBean= mysqlHandler.getActivityData(bean.actId);
         Boolean isUpdated = mysqlHandler.updateActivity(bean);

@@ -118,4 +118,9 @@ public class RedisHandler {
         }
     }
 
+    public void deleteAllData() {
+        Jedis j = pool.getResource();
+        j.flushAll();
+    }
+
 }
