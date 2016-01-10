@@ -200,6 +200,7 @@ public class HomeController {
     }
     
     @GET
+    @Path("recent")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRecentAddedActivities(){
         List<ActivityBean> activities =  model.getRecentAddedActivities();

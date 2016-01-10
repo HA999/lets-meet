@@ -24,7 +24,7 @@ public class RedisHandler {
     private static final JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
     private final String loggedInUsers = "loggedInUsers";
     private final String activities = "activities";
-    private final long numActivities = 2;
+    private final long numActivities = 20;
     
     private RedisHandler() {
         System.out.println("RedisHandler instance created.");

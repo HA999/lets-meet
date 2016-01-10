@@ -26,7 +26,6 @@ public class ServletContextUtil implements ServletContextListener{
         RedisHandler redis = RedisHandler.getInstance();
         mysql.createTables(sce.getServletContext().getRealPath("/WEB-INF/classes/"));
         model.initActivitiesInRedis();
-        
     }
 
     @Override

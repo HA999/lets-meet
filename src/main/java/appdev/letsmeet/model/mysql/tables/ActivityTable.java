@@ -157,8 +157,8 @@ public class ActivityTable implements MySQLDAO{
     
     private List<ActivityBean> getActivitiesListFromResultSet(ResultSet rs) throws SQLException {
         List<ActivityBean> resultList = new ArrayList<>();
-        ActivityBean currBean = new ActivityBean();
         while(rs.next()) {
+            ActivityBean currBean = new ActivityBean();
             currBean.actId = Integer.toString(rs.getInt(actID_Col));
             currBean.name = rs.getString(name_Col);
             currBean.userId = rs.getString(userID_Col);
@@ -214,6 +214,7 @@ public class ActivityTable implements MySQLDAO{
 
     public List<ActivityBean> getActivities(Connection conn) throws SQLException {
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName);
-        return getActivitiesListFromResultSet(pstmt.executeQuery());
+        ResultSet rs = pstmt.executeQuery();
+        return getActivitiesListFromResultSet(rs);
     }
 }
