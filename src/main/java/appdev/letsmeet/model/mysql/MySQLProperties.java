@@ -7,7 +7,7 @@ package appdev.letsmeet.model.mysql;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class MySQLProperties {
     

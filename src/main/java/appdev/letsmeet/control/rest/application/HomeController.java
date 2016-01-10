@@ -6,10 +6,8 @@
 package appdev.letsmeet.control.rest.application;
 
 import appdev.letsmeet.control.utils.PasswordService;
-import appdev.letsmeet.control.utils.SessionUtils;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
-import appdev.letsmeet.control.utils.jsonBeans.LocationBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
 import java.net.URI;
@@ -32,7 +30,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 
 @Path("/")
@@ -116,7 +114,6 @@ public class HomeController {
             String encryptedPassword = PasswordService.encrypt(bean.password);
             LoginUserBean user = model.authenticateUser(bean.username, encryptedPassword);
             
-            //the user exists
             if(user != null){
                 session.invalidate();
                 session = request.getSession(true);
@@ -125,7 +122,6 @@ public class HomeController {
                 
                 return Response.ok(user).build();
             }
-            // user doesn't exist
             else{
                 session.setAttribute("loginAttempts", loginAttempts++);
                 errorMessage = "Error: Unrecognized Username or Password";    
@@ -199,21 +195,7 @@ public class HomeController {
         }
     }
     
-//    @GET
-//    @Path("{username}")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public void searchActivitiesForloggedInUser(@PathParam(username) String username,
-//            @QueryParam("category") String category,
-//            @QueryParam("country") String country,
-//            @QueryParam("city") String city){
-//        
-//        //this.searchActivities(category, country, city);
-//        
-//    }
-    
     @GET
-    //@Path("recent")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRecentAddedActivities(){

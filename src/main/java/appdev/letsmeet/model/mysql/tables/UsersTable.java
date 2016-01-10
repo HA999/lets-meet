@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class UsersTable implements MySQLDAO {
     
@@ -55,8 +55,6 @@ public class UsersTable implements MySQLDAO {
         about_col + " longtext, " +
         photo_col + " blob, " 
             + "PRIMARY KEY (" + userID_col + "))";
-//            + "FOREIGN KEY (" + country_col + ") REFERENCES country(Name), "
-//            + "FOREIGN KEY (" + city_col + ") REFERENCES city(Name))";
     
     private final String indexString = "CREATE INDEX user_index ON "
             + "Users (" + userID_col + ")";
@@ -144,5 +142,4 @@ public class UsersTable implements MySQLDAO {
         }
         return user;
     }
-
 }

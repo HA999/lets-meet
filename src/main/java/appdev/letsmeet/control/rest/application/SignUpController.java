@@ -10,17 +10,13 @@ import appdev.letsmeet.control.utils.PasswordService;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.control.utils.jsonBeans.RegistrationBean;
 import appdev.letsmeet.model.LetsMeet;
-import com.sun.jersey.api.view.Viewable;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,20 +27,13 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author Owner
+ * @author HANAN&OLYA
  */
 @Path("signup")
 public class SignUpController {
     
     @Context private HttpServletRequest request;
     private final LetsMeet model = LetsMeet.getInstance();
-    
-    @GET
-    public Viewable signupPage() throws ServletException, IOException, 
-            URISyntaxException {
-        
-        return new Viewable("/signup.html");
-    }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -53,7 +42,6 @@ public class SignUpController {
             throws ServletException, IOException {
         
         bean.password = PasswordService.encrypt(bean.password);
-        //need to validate user input????
         LoginUserBean user = model.addUser(bean);
         
         if(user != null){

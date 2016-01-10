@@ -10,9 +10,9 @@ import javax.ws.rs.ApplicationPath;
 
 /**
  *
- * @author Owner
+ * @author HANAN&OLYA
  */
-@ApplicationPath("v1")
+@ApplicationPath("/")
 public class RestApplication extends PackagesResourceConfig {
     
     public RestApplication() {

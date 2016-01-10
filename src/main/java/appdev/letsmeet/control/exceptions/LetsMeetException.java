@@ -7,7 +7,7 @@ package appdev.letsmeet.control.exceptions;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class LetsMeetException extends Exception {
 

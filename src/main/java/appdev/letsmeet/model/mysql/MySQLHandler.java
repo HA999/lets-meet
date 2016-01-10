@@ -21,12 +21,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Owner
+ * @author HANAN&OLYA
  */
 public class MySQLHandler {
     
@@ -60,10 +58,8 @@ public class MySQLHandler {
             Class.forName(MySQLProperties.driver);
             conn = DriverManager.getConnection(MySQLProperties.url, 
                     MySQLProperties.username, MySQLProperties.password);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
     }
@@ -74,7 +70,7 @@ public class MySQLHandler {
                 conn.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }
     
@@ -120,7 +116,7 @@ public class MySQLHandler {
             return usersTable.authenticateUser(conn, username, password);
             
         } catch (SQLException ex) {
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -133,7 +129,7 @@ public class MySQLHandler {
         try {
             return activityTable.getUserActivities(conn, userID);
         } catch (SQLException ex) {
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -145,7 +141,7 @@ public class MySQLHandler {
         try{
             return (ActivityBean) activityTable.insert(conn, bean);
         }catch (SQLException ex){
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -158,7 +154,7 @@ public class MySQLHandler {
                 activityTable.updateActivity(conn, bean);
                 return true;
             }catch (SQLException ex){
-                Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
                 return false;
             } finally {
                 closeConnection(conn);
@@ -170,7 +166,7 @@ public class MySQLHandler {
         try{
             return (ActivityBean) activityTable.getActivity(conn, actId);
         }catch (SQLException ex){
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -196,7 +192,7 @@ public class MySQLHandler {
         try{
             return subCategoryTable.getSubCategoryData(conn, subCatId);
         }catch (SQLException ex){
-            Logger.getLogger(MySQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -266,6 +262,7 @@ public class MySQLHandler {
         try {
             return subCategoryTable.getSubCategoriesInCategoryList(conn, category);
         } catch (SQLException ex) {
+            System.out.println(ex);
             return null;
         } finally {
             closeConnection(conn);
@@ -277,6 +274,7 @@ public class MySQLHandler {
         try {
             joinRequests.addRequest(conn, bean);
         } catch (SQLException ex) {
+            System.out.println(ex);
         } finally {
             closeConnection(conn);
         }

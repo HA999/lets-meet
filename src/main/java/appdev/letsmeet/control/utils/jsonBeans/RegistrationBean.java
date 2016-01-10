@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 
 public class RegistrationBean implements Serializable{

@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
 @Path("{username}/activities")
 public class ActivitiesController {
@@ -64,7 +64,7 @@ public class ActivitiesController {
     }
     
     @POST
-    @Path("/new") //path for creating new activity
+    @Path("/new")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewActivity(@PathParam("username") String username, ActivityBean bean){
         LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
@@ -75,7 +75,6 @@ public class ActivitiesController {
                 ActivityBean updatedBean = model.addNewActivity(bean);
                 if(updatedBean != null){
                     try {
-                        //returns the created activity_id if seccessful 
                         return Response.seeOther(new URI("/")).status(201).entity(updatedBean.actId).build();
                     } catch (URISyntaxException ex) {
                         return Response.serverError().build();
@@ -115,7 +114,6 @@ public class ActivitiesController {
     @Path("{actid}/delete")
     public Response deleteActivity(@PathParam("actid") String actId,
             @PathParam("username") String username){
-        //they can update time, about, name, location - they can not change the category or sub category
         LoginUserBean user = SessionUtils.getUserFromSession(request.getSession(true));
         if (SessionUtils.isLoggedInUser(user, model)){
             if(user.username.equals(username)){
@@ -161,26 +159,3 @@ public class ActivitiesController {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }
-    //Post method that accepsts or delcines the request and deletes it???
-
-    //the user can delete one of them 
-    //the user can signup for new activity signup
-//    @POST
-//    @Path("actnotification")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public List<ActivitySignupBean> getActivitySignUp(){
-//        //returns the list of activitySignups of the user
-//        return null;
-//    }
-//    
-
-//{
-//	"name": "fun",
-//	"subCatId": "2",
-//	"dateTime": "2015-02-11",
-//	"country": "JPN",
-//	"city": "Tokyo",
-//	"about": "bla",
-//	"photo": "blaaa"
-//}
-

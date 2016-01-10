@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
 public class ActivityBean implements Serializable{
     public String actId;

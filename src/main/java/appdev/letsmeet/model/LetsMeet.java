@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class LetsMeet {
     
@@ -148,6 +148,4 @@ public class LetsMeet {
     public void sendActivityJoinRequest(ActivityRequestBean bean) {
         mysqlHandler.addActivityRequest(bean);
     }
-    
-    
 }

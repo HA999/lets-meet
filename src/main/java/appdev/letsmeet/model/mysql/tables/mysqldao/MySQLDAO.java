@@ -17,12 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public interface MySQLDAO {
     
@@ -80,7 +78,7 @@ public interface MySQLDAO {
             
             disableForeignKeyChecks(conn);
             String statement = "load data local infile '" + privFilePath + fileName + "' into table " + tableName;
-            statement = statement.replace('\\', '/');//Linux???
+            statement = statement.replace('\\', '/');
             
             pstmt2 = conn.prepareStatement(statement);
             pstmt2.executeUpdate();

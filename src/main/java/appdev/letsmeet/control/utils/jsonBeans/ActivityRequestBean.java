@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class ActivityRequestBean implements Serializable{
     public String creatorID;

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class SubCategoryTable implements MySQLDAO {
        
@@ -42,10 +42,8 @@ public class SubCategoryTable implements MySQLDAO {
     public SubCategoryTable(Connection conn, String filePath) {
         copyDataFileToMySQLFileDirectory(conn, filePath, initFile);
         createTable(conn, createString);
-//        defineIndexes(conn, indexString);
         disableForeignKeyChecks(conn);
         insertFromFile(conn, initFile, tableName);
-//        enableForeignKeyChecks(conn);
     }
     
     @Override

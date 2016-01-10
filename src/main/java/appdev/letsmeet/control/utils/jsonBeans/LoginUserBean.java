@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
 public class LoginUserBean implements Serializable {
     public String username;

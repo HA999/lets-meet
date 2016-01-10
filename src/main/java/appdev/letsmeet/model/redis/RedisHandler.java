@@ -13,11 +13,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.SortingParams;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
 public class RedisHandler {
     

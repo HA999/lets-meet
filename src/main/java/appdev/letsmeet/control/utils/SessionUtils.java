@@ -7,12 +7,11 @@ package appdev.letsmeet.control.utils;
 
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
-import java.util.List;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
 public class SessionUtils {
         
@@ -26,7 +25,6 @@ public class SessionUtils {
     }
     
     public static LoginUserBean getUserFromSession(HttpSession session) {
-        //HttpSession session = request.getSession(true);
         if (session != null) {
             return (LoginUserBean) session.getAttribute("user");
         }

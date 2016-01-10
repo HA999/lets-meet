@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class ActivityTable implements MySQLDAO{
 
@@ -211,6 +211,4 @@ public class ActivityTable implements MySQLDAO{
             return null;
         }
     }
-
-
 }

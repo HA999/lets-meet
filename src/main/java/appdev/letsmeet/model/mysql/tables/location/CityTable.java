@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author HA999
+ * @author HANAN&OLYA
  */
 public class CityTable implements MySQLDAO {
 
@@ -48,7 +48,7 @@ public class CityTable implements MySQLDAO {
     
     @Override
     public Serializable insert(Connection conn, Serializable bean) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public List<String> getCitiesInCountryList(Connection conn, String country) throws SQLException {

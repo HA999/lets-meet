@@ -12,29 +12,27 @@ import sun.misc.BASE64Encoder;
 
 /**
  *
- * @author leppa
+ * @author HANAN&OLYA
  */
     
 public final class PasswordService {
 
-    //Encrypt string pass to a hashed SHA256 encrypted version
     public static String encrypt(String pass) {
             MessageDigest md = null;
 
             try {
                 md = MessageDigest.getInstance("SHA-256");
             }catch (NoSuchAlgorithmException e) {
-                //do something
+                System.out.println(e);
             }
             try {
                 md.update(pass.getBytes("UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                //do something
+                System.out.println(e);
             }
 
             byte raw[] = md.digest();
             String hash = (new BASE64Encoder()).encode(raw);
             return hash;
-//        return pass;
     }
 }
