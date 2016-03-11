@@ -2,13 +2,14 @@
 var letsmeetApp = angular.module('letsmeetApp', ['ngResource', 'ui.router', 'ui.bootstrap']);
 
 
-letsmeetApp.run(function ($rootScope, $state) {
+letsmeetApp.run(function ($rootScope, $state, $window) {
    
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
         
         if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
             event.preventDefault();
+            $window.alert("You must login first");
             $state.go('login');
         }
     });
@@ -51,9 +52,17 @@ letsmeetApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
                 }
             }).
             state('home.activities', {
-                url: '/activities',
+                url: '/home/activities',
                 templateUrl: 'partials/activities.html',
                 controller: 'activitiesController',
+                data: {
+                    requireLogin: true
+                }
+            }).
+            state('home.logout', {
+                url: '/home/logout',
+                templateUrl: 'partials/logout.html',
+                controller: 'homeController',
                 data: {
                     requireLogin: true
                 }
@@ -62,7 +71,15 @@ letsmeetApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
             $urlRouterProvider.otherwise('/');
     }]);
 
-
+letsmeetApp.provider('dynamicStatesService', function dynamicStates($stateProvider) {
+    this.$get = function() {
+        return {
+            addState: function(name, state) {
+                $stateProvider.state(name, state);
+            }
+        };
+    };
+});
 
 letsmeetApp.controller('navController', function ($scope) {
 	$scope.isCollapsed = false;

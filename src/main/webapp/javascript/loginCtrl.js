@@ -3,7 +3,7 @@ letsmeetApp.factory('LoginService', function($resource) {
     return $resource('v1/:username', {username: '@username', password: '@password'});
 });
 	
-letsmeetApp.controller('loginController', function($rootScope, $scope, $state, LoginService) {
+letsmeetApp.controller('loginController', function($rootScope, $scope, $state, LoginService, dynamicStatesService) {
     
     $scope.login = function () {
         var user = {
@@ -16,7 +16,15 @@ letsmeetApp.controller('loginController', function($rootScope, $scope, $state, L
 
         query.$promise.then(function () {
                 $rootScope.currentUser = user.username;
-                $state.go('home');
+                dynamicStatesService.addState(user.username, {
+                    url: '/' + user.username,
+                    templateUrl: 'partials/search_home.html',
+                    controller: 'homeController',
+                    data: {
+                        requireLogin: true
+                    }
+                });
+                $state.go(user.username);
             }, function (response) {//TODO: Write error to user
                 console.log("Error " + response.data);
             });
