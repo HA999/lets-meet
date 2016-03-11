@@ -10,6 +10,7 @@ import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
+import com.sun.jersey.api.view.Viewable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -42,6 +43,7 @@ public class HomeController {
     
     @Context private HttpServletRequest request;
     
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategories(@QueryParam("category") String category,
@@ -56,7 +58,8 @@ public class HomeController {
             }
         }
         else {
-            return Response.status(Response.Status.OK).build();
+            //return Response.status(Response.Status.OK).build();
+            return Response.ok(new Viewable("/index.html")).build();
         }
     }
     
@@ -112,11 +115,7 @@ public class HomeController {
         }
         if(loginAttempts > maxLoginAttempts){
             errorMessage = "The number of login attempts exceeded the limit";
-            try {
-                return Response.seeOther(new URI("/")).entity(errorMessage).build();
-            } catch (URISyntaxException ex) {
-                return Response.serverError().build();
-            }
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
         }
         else{
             String encryptedPassword = PasswordService.encrypt(bean.password);
@@ -128,20 +127,15 @@ public class HomeController {
                 session.setAttribute("user", user);
                 model.addLoggedInUser(user);
                 
-                return Response.ok(user).build();
+                return Response.ok("LoggedIn").build();
             }
             else{
                 session.setAttribute("loginAttempts", loginAttempts++);
                 errorMessage = "Error: Unrecognized Username or Password";    
-                try {
-                    return Response.seeOther(new URI("/")).entity(errorMessage).build();
-                } catch (URISyntaxException ex) {
-                    return Response.serverError().build();
-                }
+                return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
             }
         }
     }
-    
     
     @GET
     @Path("search")

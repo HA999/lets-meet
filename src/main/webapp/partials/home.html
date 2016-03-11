@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="letsmeetApp" >
 <head>
     <title>Lets Meet</title>
-    <meta charset="utf-8"></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body ng-controller="navController">
 
@@ -17,18 +17,15 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" ui-sref="welcom">LetsMeet</a>
+					<a class="navbar-brand" href="#">LetsMeet</a>
 				</div>
 				<div class="nav-collapse" uib-collapse="isCollapsed">
 					<ul class="nav navbar-nav">
-						<li class="active"><a ui-sref="welcom">Home</a></li>
-                                                <li class="active"><a ui-sref="home">Home</a></li>
-						<li><a ui-sref="home.activities">Activities</a></li>
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#activities">Activities</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                                                <li><a ui-sref="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+						<li><a href="#logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -40,19 +37,15 @@
             <h1> LetsMeet </h1>
         </div>
 
-        <!--<div ng-view></div>-->
-        <div ui-view></div>
- 	
+	
+<!--         <div ng-view> </div> 
+ -->    
 	</div>
-		
-		
+    
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js"></script>
-    <script src="javascript/app_1.js"></script>
-    <script src="javascript/loginCtrl.js"></script>
-</body>
+    <script src=" C://Users//leppa//Desktop//letsmeet_client//js//app.js"></script>
+	</body>
 </html>

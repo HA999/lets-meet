@@ -1,0 +1,34 @@
+<div ng-controller="searchController" class="col-md-8 col-md-offset-2">
+	<div class="well well-lg">
+		<h3 class="text-primary"> Search for activities: </h3>
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="category">Category:</label>
+				<select class="form-control" id="category" ng-model="selectedCategory" ng-options="x for x in categories" ng-change="getSubCat()"></select>
+				<label for="subcategory">Sub-Category:</label>
+				<select class="form-control" id="subcategory" ng-model="selectedSubCategory" ng-options="x for x in subCategories"></select>
+				<label for="country">Country:</label>
+				<select class="form-control" id="country" ng-model="selectedCountry" ng-options="x for x in countries" ng-change="getCities()"></select>
+				<label for="city">City:</label>
+				<select class="form-control" id="city" ng-model="selectedCity" ng-options="x for x in cities"></select>
+				<br><br>
+				<button type="button" class="btn btn-info btn-sm pull-right" ng-click="search(selectedCategory, selectedSubCategory, selectedCountry, selectedCity)" ng-disabled="selectedCategory===null || selectedSubCategory===null || selectedCountry===null || selectedCity===null">
+					<span class="glyphicon glyphicon-search"></span> Search 
+				</button>
+			</div>
+		</form>
+	</div>
+	<div>
+	 <uib-accordion close-others="oneAtATime">
+		<uib-accordion-group heading="{{activity.name}}" ng-repeat="activity in activities">
+			<h4>{{activity.name}}</h4>
+			<img src="{{activity.photo}}" class="img-rounded img-responsive" alt="Activity Photo" style="width:150px;height:150px">
+			<p><span class="label label-primary">Category:</span> {{selectedCategory}}, {{selectedSubCategory}}</p>
+			<p><span class="label label-primary">Location:</span> {{activity.country}}, {{activity.city}}</p>
+			<p><span class="label label-primary">Date:</span> {{activity.dateTime}}</p>
+			<p><span class="label label-primary">About:</span> {{activity.about}}</p>
+			<button class="btn btn-primary pull-right" ng-click="SendRequestToJoin()"> Send Join Requests <span class="glyphicon glyphicon-heart-empty"></span></button>
+		</uib-accordion-group>
+	 </uib-accordion>
+	</div>
+</div>    

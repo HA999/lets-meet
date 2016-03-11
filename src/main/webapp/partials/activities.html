@@ -1,0 +1,14 @@
+<div ng-controller="activitiesController">
+	 <uib-accordion close-others="oneAtATime">
+		<uib-accordion-group heading="{{myActivity.name}}" ng-repeat="myActivity in myActivities">
+			<h4>{{myActivity.name}}</h4>
+			<img src="{{myActivity.photo}}" class="img-rounded img-responsive" alt="myActivity Photo" style="width:150px;height:150px">
+			<p><span class="label label-primary">Category:</span> {{myActivity.category}}, {{myActivity.subCategory}}</p>
+			<p><span class="label label-primary">Location:</span> {{myActivity.country}}, {{myActivity.city}}</p>
+			<p><span class="label label-primary">Date:</span> {{myActivity.dateTime}}</p>
+			<p><span class="label label-primary">About:</span> {{myActivity.about}}</p>
+			<button class="btn btn-primary pull-right" ng-click="getRequests()" > See Requests </button>
+			<button class="btn btn-primary pull-right" ng-click="deleteActivity()" > Delete Activity <span class="glyphicon glyphicon-trash"></span></button>
+		</uib-accordion-group>
+	 </uib-accordion>
+	</div>
