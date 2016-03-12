@@ -158,4 +158,8 @@ public class LetsMeet {
     public void sendActivityJoinRequest(ActivityRequestBean bean) {
         mysqlHandler.addActivityRequest(bean);
     }
+
+    public List<SubCategoryBean> getSubCategories() {
+        return mysqlHandler.getSubCategories();
+    }
 }

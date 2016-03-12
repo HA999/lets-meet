@@ -292,4 +292,17 @@ public class MySQLHandler {
         }
     }
 
+    public List<SubCategoryBean> getSubCategories() {
+        Connection conn = getConnection();
+        try {
+            return subCategoryTable.getSubCategories(conn);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+   
 }

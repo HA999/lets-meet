@@ -17,18 +17,18 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" ui-sref="welcom">LetsMeet</a>
+					<a class="navbar-brand" ui-sref="welcome">LetsMeet</a>
 				</div>
 				<div class="nav-collapse" uib-collapse="isCollapsed">
 					<ul class="nav navbar-nav">
-						<li class="active"><a ui-sref="welcom">Home</a></li>
+						<li class="active"><a ui-sref="welcome">Home</a></li>
                                                 <li class="active"><a ui-sref="home">Home</a></li>
-						<li><a ui-sref="home.activities">Activities</a></li>
+						<li><a ng-hide="isNotLoggedInObj.value" ui-sref="home.activities">Activities</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                                                <li><a ui-sref="home.logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+						<li><a ng-show="isNotLoggedInObj.value" ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+						<li><a ng-show="isNotLoggedInObj.value" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                                <li><a ng-hide="isNotLoggedInObj.value" ui-sref="home.logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -39,10 +39,8 @@
         <div class="page-header">
             <h1> LetsMeet </h1>
         </div>
-
-        <!--<div ng-view></div>-->
-        <div ui-view></div>
- 	
+            <!--<div ng-view></div>-->
+            <div ui-view></div>
 	</div>
 		
 		
@@ -54,5 +52,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js"></script>
     <script src="javascript/app_1.js"></script>
     <script src="javascript/loginCtrl.js"></script>
+    <script src="javascript/searchCtrl.js"></script>
 </body>
 </html>

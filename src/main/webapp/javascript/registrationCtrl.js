@@ -1,12 +1,23 @@
 
-var letsmeetApp = angular.module('letsmeetApp', ['ngRoute', 'ui.bootstrap']);
+/* global letsmeetApp */
 
 letsmeetApp.controller('registrationController', function($scope) {
-    //$scope.user = { username: "Olya", password: "Poko"};
 		
 	$scope.signUpUser;
 
 	$scope.register = function(){
+		
+	};
+});
+
+
+
+//letsmeetApp.controller('registrationController', function($scope) {
+    //$scope.user = { username: "Olya", password: "Poko"};
+//		
+//	$scope.signUpUser;
+//
+//	$scope.register = function(){
 		// UserService.Create(vm.user)
 			// .then(function (response) {
 				// if (response.success) {
@@ -17,12 +28,12 @@ letsmeetApp.controller('registrationController', function($scope) {
 					// vm.dataLoading = false;
 				// }
 			// });
-	}
-		
+//	}
+//		
     // $scope.signup = function() {
 		// //go to signup page
 	// };
-});
+//});
 
 
 // var app = angular.module('myApp', []);

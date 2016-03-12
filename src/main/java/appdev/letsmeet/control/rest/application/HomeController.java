@@ -10,7 +10,6 @@ import appdev.letsmeet.control.utils.jsonBeans.ActivityBean;
 import appdev.letsmeet.control.utils.jsonBeans.ActivityRequestBean;
 import appdev.letsmeet.control.utils.jsonBeans.LoginUserBean;
 import appdev.letsmeet.model.LetsMeet;
-import com.sun.jersey.api.view.Viewable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -58,8 +57,7 @@ public class HomeController {
             }
         }
         else {
-            //return Response.status(Response.Status.OK).build();
-            return Response.ok(new Viewable("/index.html")).build();
+            return Response.status(Response.Status.OK).build();
         }
     }
     

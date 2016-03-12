@@ -97,4 +97,22 @@ public class SubCategoryTable implements MySQLDAO {
         }
         return resultList;
     }
+
+    public List<SubCategoryBean> getSubCategories(Connection conn) throws SQLException {
+        
+        List<SubCategoryBean> resultList = new ArrayList<>();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName);
+        ResultSet rs =  pstmt.executeQuery();
+        
+        SubCategoryBean currentBean = new SubCategoryBean();
+        while (rs.next()){
+            currentBean.catName = rs.getString(catName_Col);
+            currentBean.subCatname = rs.getString(name_Col);
+            currentBean.subCatID = rs.getString(subCatID_Col);
+            
+            resultList.add(currentBean);
+        }
+        
+        return resultList;
+    }
 }

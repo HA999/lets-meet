@@ -1,3 +1,5 @@
+/* global letsmeetApp */
+
 //Define user resource factory
 letsmeetApp.factory('LoginService', function($resource) {
     return $resource('v1/:username', {username: '@username', password: '@password'});
@@ -18,12 +20,13 @@ letsmeetApp.controller('loginController', function($rootScope, $scope, $state, L
                 $rootScope.currentUser = user.username;
                 dynamicStatesService.addState(user.username, {
                     url: '/' + user.username,
-                    templateUrl: 'partials/search_home.html',
-                    controller: 'homeController',
+                    templateUrl: 'partials/search.html',
+                    controller: 'searchController',
                     data: {
                         requireLogin: true
                     }
                 });
+                $scope.isNotLoggedInObj.value = false;
                 $state.go(user.username);
             }, function (response) {//TODO: Write error to user
                 console.log("Error " + response.data);
