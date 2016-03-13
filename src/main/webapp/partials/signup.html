@@ -15,6 +15,7 @@
 			<label for="username">Username</label>
 			<input type="text" name="username" class="form-control" ng-model="signUpUser.username" required />
 			<span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
+			<span ng-show="isUserNameTaken" class="help-block">Username is taken</span>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
 			<label for="password">Password</label>
@@ -29,12 +30,12 @@
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': form.country.$dirty && form.country.$error.required }">
 			<label for="country">Country</label>
-			<input type="text" name="country" class="form-control" ng-model="signUpUser.country" required />
+			<select class="form-control" name="country" ng-model="signUpUser.country" ng-options="x for x in countries" ng-change="getCities(signUpUser.country)" required></select>
 			<span ng-show="form.country.$dirty && form.country.$error.required" class="help-block">Country is required</span>
 		</div>
 		<div class="form-group" ng-class="{ 'has-error': form.country.$dirty && form.country.$error.required }">
 			<label for="city">City</label>
-			<input type="text" name="city" class="form-control" ng-model="signUpUser.city" required />
+			<select class="form-control" id="city" ng-model="signUpUser.city" ng-options="x for x in cities" required></select>
 			<span ng-show="form.city.$dirty && form.city.$error.required" class="help-block">City name is required</span>
 		</div>
 		<div class="form-group">
@@ -45,7 +46,7 @@
 		</div>
 		<div class="form-group">
 			<label for="dateofbirth">Date of birth</label>
-			<input type="datetime-local" name="dateofbirth" class="form-control" ng-model="signUpUser.dateofbirth"/>
+			<input type="date" name="dateofbirth" class="form-control" ng-model="signUpUser.dateofbirth"/>
 		</div>
 		<div class="form-group">
 			<label for="phone">Phone Number</label>

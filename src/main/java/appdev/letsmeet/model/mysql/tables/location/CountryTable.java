@@ -8,6 +8,8 @@ package appdev.letsmeet.model.mysql.tables.location;
 import appdev.letsmeet.model.mysql.tables.mysqldao.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -56,6 +58,16 @@ public class CountryTable implements MySQLDAO {
 
     public List<String> getCountryNames(Connection conn) throws SQLException {
         return getColumnStringList(conn, name_col, tableName);
+    }
+    
+    public String convertCountryNameToCode(Connection conn, String countryName) throws SQLException {
+        String countryCode;
+        PreparedStatement pstmt = conn.prepareStatement("SELECT Code FROM " + tableName +" WHERE Name = ?");
+        pstmt.setString(1, countryName);
+        ResultSet resultSet = pstmt.executeQuery();
+        resultSet.next();
+        countryCode = resultSet.getString(1);
+        return countryCode;
     }
     
 }

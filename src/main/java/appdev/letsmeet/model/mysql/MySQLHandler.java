@@ -245,10 +245,11 @@ public class MySQLHandler {
         }
     }
 
-    public List<String> getCitiesInCountyList(String country) {
+    public List<String> getCitiesInCountyList(String countryName) {
         Connection conn = getConnection();
         try {
-            return cityTable.getCitiesInCountryList(conn, country);
+            String countryCode = countryTable.convertCountryNameToCode(conn, countryName);
+            return cityTable.getCitiesInCountryList(conn, countryCode);
         } catch (SQLException ex) {
             System.out.println(ex);
             return null;
@@ -304,5 +305,27 @@ public class MySQLHandler {
         }
     }
 
-   
+    public Boolean isUniqueUsername(String username) {
+        Connection conn = getConnection();
+        try {
+            return usersTable.isUniqueUsername(conn, username);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public String convertSubcategoryIDToSubcategoryName(String subcategory) {
+        Connection conn = getConnection();
+        try {
+            return subCategoryTable.convertSubcategoryIDToSubcategoryName(conn, subcategory);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        } finally {
+            closeConnection(conn);
+        }
+    }
 }

@@ -1,0 +1,48 @@
+<div class="col-md-6 col-md-offset-3 well well-lg" ng-controller="newActivityController">
+	<h2>Add new activity</h2>
+	<form name="form" ng-submit="addActivity()" role="form">
+		<div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+			<label for="name">Activity Name</label>
+			<input type="text" name="name" id="name" placeholder="Activity name..." class="form-control" ng-model="newActivity.name" required />
+			<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">First name is required</span>
+		</div>		
+		<div class="form-group" ng-class="{ 'has-error': form.country.$dirty && form.country.$error.required }">
+			<label for="country">Country</label>
+			<select class="form-control" name="country" ng-model="newActivity.country" ng-options="x for x in countries" ng-change="getCities(newActivity.country)" required></select>
+			<span ng-show="form.country.$dirty && form.country.$error.required" class="help-block">Country is required</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.city.$dirty && form.city.$error.required }">
+			<label for="city">City</label>
+			<select class="form-control" id="city" ng-model="newActivity.city" ng-options="x for x in cities" required></select>
+			<span ng-show="form.city.$dirty && form.city.$error.required" class="help-block">City name is required</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.category.$dirty && form.category.$error.required }">
+			<label for="category">Category</label>
+			<select class="form-control" name="category" ng-model="newActivity.category" ng-options="x for x in categories" ng-change="getSubCategories(newActivity.category)" required></select>
+			<span ng-show="form.category.$dirty && form.category.$error.required" class="help-block">Category is required</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.subCategory.$dirty && form.subCategory.$error.required }">
+			<label for="subCategory">Sub-category</label>
+			<select class="form-control" id="subCategory" ng-model="newActivity.subCategory" ng-options="x for x in subcategories" required></select>
+			<span ng-show="form.subCategory.$dirty && form.subCategory.$error.required" class="help-block">Sub Category name is required</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.datetime.$dirty && form.datetime.$error.required }">
+			<label for="datetime">Date and time</label>
+			<input type="datetime-local" name="datetime" class="form-control" ng-model="newActivity.datetime" required/>
+			<span ng-show="form.datetime.$dirty && form.datetime.$error.required" class="help-block">Date and time is required</span>
+		</div>
+		<div class="form-group">
+			<label for="photo">Photo</label>
+			<input type="file" name="photo" class="form-control" ng-model="signUpUser.photo"/>
+		</div>
+		<div class="form-group">
+			<label for="about">About</label>
+			<input type="text" name="about" class="form-control" placeholder="About..." ng-model="signUpUser.about"/>
+		</div>
+		<div class="form-actions">
+			<button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Submit activity</button>
+			<a href="#/" class="btn btn-link">Cancel</a>
+			<input type="reset" class="btn btn-default"/>
+		</div>
+	</form>
+</div>

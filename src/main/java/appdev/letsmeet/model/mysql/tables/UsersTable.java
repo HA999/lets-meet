@@ -142,4 +142,13 @@ public class UsersTable implements MySQLDAO {
         }
         return user;
     }
+
+    public Boolean isUniqueUsername(Connection conn, String username) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + tableName +" WHERE " + userName_col + " = ?");
+        pstmt.setString(1, username);
+        ResultSet resultSet = pstmt.executeQuery();
+        Boolean isUsernameTaken = resultSet.first();
+        return !isUsernameTaken;
+    }
+
 }

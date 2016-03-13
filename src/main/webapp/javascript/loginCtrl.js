@@ -1,9 +1,6 @@
 /* global letsmeetApp */
 
-//Define user resource factory
-letsmeetApp.factory('LoginService', function($resource) {
-    return $resource('v1/:username', {username: '@username', password: '@password'});
-});
+
 	
 letsmeetApp.controller('loginController', function($rootScope, $scope, $state, LoginService, dynamicStatesService) {
     
@@ -11,27 +8,29 @@ letsmeetApp.controller('loginController', function($rootScope, $scope, $state, L
         var user = {
             username: $scope.userToLogin.username, 
             password: $scope.userToLogin.password
-        };        
+    };        
         
-        var query = LoginService.save({username: user.username, 
-            password: user.password});
+    //Post login
+    var query = LoginService.save({username: user.username, 
+        password: user.password});
 
-        query.$promise.then(function () {
-                $rootScope.currentUser = user.username;
-                dynamicStatesService.addState(user.username, {
-                    url: '/' + user.username,
-                    templateUrl: 'partials/search.html',
-                    controller: 'searchController',
-                    data: {
-                        requireLogin: true
-                    }
-                });
-                $scope.isNotLoggedInObj.value = false;
-                $state.go(user.username);
-            }, function (response) {//TODO: Write error to user
-                console.log("Error " + response.data);
-            });
-        };
+    query.$promise.then(function () {
+        $rootScope.currentUser = user.username;
+        dynamicStatesService.addState(user.username, {
+            url: '/' + user.username,
+            templateUrl: 'partials/search.html',
+            controller: 'searchController',
+            data: {
+                requireLogin: true
+            }
+        });
+        $scope.isNotLoggedInObj.value = false;
+        $state.go(user.username);
+        
+        }, function (response) {//TODO: Write error to user
+            console.log("Error " + response.data);
+        });
+    };
 });
 
 

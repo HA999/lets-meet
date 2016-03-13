@@ -131,6 +131,7 @@ public class LetsMeet {
     }
 
     public List<ActivityBean> searchActivities(String category, String subcategory, String city) {
+        subcategory = mysqlHandler.convertSubcategoryIDToSubcategoryName(subcategory);
         List<String> activityIDs = redisHandler.searchActivities(category, subcategory, city);
         return mysqlHandler.getActivities(activityIDs);
     }
@@ -161,5 +162,9 @@ public class LetsMeet {
 
     public List<SubCategoryBean> getSubCategories() {
         return mysqlHandler.getSubCategories();
+    }
+
+    public Boolean isUniqueUsername(String username) {
+        return mysqlHandler.isUniqueUsername(username);
     }
 }

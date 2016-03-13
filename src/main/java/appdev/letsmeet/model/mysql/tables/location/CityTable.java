@@ -8,6 +8,7 @@ package appdev.letsmeet.model.mysql.tables.location;
 import appdev.letsmeet.model.mysql.tables.mysqldao.MySQLDAO;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,17 +52,14 @@ public class CityTable implements MySQLDAO {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
-    public List<String> getCitiesInCountryList(Connection conn, String country) throws SQLException {
+    public List<String> getCitiesInCountryList(Connection conn, String countryCode) throws SQLException {
         List<String> resultList = new ArrayList<>();
-        String statement = "SELECT " + countryTableCountryCode_col + " FROM " + countryTableName + " WHERE " + name_col + " = " + country;
-        ResultSet rs1 = executeQueryStatment(conn, statement);
-        rs1.next();
-        String countryCode = rs1.getString(countryTableCountryCode_col);
-        statement = "SELECT " + name_col + " FROM " + tableName + " WHERE " + countryCode_col + " = " + countryCode;
-        ResultSet rs2 = executeQueryStatment(conn, statement);
-        
-        while (rs2.next()) {
-            resultList.add(rs2.getString(name_col));
+        PreparedStatement pstmt = conn.prepareStatement("SELECT " + name_col + " FROM " + tableName + " WHERE " + countryCode_col + " = ?");
+        pstmt.setString(1, countryCode);
+        ResultSet resultSet = pstmt.executeQuery();
+     
+        while (resultSet.next()) {
+            resultList.add(resultSet.getString(name_col));
         }
         return resultList;
     }

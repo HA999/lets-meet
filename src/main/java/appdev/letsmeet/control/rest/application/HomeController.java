@@ -172,7 +172,24 @@ public class HomeController {
         else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+    }
+    
+    @GET
+    @Path("/countries")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getCountries() {
+        List<String> countryNames = model.getCountryList();
         
+        return Response.ok(countryNames).build();
+    }
+    
+    @GET
+    @Path("/cities/{country}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getCities(@PathParam("country") String country) {
+        List<String> cityNames = model.getCitiesInCountry(country);
+        
+        return Response.ok(cityNames).build();
     }
     
     private Boolean isLoggedInUser(LoginUserBean user) {
@@ -213,17 +230,14 @@ public class HomeController {
     }
     
     private Response getActivities(String category, String subcategory, String city){
+        category = category.trim();
+        city = city.trim();
         List<ActivityBean> activities =  model.searchActivities(category, subcategory, city);
-        if(activities != null){
-            if(!activities.isEmpty()){
-                return Response.ok(activities).build();
-            }
-            else{
-                return Response.noContent().build();
-            }
+        if(!activities.isEmpty()){
+            return Response.ok(activities).build();
         }
         else{
-            return Response.serverError().build();
+            return Response.noContent().build();
         }
     }
 }

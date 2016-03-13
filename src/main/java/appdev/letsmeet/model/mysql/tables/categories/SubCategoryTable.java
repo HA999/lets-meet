@@ -20,6 +20,7 @@ import java.util.List;
  * @author HANAN&OLYA
  */
 public class SubCategoryTable implements MySQLDAO {
+
        
     private final String initFile = "sub-categories.txt";
     private final String tableName = "subcategory";
@@ -87,13 +88,14 @@ public class SubCategoryTable implements MySQLDAO {
     }
 
     public List<String> getSubCategoriesInCategoryList(Connection conn, String category) throws SQLException {
+     
         List<String> resultList = new ArrayList<>();
         PreparedStatement pstmt = conn.prepareStatement("SELECT " + name_Col + " FROM " + tableName + " WHERE " + catName_Col + " = ?");
         pstmt.setString(1, category);
-        ResultSet rs = pstmt.executeQuery();
-        
-        while (rs.next()) {
-            resultList.add(rs.getString(name_Col));
+        ResultSet resultSet = pstmt.executeQuery();
+     
+        while (resultSet.next()) {
+            resultList.add(resultSet.getString(name_Col));
         }
         return resultList;
     }
@@ -114,5 +116,15 @@ public class SubCategoryTable implements MySQLDAO {
         }
         
         return resultList;
+    }
+    
+    public String convertSubcategoryIDToSubcategoryName(Connection conn, String subcategory) throws SQLException {
+        String countryCode;
+        PreparedStatement pstmt = conn.prepareStatement("SELECT " + subCatID_Col + " FROM " + tableName +" WHERE " + name_Col + " = ?");
+        pstmt.setString(1, subcategory);
+        ResultSet resultSet = pstmt.executeQuery();
+        resultSet.next();
+        countryCode = resultSet.getString(1);
+        return countryCode;
     }
 }

@@ -17,8 +17,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -29,11 +31,17 @@ import javax.ws.rs.core.Response;
  *
  * @author HANAN&OLYA
  */
-@Path("signup")
+@Path("/signup")
 public class SignUpController {
     
     @Context private HttpServletRequest request;
     private final LetsMeet model = LetsMeet.getInstance();
+    
+//    @GET
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response getSignup() {
+//        return Response.ok().build();
+//    }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -50,12 +58,24 @@ public class SignUpController {
             session = request.getSession(true);
             session.setAttribute("user", user);
             model.addLoggedInUser(user);
-            try {
-                return Response.seeOther(new URI("/" + user.username + "?category=categories")).build();
-            } catch (URISyntaxException ex) {
-                System.out.println(ex);
-            }
+            return Response.ok().build();
         }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        else{
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+    }
+    
+    @GET
+    @Path("/{username}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response checkUniqueUsername(@PathParam("username") String username) {
+        Boolean isUniqueUsername = model.isUniqueUsername(username);
+        
+        if (isUniqueUsername) {
+            return Response.ok().build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
     }
 }
